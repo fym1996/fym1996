@@ -5,9 +5,9 @@
   <subtitle>YXYM</subtitle>
   <link href="/fym1996/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://yxym.run/"/>
   <updated>2020-02-25T06:18:33.619Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://yxym.run/</id>
   
   <author>
     <name>疯渔民</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2020/02/25/hello-world/"/>
-    <id>http://yoursite.com/2020/02/25/hello-world/</id>
+    <link href="http://yxym.run/2020/02/25/hello-world/"/>
+    <id>http://yxym.run/2020/02/25/hello-world/</id>
     <published>2020-02-25T08:36:18.680Z</published>
     <updated>2020-02-25T06:18:33.619Z</updated>
     
