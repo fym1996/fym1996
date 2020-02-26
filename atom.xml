@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yxym.run/"/>
-  <updated>2020-02-25T06:18:33.619Z</updated>
+  <updated>2020-02-26T14:43:50.613Z</updated>
   <id>http://yxym.run/</id>
   
   <author>
@@ -17,23 +17,44 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://yxym.run/2020/02/25/hello-world/"/>
-    <id>http://yxym.run/2020/02/25/hello-world/</id>
-    <published>2020-02-25T08:36:18.680Z</published>
-    <updated>2020-02-25T06:18:33.619Z</updated>
+    <title>GO语言学习之函数</title>
+    <link href="http://yxym.run/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/"/>
+    <id>http://yxym.run/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/</id>
+    <published>2020-02-26T14:41:00.000Z</published>
+    <updated>2020-02-26T14:43:50.613Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>在go语言中,函数存在以下几个与其他编程语言显著不同的地方:<br>1、函数可以有多个返回值<br>2、所有的参数传递都是值传递的方式<br>3、函数可以作为变量的值<br>4、函数可以作为参数和返回值</p><p>本文主要针对第四点来进行笔记记录</p><a id="more"></a><h3 id="函数可以作为参数和返回值"><a href="#函数可以作为参数和返回值" class="headerlink" title="函数可以作为参数和返回值"></a>函数可以作为参数和返回值</h3><p>首先定义一个函数timeSpent，它的作用类似于面向对象编程中的装饰者模式，对一个函数“装饰”上记录运行时间的功能，以此来衡量一个函数的运行时间，其中被衡量的函数是作为参数传入到timeSpent中去的，代码如下：</p><pre><code>func timeSpent(inner func(op int) int) func (opt int) int{return func(n int) int {    start := time.Now()    ret := inner(n)    fmt.Println(&quot;time spent&quot;,time.Since(start).Seconds())    return ret}}</code></pre><p>其中，传入的参数是一个函数类型，该参数函数的返回值是一个整型，timeSpent的返回值类型也为一个函数类型。</p><p>然后定义一个用来测试的函数：</p><pre><code>func slowFun(op int) int{    time.Sleep(time.Second*1)    return  op}</code></pre><p>该函数并没有多余的功能，只是将传入的参数再次原值返回，期间函数会休眠一段时间。</p><p>调用执行：</p><pre><code>func TestFn(t *testing.T)  {tsSF := timeSpent(slowFun)t.Log(tsSF(10))}</code></pre><p>程序的执行过程如下：<br>1、首先将slowFun函数作为参数传入到timeSpent中去，然后将其装饰为一个具有记录运行时间的函数后，返回一个被装饰的函数，return后方的函数内部逻辑并不执行，只是将原有的函数进行装饰；<br>2、tsSF被赋予一个函数，该函数的具体业务逻辑等同于timeSpent函数中return语句后方的函数；<br>3、调用执行tsSF，传入参数10，执行逻辑见timeSpent中return语句后方的部分，打印输出10。</p><p>以上就是go语言中函数作为参数和返回值的实例，此种编程模式也成为函数式编程，可以在《计算机程序的构造与解释》这本书中了解更多更深入的关于函数式编程的思想。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
+      &lt;p&gt;在go语言中,函数存在以下几个与其他编程语言显著不同的地方:&lt;br&gt;1、函数可以有多个返回值&lt;br&gt;2、所有的参数传递都是值传递的方式&lt;br&gt;3、函数可以作为变量的值&lt;br&gt;4、函数可以作为参数和返回值&lt;/p&gt;
+&lt;p&gt;本文主要针对第四点来进行笔记记录&lt;/p&gt;
     
     </summary>
     
+    
+      <category term="Go语言学习笔记" scheme="http://yxym.run/categories/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>大学回忆一</title>
+    <link href="http://yxym.run/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/"/>
+    <id>http://yxym.run/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/</id>
+    <published>2020-02-25T16:00:00.000Z</published>
+    <updated>2020-02-26T15:18:24.181Z</updated>
+    
+    <content type="html"><![CDATA[<p>时间如白驹过隙，稍纵即逝，脑海里我还是一个特别热爱写作的青少年，可现在想写一篇大学生活的回忆却突然久久无法下笔了，或许是太久没有安静地的去思考了，或许是在手机的世界里习惯了浮躁与喧闹失去了自己的思考与心声。<a id="more"></a>回望本科四年，心中却没有泛起丝毫波澜，或许是因为大学生活过的平凡无奇，或许是因为年过20早已没有了十几岁的热情与心气。</p><p>本科四年，是我特别想要证明自己的四年，或许是因为对高考结果的不满，或许是因为对自己的不甘心，总之在踏入校园的那一刻起，我发誓我一定要做一个追逐优秀的人，我没有对任何说，因为我也不认识任何人，哈哈哈。可就是这股力量一直在驱动着我前进，我努力地学习每一门课程，以使自己对所学的课程都能有一个深刻的认识与理解而不是简单地只为拿一个不错的期末分数，诚然，我这么学，每一门分数也都是很理想的，当然，英语除外，其实我当年英语也他挺好的，只是后来碰到了一位经常把我讲睡着的英语老师，然后就对英语彻底丧失了兴趣，以至于英语成绩一直不愠不火，哈哈哈。</p><p>我大学是软件工程，其实我在上大学之前对计算机的认识只有能打游戏和能做PPT这两种认识，更别说那些什么CPU、GPU、内存等什么专业术语，一开学的时候我挺自卑的，因为别人能一起侃侃而谈，我却对此一窍不通，这种感觉严重的刺痛了我，妈的，老子不能服输，因此我一边学习理论知识，一边了解计算机相关的知识，不管是硬件还是软件，只要是和Computer相关，我都会刻意去了解，慢慢滴也对这些知识熟悉了起来。另一个自卑的就是自己的编程能力了，有的同学大一的时候就能参加竞赛拿奖而我还只是一个臭弟弟，没办法，我这个人就是比较的自找没趣，喜欢和比我强的人比，也许是我争强好胜的原因，其实这一点挺不好的，因为容易把自己的心态搞砸了，心态一旦失衡，做什么事都容易翻车。扯远了，继续刚才的话题，为让自己也能编程能力有个大的提高，自己也在寒暑假学习编程语言，练习编程。虽然不能说自己能力提高了很多，但是起码上手的速度快了很多。现在回忆那些生活，突然有些小怀念了，哈哈哈，总之那段生活挺单调的，因为自己没交多少朋友，甚至能连学校有多少好吃的都不知道哈哈哈，因为每天标准的吃米饭套餐，哎，人生苦短，要及时行乐啊，不能苦了自己。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;时间如白驹过隙，稍纵即逝，脑海里我还是一个特别热爱写作的青少年，可现在想写一篇大学生活的回忆却突然久久无法下笔了，或许是太久没有安静地的去思考了，或许是在手机的世界里习惯了浮躁与喧闹失去了自己的思考与心声。
+    
+    </summary>
+    
+    
+      <category term="活有所思" scheme="http://yxym.run/categories/%E6%B4%BB%E6%9C%89%E6%89%80%E6%80%9D/"/>
     
     
   </entry>

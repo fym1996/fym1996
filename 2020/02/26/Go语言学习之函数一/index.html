@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="专注、安静、前进">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://yxym.run/about/index.html">
+  <meta name="description" content="在go语言中,函数存在以下几个与其他编程语言显著不同的地方:1、函数可以有多个返回值2、所有的参数传递都是值传递的方式3、函数可以作为变量的值4、函数可以作为参数和返回值 本文主要针对第四点来进行笔记记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GO语言学习之函数">
+<meta property="og:url" content="http://yxym.run/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/index.html">
 <meta property="og:site_name" content="有心有梦">
-<meta property="og:description" content="专注、安静、前进">
+<meta property="og:description" content="在go语言中,函数存在以下几个与其他编程语言显著不同的地方:1、函数可以有多个返回值2、所有的参数传递都是值传递的方式3、函数可以作为变量的值4、函数可以作为参数和返回值 本文主要针对第四点来进行笔记记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-25T08:17:31.000Z">
-<meta property="article:modified_time" content="2020-02-25T08:20:11.786Z">
+<meta property="article:published_time" content="2020-02-26T14:41:00.000Z">
+<meta property="article:modified_time" content="2020-02-26T14:43:50.613Z">
 <meta property="article:author" content="疯渔民">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yxym.run/about/">
+<link rel="canonical" href="http://yxym.run/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/">
 
 
 <script id="page-configurations">
@@ -40,12 +40,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>about | 有心有梦
-  </title>
+  <title>GO语言学习之函数 | 有心有梦</title>
   
 
 
@@ -188,44 +187,146 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GO语言学习之函数
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">about
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2020-02-26 22:41:00 / 修改时间：22:43:50" itemprop="dateCreated datePublished" datetime="2020-02-26T22:41:00+08:00">2020-02-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Go语言学习笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在go语言中,函数存在以下几个与其他编程语言显著不同的地方:<br>1、函数可以有多个返回值<br>2、所有的参数传递都是值传递的方式<br>3、函数可以作为变量的值<br>4、函数可以作为参数和返回值</p>
+<p>本文主要针对第四点来进行笔记记录</p>
+<a id="more"></a>
+<h3 id="函数可以作为参数和返回值"><a href="#函数可以作为参数和返回值" class="headerlink" title="函数可以作为参数和返回值"></a>函数可以作为参数和返回值</h3><p>首先定义一个函数timeSpent，它的作用类似于面向对象编程中的装饰者模式，对一个函数“装饰”上记录运行时间的功能，以此来衡量一个函数的运行时间，其中被衡量的函数是作为参数传入到timeSpent中去的，代码如下：</p>
+<pre><code>func timeSpent(inner func(op int) int) func (opt int) int{
+return func(n int) int {
+    start := time.Now()
+    ret := inner(n)
+
+    fmt.Println(&quot;time spent&quot;,time.Since(start).Seconds())
+    return ret
+}}</code></pre><p>其中，传入的参数是一个函数类型，该参数函数的返回值是一个整型，timeSpent的返回值类型也为一个函数类型。</p>
+<p>然后定义一个用来测试的函数：</p>
+<pre><code>func slowFun(op int) int{
+    time.Sleep(time.Second*1)
+    return  op
+}</code></pre><p>该函数并没有多余的功能，只是将传入的参数再次原值返回，期间函数会休眠一段时间。</p>
+<p>调用执行：</p>
+<pre><code>func TestFn(t *testing.T)  {
+tsSF := timeSpent(slowFun)
+t.Log(tsSF(10))
+}</code></pre><p>程序的执行过程如下：<br>1、首先将slowFun函数作为参数传入到timeSpent中去，然后将其装饰为一个具有记录运行时间的函数后，返回一个被装饰的函数，return后方的函数内部逻辑并不执行，只是将原有的函数进行装饰；<br>2、tsSF被赋予一个函数，该函数的具体业务逻辑等同于timeSpent函数中return语句后方的函数；<br>3、调用执行tsSF，传入参数10，执行逻辑见timeSpent中return语句后方的部分，打印输出10。</p>
+<p>以上就是go语言中函数作为参数和返回值的实例，此种编程模式也成为函数式编程，可以在《计算机程序的构造与解释》这本书中了解更多更深入的关于函数式编程的思想。</p>
+
+      <div>  
+      
+        
+      
+      </div>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
+                </span>
+
+                <span class="label">WeChat</span>
+              </a>
+            </div>
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/" rel="prev" title="大学回忆一">
+      <i class="fa fa-chevron-left"></i> 大学回忆一
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
@@ -277,6 +378,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数可以作为参数和返回值"><span class="nav-number">1.</span> <span class="nav-text">函数可以作为参数和返回值</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
