@@ -20,29 +20,31 @@
     var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="专注、安静、前进">
-<meta property="og:type" content="website">
-<meta property="og:title" content="有心有梦">
-<meta property="og:url" content="http://yxym.run/index.html">
+  <meta name="description" content="之前一直在windows下刷Leetcode，代码都保存在了一个project里面，后来开始经常使用Ubuntu系统，索性把以前的刷题代码拷贝过来，继续写在之前的项目里面。但是当我导入项目之后，Idea并没有不能立即执行程序，需要对项目进行一些配置。 程序出现的情况时，正常情况下，一个java文件图标显示为是一个蓝色的“c”，但是现在显示的是一个橙色的小时钟的标志，原因是Idea并不能自动识别程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Idea导入Java se程序无法正常run">
+<meta property="og:url" content="http://yxym.run/2020/03/07/Idea%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8run%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="有心有梦">
-<meta property="og:description" content="专注、安静、前进">
+<meta property="og:description" content="之前一直在windows下刷Leetcode，代码都保存在了一个project里面，后来开始经常使用Ubuntu系统，索性把以前的刷题代码拷贝过来，继续写在之前的项目里面。但是当我导入项目之后，Idea并没有不能立即执行程序，需要对项目进行一些配置。 程序出现的情况时，正常情况下，一个java文件图标显示为是一个蓝色的“c”，但是现在显示的是一个橙色的小时钟的标志，原因是Idea并不能自动识别程序">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-07T06:48:31.981Z">
 <meta property="article:author" content="疯渔民">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yxym.run/">
+<link rel="canonical" href="http://yxym.run/2020/03/07/Idea%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8run%E7%9A%84%E9%97%AE%E9%A2%98/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false
+    isHome: false,
+    isPost: true
   };
 </script>
 
-  <title>有心有梦</title>
+  <title>Idea导入Java se程序无法正常run | 有心有梦</title>
   
 
 
@@ -190,10 +192,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/07/Idea%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8run%E7%9A%84%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -207,8 +209,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/07/Idea%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8run%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">Idea导入Java se程序无法正常run</a>
+          Idea导入Java se程序无法正常run
         </h1>
 
         <div class="post-meta">
@@ -242,18 +243,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>之前一直在windows下刷Leetcode，代码都保存在了一个project里面，后来开始经常使用Ubuntu系统，索性把以前的刷题代码拷贝过来，继续写在之前的项目里面。但是当我导入项目之后，Idea并没有不能立即执行程序，需要对项目进行一些配置。</p>
+        <p>之前一直在windows下刷Leetcode，代码都保存在了一个project里面，后来开始经常使用Ubuntu系统，索性把以前的刷题代码拷贝过来，继续写在之前的项目里面。但是当我导入项目之后，Idea并没有不能立即执行程序，需要对项目进行一些配置。</p>
 <p>程序出现的情况时，正常情况下，一个java文件图标显示为是一个蓝色的“c”，但是现在显示的是一个橙色的小时钟的标志，原因是Idea并不能自动识别程序的源代码，我们需要做一些配置。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/07/Idea%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8run%E7%9A%84%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+<a id="more"></a>
+<ul>
+<li>首先点击Idea左上角的“File”,然后找到“Project Structure ”配置选项</li>
+<li>然后点击“Project setting”选项下的Project选项，设置JDK的版本，并且选择Project language level，因为我的Jdk版本是1.8，所以这里我选的是“Lambdas，type annotation etc”；然后在最下面设置项目的路径，即项目的完整工作空间路径。</li>
+<li>点击“Modules”选项，选择右边方框里的蓝色“Sources”选项，将项目种的src文件设置为源代码文件夹，点击应用，最后点击ok即可运行。</li>
+</ul>
+<h3 id="关于Project-language-level"><a href="#关于Project-language-level" class="headerlink" title="关于Project language level"></a>关于Project language level</h3><p>我们应该知道 Java JDK 在每个新版本都会有其新特性，而新版本一般也会向下兼容旧版本的特性，在IntelliJ IDEA中 对这些 JDK 的新特性是这样介绍的：</p>
+<ul>
+<li>JDK 6 的新特性：@Override in interfaces</li>
+<li>JDK 7 的新特性：Diamonds，ARM，multi-catch etc.</li>
+<li>JDK 8 的新特性：Lambdas，type annotation etc.</li>
+<li>JDK 9 的新特性：Jigsaw project etc.</li>
+</ul>
+<p>其中，当我们使用某一个版本的Jdk的时候，我们只能向下兼容，否则运行程序时是会运行不了的。比如我的Jdk的版本是1.8，那么我只能选择8及以下的language level。</p>
+
       <div>  
+      
+        
       
       </div>
     </div>
@@ -261,255 +270,57 @@
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cl.jpeg">
-      <meta itemprop="name" content="疯渔民">
-      <meta itemprop="description" content="专注、安静、前进">
-    </span>
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="有心有梦">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/" class="post-title-link" itemprop="url">Python的with关键字</a>
-        </h1>
+    <div class="social-list">
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-03-07 00:00:00 / 修改时间：14:48:18" itemprop="dateCreated datePublished" datetime="2020-03-07T00:00:00+08:00">2020-03-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Python基础知识笔记</span></a>
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
                 </span>
-            </span>
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1、上下文管理器的概念"><a href="#1、上下文管理器的概念" class="headerlink" title="1、上下文管理器的概念"></a>1、上下文管理器的概念</h4><p><strong>上下文管理协议（Context Management Protocol）：</strong></p>
-<pre><code>包含方法 __enter__() 和 __exit__()，支持该协议的对象要实现这两个方法。 </code></pre><p><strong>上下文管理器（Context Manager）</strong>：</p>
-<pre><code>支持上下文管理协议的对象，这种对象实现了__enter__() 和 __exit__() 方法。上下文管理器定义执行 with 语句时要建立的运行时上下文，负责执行 with 语句块上下文中的进入与退出操作。通常使用 with 语句调用上下文管理器，也可以通过直接调用其方法来使用。 </code></pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/#more" rel="contents">
-                阅读全文 &raquo;
+                <span class="label">WeChat</span>
               </a>
             </div>
-          <!--/noindex-->
-        
-      
-      <div>  
-      
-      </div>
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cl.jpeg">
-      <meta itemprop="name" content="疯渔民">
-      <meta itemprop="description" content="专注、安静、前进">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="有心有梦">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/" class="post-title-link" itemprop="url">GO语言学习之函数</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-02-26 22:41:00 / 修改时间：22:43:50" itemprop="dateCreated datePublished" datetime="2020-02-26T22:41:00+08:00">2020-02-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Go语言学习笔记</span></a>
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
                 </span>
-            </span>
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在go语言中,函数存在以下几个与其他编程语言显著不同的地方:<br>1、函数可以有多个返回值<br>2、所有的参数传递都是值传递的方式<br>3、函数可以作为变量的值<br>4、函数可以作为参数和返回值</p>
-<p>本文主要针对第四点来进行笔记记录</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/#more" rel="contents">
-                阅读全文 &raquo;
+                <span class="label">RSS</span>
               </a>
             </div>
-          <!--/noindex-->
-        
-      
-      <div>  
-      
-      </div>
     </div>
+  </div>
 
-    
-    
-    
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cl.jpeg">
-      <meta itemprop="name" content="疯渔民">
-      <meta itemprop="description" content="专注、安静、前进">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="有心有梦">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/" class="post-title-link" itemprop="url">大学回忆一</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-02-26 00:00:00 / 修改时间：23:18:24" itemprop="dateCreated datePublished" datetime="2020-02-26T00:00:00+08:00">2020-02-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B4%BB%E6%9C%89%E6%89%80%E6%80%9D/" itemprop="url" rel="index"><span itemprop="name">活有所思</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>时间如白驹过隙，稍纵即逝，脑海里我还是一个特别热爱写作的青少年，可现在想写一篇大学生活的回忆却突然久久无法下笔了，或许是太久没有安静地的去思考了，或许是在手机的世界里习惯了浮躁与喧闹失去了自己的思考与心声。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-      <div>  
-      
-      </div>
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/" rel="prev" title="Python的with关键字">
+      <i class="fa fa-chevron-left"></i> Python的with关键字
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
   
 
   </div>
-
-  
-
 
 
           </div>
@@ -560,6 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Project-language-level"><span class="nav-number">1.</span> <span class="nav-text">关于Project language level</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
