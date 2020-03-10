@@ -62,6 +62,80 @@
   </entry>
   
   <entry>
+    <title>LeetCode刷提笔记之第226题</title>
+    <link href="http://yxym.run/2020/02/29/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC226%E9%A2%98/"/>
+    <id>http://yxym.run/2020/02/29/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC226%E9%A2%98/</id>
+    <published>2020-02-28T16:00:00.000Z</published>
+    <updated>2020-03-10T14:00:35.389Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>题目：</strong></p><p>翻转二叉树</p><p>示例：</p><p>输入：</p><pre><code>       4     /   \  2     7 / \   / \1   3 6   9</code></pre><a id="more"></a><p>输出：</p><pre><code>      4    /   \  7     2 / \   / \9   6 3   1</code></pre><p>据说有个很牛逼的大佬曾经去谷歌应聘，结果倒在了这道算法题上，所以看着简单，但还是需要对数据结构这些基础知识拥有足够的重视。</p><p>这个题目看起来是让翻转二叉树，实质上是对二叉树进行遍历，只要能够遍历到结点，就能够实现对该结点的左右子树进行交换，然后要么递归从下往上做要么从上往下依次迭代实现。本文正是借用二叉树的几种遍历算法作为模板进行翻转的。</p><p><strong>解法一：递归翻转</strong></p><pre><code> // 使用递归的方式对二叉树进行翻转public TreeNode invertTree(TreeNode root) {    if (root == null)        return null;    TreeNode lchild = root.left;    TreeNode rchild = root.right;    root.left = invertTree(rchild);    root.right = invertTree(lchild);    return root;}</code></pre><p><strong>解法二：使用层次遍历进行翻转，借用了队列</strong></p><pre><code>// 使用队列对二叉树进行层次遍历的方式进行翻转二叉树public TreeNode invertTree2(TreeNode root) {    if (root == null)        return null;    Queue&lt;TreeNode&gt; queue = new LinkedList&lt;TreeNode&gt;();    queue.add(root);    while(!queue.isEmpty()){        TreeNode cur = queue.poll();        if ((cur.left==null)&amp;&amp;(cur.right==null))            continue;        TreeNode temp = cur.left;        cur.left = cur.right;        cur.right = temp;        if (cur.left!=null)            queue.add(cur.left);        if (cur.right!=null)            queue.add(cur.right);    }    return root;}</code></pre><p><strong>解法三：使用后序遍历进行翻转，借用了栈</strong></p><pre><code> // 使用栈对二叉树进行后序遍历来翻转二叉树public TreeNode invertTree3(TreeNode root) {    if (root == null)        return null;    Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();    TreeNode node = root;    TreeNode lastVisit = null;    while (node != null || !stack.isEmpty()){        while (node != null){            stack.push(node);            node = node.left;        }        if (!stack.isEmpty()){            node = stack.peek();            if (node.right == null || node.right == lastVisit){                stack.pop();                TreeNode temp = node.left;                node.left = node.right;                node.right = temp;                lastVisit = node;                node = null;            }else {                node = node.right;            }        }    }    return root;}</code></pre><p>  其他的二叉树遍历方法也可以实现对二叉树的翻转，只用对二叉树便利模板程序中访问结点处的程序进行改动即可。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;题目：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;翻转二叉树&lt;/p&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;p&gt;输入：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;       4
+     /   \
+  2     7
+ / \   / \
+1   3 6   9&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+    
+      <category term="刷题笔记" scheme="http://yxym.run/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode算法模板二叉树的遍历</title>
+    <link href="http://yxym.run/2020/02/29/LeetCode%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF%E4%B9%8B%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/"/>
+    <id>http://yxym.run/2020/02/29/LeetCode%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF%E4%B9%8B%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/</id>
+    <published>2020-02-28T16:00:00.000Z</published>
+    <updated>2020-03-10T14:00:22.821Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="二叉树的概念"><a href="#二叉树的概念" class="headerlink" title="二叉树的概念"></a>二叉树的概念</h3><p>二叉树是n个结点的有限集合，其中n&gt;=0,也就是说该集合要么为空集，要么由一个根节点和两个互不相交的左右子树组成，这两棵左右子树称为是根结点的左子树和右子树。</p><h3 id="性质："><a href="#性质：" class="headerlink" title="性质："></a>性质：</h3><p>1、二叉树的左右子树是有顺序的，次序是不能随意颠倒的。<br>2、二叉树中不存在度大于2的结点。<br>3、即使只有一棵子树，也要区分它是左子树还是右子树。</p><a id="more"></a><h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>关于二叉树的遍历方式有很多种，主要有前、中、后、层次遍历等四种方式，在实现时也有递归的方式和非递归的方式。有很多关于二叉树的算法题目都是基于二叉树的遍历进行展开的，因此我想把二叉树的所有遍历方式进行一次全面的总结。</p><h4 id="递归："><a href="#递归：" class="headerlink" title="递归："></a>递归：</h4><p>1、前序遍历，preVisit(root)</p><p>主要过程为以下三步：</p><ul><li>visit(toot)</li><li>preVisit(root.left)</li><li>preVisit(root.right)</li></ul><p>2、中序遍历，midVisit(root)</p><p>主要过程为以下三步：</p><ul><li>midVisit(root.left)</li><li>visit(toot)</li><li>midVisit(root.right)</li></ul><p>3、后序遍历，postVisit(root)</p><p>主要过程为以下三步：</p><ul><li>postVisit(root.left)</li><li>postVisit(root.right)</li><li>visit(toot)</li></ul><p>具体代码如下：</p><pre><code>public void preVisit(TreeNode root){   if (root==null)       return;   System.out.println(root.val);   preVisit(root.left);   preVisit(root.right);}public void midVisit(TreeNode root){   if (root==null)       return;   midVisit(root.left);   System.out.println(root.val);   midVisit(root.right);}public void postVisit(TreeNode root){   if (root==null)       return;   postVisit(root.left);   postVisit(root.right);   System.out.println(root.val);}</code></pre><h4 id="非递归，借助于栈和队列"><a href="#非递归，借助于栈和队列" class="headerlink" title="非递归，借助于栈和队列"></a>非递归，借助于栈和队列</h4><p>1、前序、中序非递归遍历<br>二者过程类似，只是访问结点的顺序有所差别，具体的代码如下：</p><pre><code>public void preVisitWithStack(TreeNode root){    if (root==null)        return;    Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();    TreeNode node = root;    while (node != null || !stack.isEmpty()) {        while (node!=null){            System.out.println(node.val);            stack.push(node);            node = node.left;        }        if (!stack.isEmpty()){            node = stack.pop();            node = node.right;        }    }}public void midVisitWithStack(TreeNode root){    if (root == null)        return;    Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();    TreeNode node = root;    while (node != null || !stack.isEmpty()){        while (node!=null){            stack.push(node);            node = node.left;        }        if (!stack.isEmpty()){            node = stack.pop();            System.out.println(node.val);            node = node.right;        }    }}</code></pre><p>都是使用两层的while循环，外层循环用于保证栈不是空的或者结点存在，然后内存循环用于一直迭代遍历结点的左子树，直到没有做子树为止，然后方向转向右子树。差别只在于访问元素位置的因为前序和中序的原因而不同。</p><p>2、后序遍历<br>后序遍历也是借助于栈，但是有一个需要注意的是还需要借助一个lastvisit指针，由于后序遍历是先左子树后右子树最后父亲结点，而程序在遍历二叉树的过程中在其左子树已经被访问过以后，什么情况下，才能访问父亲结点？一个就是该父亲结点没有右子树，所以可以直接访问父亲结点，另外一个就是该父亲结点的右子树已经被访问过了，接下来该父亲结点访问了。所以为了记录父亲结点的右子树是否被访问过，就定义了这个指针，这是很关键的一步。</p><pre><code> public void postVisitWithStack(TreeNode root){    if (root == null)        return;    Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();    TreeNode node = root;    TreeNode lastVisit = null;    // 此处设置lastVisit指针是为了确认在某个父亲结点拥有右结点的情况下，这个右结点    // 是否已经被访问过了，如果访问了当前结点就要出栈被访问，因为后序遍历的顺序就是左右中    while (node != null || !stack.isEmpty()){        while (node != null){            stack.push(node);            node = node.left;        }        if (!stack.isEmpty()){            node = stack.peek();            if (node.right == null || node.right == lastVisit){                stack.pop();                System.out.println(node.val);                lastVisit = node;                node = null;            }else {                node = node.right;            }        }    }}</code></pre><p>   3、层次遍历<br>   根据层次遍历一层一层访问的特点，可以借助队列结构来完成层次遍历。具体代码实现如下：</p><pre><code>public void levelVisit(TreeNode root){    if (root == null)        return;    Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();    queue.add(root);    while(!queue.isEmpty()){        root = queue.poll();        System.out.println(root.val);        if (root.left != null)            queue.add(root.left);        if (root.right != null)            queue.add(root.right);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;二叉树的概念&quot;&gt;&lt;a href=&quot;#二叉树的概念&quot; class=&quot;headerlink&quot; title=&quot;二叉树的概念&quot;&gt;&lt;/a&gt;二叉树的概念&lt;/h3&gt;&lt;p&gt;二叉树是n个结点的有限集合，其中n&amp;gt;=0,也就是说该集合要么为空集，要么由一个根节点和两个互不相交的左右子树组成，这两棵左右子树称为是根结点的左子树和右子树。&lt;/p&gt;
+&lt;h3 id=&quot;性质：&quot;&gt;&lt;a href=&quot;#性质：&quot; class=&quot;headerlink&quot; title=&quot;性质：&quot;&gt;&lt;/a&gt;性质：&lt;/h3&gt;&lt;p&gt;1、二叉树的左右子树是有顺序的，次序是不能随意颠倒的。&lt;br&gt;2、二叉树中不存在度大于2的结点。&lt;br&gt;3、即使只有一棵子树，也要区分它是左子树还是右子树。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="刷题笔记" scheme="http://yxym.run/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode刷题笔记之第219题</title>
+    <link href="http://yxym.run/2020/02/28/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC219%E9%A2%98/"/>
+    <id>http://yxym.run/2020/02/28/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC219%E9%A2%98/</id>
+    <published>2020-02-27T16:00:00.000Z</published>
+    <updated>2020-03-09T14:47:33.131Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>题目</strong><br>给定一个整数数组和一个整数 k，判断数组中是否存在两个不同的索引 i 和 j，使得 nums [i] = nums [j]，并且 i 和 j 的差的绝对值最大为 k。</p><p><strong>示例 1:</strong></p><p>输入: nums = [1,0,1,1], k = 1<br>输出: true</p><a id="more"></a><p><strong>示例 2:</strong></p><p>输入: nums = [1,2,3,1,2,3], k = 2<br>输出: false</p><p><strong>分析：</strong><br>从这个题目看来，并没有要求有空间复杂度的限制，因此我们可以借助于哈希表来完成以上的操作。</p><p><strong>做法1：</strong><br>其中我的做法是借助于HashMap，以元素值作为哈希表的key值，元素的索引值作为哈希表的value值，利用for循环遍历数组，如果当前key在hashmap中没有值则存入hashmap，如果当前key在hashmap中有值则取出其value，这个value就是数组元素的索引值，然后对当前for循环的游标变量与取出来的value值进行判断，具体的代码实现如下所示：</p><pre><code> public boolean containsNearbyDuplicate(int[] nums, int k) {    Map&lt;Integer,Integer&gt; map = new HashMap&lt;&gt;();    int flag = 0;    for(int i = 0;i &lt; nums.length;i++){        if (map.get(nums[i])==null){            map.put(nums[i],i);        }else {            int j = map.get(nums[i]);            if (( j!=i)&amp;&amp;(Math.abs(i-j) &lt;= k)){                flag = 1;            }else {                map.put(nums[i],i);            }        }    }    if (flag==1)        return true;    return false;}</code></pre><p>   但是我的这个做法，无论从程序运行时间还是内存消耗，都不是很好，因此我查看了一些性能比较好的程序，在此学习记录。</p><p>**   做法2：**<br>  思路：用散列表来维护这个kk大小的滑动窗口。<br>  这个做法借助了hashset，通过设立这个集合，确保这个集合中的元素数量不大于k，一旦大于k就要删去最先存入集合的元素，其中如果在for循环结束前，要存入的元素在集合中存在了，则说明题目中所要求的那两个相等的元素找到了，如果在for循环结束以后还是没有返回true，则说明没有符合条件的元素则返回false。这个程序的作者设计的很巧妙，相比于我的程序，运行速度要快的多。<br>  具体的代码如下：</p><pre><code>public boolean containsNearbyDuplicate2(int[] nums, int k) {    if(k==35000) return false;    Set&lt;Integer&gt; set = new HashSet&lt;&gt;();    for (int i = 0; i &lt; nums.length; ++i) {        if (set.contains(nums[i])) return true;        set.add(nums[i]);        if (set.size() &gt; k) {            set.remove(nums[i - k]);        }    }    return false;}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;题目&lt;/strong&gt;&lt;br&gt;给定一个整数数组和一个整数 k，判断数组中是否存在两个不同的索引 i 和 j，使得 nums [i] = nums [j]，并且 i 和 j 的差的绝对值最大为 k。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;输入: nums = [1,0,1,1], k = 1&lt;br&gt;输出: true&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="刷题笔记" scheme="http://yxym.run/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>LeetCode刷题笔记之第190题</title>
     <link href="http://yxym.run/2020/02/27/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC190%E9%A2%98/"/>
     <id>http://yxym.run/2020/02/27/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC190%E9%A2%98/</id>
