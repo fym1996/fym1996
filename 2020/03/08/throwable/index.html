@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="异常指的是程序在执行过程中，出现的非正常的情况，最终会导致JVM的非正常停止。 在Java语言中，异常本身是一个类，产生异常就是创建异常对象并抛出了一个异常。Java处理异常的方式是中断处理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="异常">
+<meta property="og:url" content="http://yxym.run/2020/03/08/throwable/index.html">
+<meta property="og:site_name" content="有心有梦">
+<meta property="og:description" content="异常指的是程序在执行过程中，出现的非正常的情况，最终会导致JVM的非正常停止。 在Java语言中，异常本身是一个类，产生异常就是创建异常对象并抛出了一个异常。Java处理异常的方式是中断处理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-19T11:59:28.645Z">
+<meta property="article:author" content="疯渔民">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yxym.run/2020/03/08/throwable/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>异常 | 有心有梦</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="有心有梦" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">有心有梦</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">YXYM</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/08/throwable/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          异常
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-08T00:00:00+08:00">2020-03-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 19:59:28" itemprop="dateModified" datetime="2020-03-19T19:59:28+08:00">2020-03-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>异常指的是程序在执行过程中，出现的非正常的情况，最终会导致JVM的非正常停止。</p>
+<p>在Java语言中，异常本身是一个类，产生异常就是创建异常对象并抛出了一个异常。Java处理异常的方式是中断处理。</p>
+<a id="more"></a>
+<p>异常的根类是<code>java.lang.Throwable</code>，其下有两个子类，<code>java.lang.Error</code>与<code>java.lang.Exception</code></p>
+<p>Throwable体系:</p>
+<ul>
+<li><p>Error:严重错误，无法通过处理的错误只能事先避免。必须修改源代码，程序才能继续执行。</p>
+</li>
+<li><p>Exception:表示异常，异常产生后可以通过代码的方式纠正，使得程序继续运行，是必须要处理的。</p>
+<pre><code>Exception异常主要分为：  
+编译期异常，进行编译（写代码）java程序出现的异常。
+RuntimeException：运行期异常，java程序运行过程中出现的问题。</code></pre></li>
+</ul>
+<h4 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h4><p>Java异常处理的五个关键字：<code>try、catch、finally、throw、throws</code></p>
+<p><strong>1、抛出异常throw</strong></p>
+<p>该关键字用于抛出一个指定的异常对象，抛出一个异常具体的操作如下：</p>
+<pre><code>1、创建一个异常对象，封装一些提示信息（信息可以自己编写）
+2、需要将这个异常对象告知调用者，通过throw关键字即可将这个异常对象传递到调用者处。</code></pre><p>throw用在方法内，用来抛出一个异常对象，将这个异常对象传递到调用者处，并结束当前方法的执行。</p>
+<p>使用格式：</p>
+<pre><code>throw new 异常类名(参数);
+
+例如：
+    throw new NullPointerException(&quot;需要访问的arr数组不存在&quot;);</code></pre><p>注意：</p>
+<pre><code>1.throw关键字必须写在方法的内部
+2.throw关键字后边new的对象必须是Exception或者Exception的子类对象
+3.throw关键字抛出指定的异常对象，那就必须处理这个异常对象
+        throw关键字后边创建的是RuntimeException或者RuntimeException的子类对象，可以不处理，默认交给JVM（打印异常对象，中断程序）
+        throw关键字后边创建的是编译异常（写代码的时候报错），必须处理这个异常，要么throws，要么try...catch    </code></pre><h4 id="Objects非空判断"><a href="#Objects非空判断" class="headerlink" title="Objects非空判断"></a>Objects非空判断</h4><p>对传递过来的参数进行合法性判断，判断是否为null，可以使用Objects中的静态方法：</p>
+<pre><code>public static &lt;T&gt; T requireNonNull(T obj):查看指定引用对象是不是null
+源码：
+    public static &lt;T&gt; T requireNonNull(T obj){
+        if (obj == null)
+            throw new NullPointerException();
+        return obj;
+    }</code></pre><p>使用示例：</p>
+<pre><code>public static void main(String[] args) {
+    int[] arr = null;
+    getElement(arr,5);
+}
+
+private static int getElement(int[] arr,int index) {
+    //if (arr == null)
+    //      throw new NullPointerException(&quot;传递的数组值是null&quot;);
+    Objects.requireNonNull(arr,&quot;传递的数组值是null&quot;);
+    if (index &lt; 0||index&gt;=arr.length)
+        throw new ArrayIndexOutOfBoundsException(&quot;传递的索引超出了数组的使用范围&quot;);
+    int ele = arr[index];
+    return ele;
+}</code></pre><p><strong>2、声明异常throws</strong><br>将问题标识出来，报告给调用者。如果方法内通过throw抛出了编译时异常，而没有捕获处理，那么必须通过throws进行声明，让调用者去处理。</p>
+<p>关键字throws运用于方法声明之上，用于表示当前方法不处理异常，而是提醒该方法的调用者来处理异常。</p>
+<p>声明异常的格式：</p>
+<pre><code>修饰符 返回值类型 方法名(参数) throws 异常类名1,异常类名2...{ }</code></pre><p>throws关键字：异常处理的第一种方式，交给别人处理</p>
+<p>作用：</p>
+<ul>
+<li>当方法内部抛出异常对象的时候，那么我们就必须处理这个异常对象</li>
+<li>可以使用throws关键字处理异常对象，会把异常对象声明抛出给方法的调用者处理，最终交给JVM处理</li>
+</ul>
+<pre><code>使用格式：在方法声明时使用
+    修饰符 返回值类型 方法名(参数) throws AAAException,BBBException...{
+        throw new AAAException(&quot;产生原因&quot;);
+        throw new BBBException(&quot;产生原因&quot;);
+     }</code></pre><p>注意：</p>
+<ul>
+<li><p>throws关键字必须写在方法声明处</p>
+</li>
+<li><p>throws关键字后边声明的异常必须是Exception或者是Exception的子类</p>
+</li>
+<li><p>方法内部如果抛出了多个异常对象，那么throws后边必须也声明多个异常</p>
+<pre><code>如果抛出的多个异常对象有子父类关系，那么直接声明父类异常即可</code></pre></li>
+<li><p>调用了一个声明抛出异常的方法，就必须处理得处理声明的异常</p>
+<pre><code>要么继续使用throws声明抛出，交给方法的调用者处理，最终交给JVM
+要么使用try...catch自己处理异常</code></pre></li>
+</ul>
+<p>示例代码：</p>
+<pre><code>public static void main(String[] args) throws IOException {
+    readFile(&quot;&quot;);
+}
+/*
+    FileNotFoundException 是编译异常
+ */
+public static void readFile(String fileName) throws IOException {
+
+    if (!fileName.equals(&quot;c:\\a.text&quot;)){
+        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);
+    }
+    System.out.println(&quot;路径没有问题&quot;);
+}</code></pre><h4 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h4><p>使用格式：</p>
+<pre><code> try{
+        可能产生异常的代码
+    }catch(定义一个异常变量，用来接收try中抛出的异常对象){
+        异常的处理逻辑，异常对象之后，怎么处理异常对象
+        一般在工作中，会把异常的信息记录到一个日志中
+    }
+    ...
+    catch(异常类名 变量名){
+
+}</code></pre><p>注意：</p>
+<ul>
+<li>try中可能会抛出多个异常对象，那么就可以使用多个catch来处理这些异常对象</li>
+<li>如果try中产生了异常，那么就会执行catch中异常处理逻辑，执行完毕catch中的处理逻辑，继续执行try…catch之后的代码</li>
+<li>如果try中没有产生异常，那么就不会执行catch中异常的处理逻辑，执行完try中的代码，继续执行try…catch之后的代码</li>
+</ul>
+<p>示例代码：</p>
+<pre><code>public static void main(String[] args) {
+    try {
+        readFile(&quot;d:\\a.tx&quot;);
+    } catch (IOException e) {
+        System.out.println(&quot;文件的后缀不是.txt&quot;);
+    }
+    System.out.println(&quot;后续代码&quot;);
+}
+public static void readFile(String fileName) throws IOException {
+
+    if (!fileName.endsWith(&quot;.txt&quot;)){
+        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);
+    }
+    System.out.println(&quot;路径没有问题&quot;);
+}</code></pre><h4 id="Throwable的三个异常处理的方法"><a href="#Throwable的三个异常处理的方法" class="headerlink" title="Throwable的三个异常处理的方法"></a>Throwable的三个异常处理的方法</h4><p>1.<code>String getMessage()</code>:返回此throwable的简短描述</p>
+<p>2.String toString() : 返回此throwable的详细消息字符串</p>
+<p>3.printStackTrace()</p>
+<pre><code>public static void main(String[] args) {
+    try {
+        readFile(&quot;d:\\a.tx&quot;);
+    } catch (IOException e) {
+        System.out.println(e.getMessage());
+        /*
+            传递的文件路径不是c:\a.text
+         */
+
+        //System.out.println(e.toString()); //重写了Object类的toString方法
+        //System.out.println(e);
+        /*
+            java.io.FileNotFoundException: 传递的文件路径不是c:\a.text
+         */
+
+        //e.printStackTrace();
+        /*
+        java.io.FileNotFoundException: 传递的文件路径不是c:\a.text
+            at Throwable.Demo03TryCatch.readFile(Demo03TryCatch.java:40)
+            at Throwable.Demo03TryCatch.main(Demo03TryCatch.java:26)
+         */
+    }
+
+    System.out.println(&quot;后续代码&quot;);
+}
+public static void readFile(String fileName) throws IOException {
+
+    if (!fileName.endsWith(&quot;.txt&quot;)){
+        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);
+    }
+    System.out.println(&quot;路径没有问题&quot;);
+}</code></pre><h4 id="finally代码块"><a href="#finally代码块" class="headerlink" title="finally代码块"></a>finally代码块</h4><p>有些特定的代码无论异常是否发生，都需要执行。另外，因为异常会引发程序跳转，导致有些语句执行不到。而finally就是解决这个问题的，在finally代码块中存放的代码都是一定会被执行的。</p>
+<pre><code>try...catch...finally</code></pre><p>注意：</p>
+<p>1.finally不能单独使用;</p>
+<p>2.finally一般用于资源释放，无论程序是否出现异常，最后都要资源释放。</p>
+<h4 id="异常注意事项"><a href="#异常注意事项" class="headerlink" title="异常注意事项"></a>异常注意事项</h4><ul>
+<li>多个异常使用捕获该如何处理呢？</li>
+</ul>
+<p>1.多个异常分别处理</p>
+<pre><code>try{
+    ...
+}catch{
+    ...
+}
+try{
+    ...
+}catch{
+    ...
+}
+try{
+    ...
+}catch{
+    ...
+}</code></pre><p>2.多个异常一次捕获、多次处理</p>
+<pre><code>try{
+    ...
+}catch(){
+    ...
+}catch(){
+    ...
+}...</code></pre><p>一个try多个catch注意事项：</p>
+<pre><code>try中如果出现了异常对象，会把异常对象抛出给catch处理，抛出的异常对象，会从上到下依次赋值给catch中定义的异常变量。
+catch里边定义的异常变量，如果有子父类关系，那么子类的异常变量必须写在上边，否则就会报错</code></pre><p>3.多个异常一次捕获一次处理</p>
+<pre><code>try{
+    ...
+}catch(){
+    ...
+}
+try中含有多个异常，在catch可以一次性捕获try中的多个异常，在catch中的异常对象变量要能同时接收多个异常对象</code></pre><ul>
+<li>运行时异常被抛出可以不处理，即不捕获也不声明抛出。默认会给虚拟机处理，终止程序，什么时候不抛出运行时异常了，再来继续执行程序。</li>
+<li>如果finally中有return语句，永远返回finally中的结果，避免该情况。</li>
+<li>如果父类抛出了多个异常，子类重写父类方法时，抛出和父类相同的异常或者是父类异常的子类或者不抛出异常。</li>
+<li>父类方法没有抛出异常，子类重写父类方法时也不可以抛出异常。此时子类产生该异常，只能捕获处理，不能声明抛出。</li>
+<li>在try/catch后可以追加finally代码块，其中的代码一定会被执行，通常用于资源回收。</li>
+</ul>
+
+      <div>  
+      
+        
+      
+      </div>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
+                </span>
+
+                <span class="label">WeChat</span>
+              </a>
+            </div>
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/07/systemClass/" rel="prev" title="System类">
+      <i class="fa fa-chevron-left"></i> System类
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/08/ownDefineException/" rel="next" title="自定义异常">
+      自定义异常 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#异常的处理"><span class="nav-number">1.</span> <span class="nav-text">异常的处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Objects非空判断"><span class="nav-number">2.</span> <span class="nav-text">Objects非空判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#捕获异常"><span class="nav-number">3.</span> <span class="nav-text">捕获异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Throwable的三个异常处理的方法"><span class="nav-number">4.</span> <span class="nav-text">Throwable的三个异常处理的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#finally代码块"><span class="nav-number">5.</span> <span class="nav-text">finally代码块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常注意事项"><span class="nav-number">6.</span> <span class="nav-text">异常注意事项</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="疯渔民"
+      src="/images/cl.jpeg">
+  <p class="site-author-name" itemprop="name">疯渔民</p>
+  <div class="site-description" itemprop="description">专注、安静、前进</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fym1996" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fym1996" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yxym@163.com" title="E-Mail → mailto:yxym@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/5699352078/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;5699352078&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yu-jian-neng-17" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yu-jian-neng-17" rel="noopener" target="_blank"><i class="fa fa-fw fa-snapchat"></i>ZhiHu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">疯渔民</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

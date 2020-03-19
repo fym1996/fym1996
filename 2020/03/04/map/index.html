@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="将键映射到值的对象。一个映射不能包含重复的键，每个键最多只能映射到一个值。 public interface Map&lt;K,V&gt;K代表键的类型，V代表值的类型 Collection接口定义了单列集合规范，每次存储一个元素。 Map接口定义了双列集合的规范，每次存储一对儿元素。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Map集合">
+<meta property="og:url" content="http://yxym.run/2020/03/04/map/index.html">
+<meta property="og:site_name" content="有心有梦">
+<meta property="og:description" content="将键映射到值的对象。一个映射不能包含重复的键，每个键最多只能映射到一个值。 public interface Map&lt;K,V&gt;K代表键的类型，V代表值的类型 Collection接口定义了单列集合规范，每次存储一个元素。 Map接口定义了双列集合的规范，每次存储一对儿元素。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-19T12:01:44.363Z">
+<meta property="article:author" content="疯渔民">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yxym.run/2020/03/04/map/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Map集合 | 有心有梦</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="有心有梦" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">有心有梦</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">YXYM</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/04/map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Map集合
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-04T00:00:00+08:00">2020-03-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 20:01:44" itemprop="dateModified" datetime="2020-03-19T20:01:44+08:00">2020-03-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>将键映射到值的对象。一个映射不能包含重复的键，每个键最多只能映射到一个值。</p>
+<pre><code>public interface Map&lt;K,V&gt;</code></pre><p>K代表键的类型，V代表值的类型</p>
+<p>Collection接口定义了单列集合规范，每次存储一个元素。</p>
+<p>Map接口定义了双列集合的规范，每次存储一对儿元素。</p>
+<a id="more"></a>
+<p>Collection中的集合，元素是孤立存在的，向集合中存储元素采用一个个元素的方式存储。</p>
+<p>Map中的集合，元素是成对存在的，每个元素由键与值两部分组成，通过键可以找到对应的值。</p>
+<p>Map集合的特点：</p>
+<ul>
+<li>Map集合是一个双列集合，一个元素包含两个值（一个key，一个value）</li>
+<li>Map集合中的元素，key和value的数据类型可以相同，也可以不同</li>
+<li>Map集合中的元素，key是不允许重复的，value是可以重复的</li>
+<li>Map集合中的元素，key和value是一一对应的</li>
+</ul>
+<h4 id="Map常用集合之HashMap-lt-K-V-gt"><a href="#Map常用集合之HashMap-lt-K-V-gt" class="headerlink" title="Map常用集合之HashMap&lt;K,V&gt;"></a>Map常用集合之HashMap&lt;K,V&gt;</h4><p>基于哈希表的Map接口的实现。允许使用null值和null键，此类不保证映射的顺序。</p>
+<p>不同步，多线程。</p>
+<p>HashMap集合的特点：</p>
+<ul>
+<li>HashMap集合底层是哈希表：查询速度特别快。（JDK1.8之后，结构是数组+单向链表/红黑树（链表长度超过8））</li>
+<li>hashMap是一个无序的集合，存储元素和取出元素的顺序有可能不一致</li>
+</ul>
+<h4 id="HashMap常用集合之LinkedHashMap"><a href="#HashMap常用集合之LinkedHashMap" class="headerlink" title="HashMap常用集合之LinkedHashMap"></a>HashMap常用集合之LinkedHashMap</h4><pre><code>java.util.LinkedHashMap&lt;k,v&gt; extends HashMap&lt;k,v&gt;</code></pre><p>LinkedHashMap的特点：</p>
+<ul>
+<li>底层是哈希表+链表（保证迭代的顺序）</li>
+<li>是一个有序的集合，存储元素和取出元素的顺序是一致的</li>
+</ul>
+<h4 id="Map集合常用方法"><a href="#Map集合常用方法" class="headerlink" title="Map集合常用方法"></a>Map集合常用方法</h4><p>1.<code>public V put(K key,V value)</code>:把指定的键与指定的值添加到Map集合中</p>
+<ul>
+<li>返回值：v</li>
+<li>存储键值对的时候，key不重复，返回值V是null</li>
+<li>存储键值对的时候，key重复，会使用新的value替换map中重复的value，返回被替换的value值</li>
+</ul>
+<pre><code>private static void show01() {
+    // 创建Map集合对象，多态
+    HashMap&lt;String, String&gt; map = new HashMap&lt;&gt;();
+    String v1 = map.put(&quot;lichen&quot;, &quot;fanbingbing&quot;);
+    System.out.println(v1);
+
+    String v2 = map.put(&quot;lichen&quot;, &quot;fanb&quot;);
+    System.out.println(v2);
+
+    System.out.println(map); //{lichen=fanb}
+
+    map.put(&quot;lengfeng&quot;, &quot;longxiaoyun&quot;);
+    map.put(&quot;yangguo&quot;,&quot;lalala&quot;);
+    map.put(&quot;sdhajsd&quot;,&quot;lalala&quot;);
+    System.out.println(map);
+}</code></pre><p>2.<code>public V remove(Object key)</code> : 把指定的键对应的键值对元素在Map集合中删除，返回被删除元素的值</p>
+<ul>
+<li>返回值：V</li>
+<li>key存在，V返回被删除的值</li>
+<li>key不存在，V返回null</li>
+</ul>
+<pre><code>private static void show02() {
+    HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+    map.put(&quot;zaliying&quot;,168);
+    map.put(&quot;sdada&quot;,178);
+    map.put(&quot;kakaka&quot;,158);
+    System.out.println(map);
+
+    Integer v1 = map.remove(&quot;zaliying&quot;);
+    System.out.println(&quot;v1: &quot;+v1); // v1: 168
+    System.out.println(map);
+
+    Integer v2 = map.remove(&quot;zaliying&quot;);
+    System.out.println(&quot;v2: &quot;+v2); // v1: null
+    // 移除一个集合中没有的元素，返回值赋值给int类型而不是Integer类型的变量
+    // 相当于自动拆箱，但是打印输出时，会发生一个空指针异常，复制给其包装类就不会出现这个问题
+    int v3 = map.remove(&quot;zaliying&quot;);
+}</code></pre><p>3.<code>public V get(Obejct key)</code>: 根据指定的键，在Map集合中获取对应的值</p>
+<p>返回值：</p>
+<ul>
+<li>key存在，返回对应的value值</li>
+<li>key不存在，返回null</li>
+</ul>
+<pre><code>private static void show03() {
+    HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+    map.put(&quot;zaliying&quot;,168);
+    map.put(&quot;sdada&quot;,178);
+    map.put(&quot;kakaka&quot;,158);
+
+    Integer v1 = map.get(&quot;zaliying&quot;);
+    System.out.println(v1); // 168
+
+    Integer v2 = map.get(&quot;dada&quot;);
+    System.out.println(v2); // null
+}</code></pre><p>4.<code>boolean containsKey(Object key)</code>: 判断集合中是否包含指定的键</p>
+<ul>
+<li>包含返回true，不包含返回false</li>
+</ul>
+<pre><code>private static void show04() {
+    HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+    map.put(&quot;zaliying&quot;,168);
+    map.put(&quot;sdada&quot;,178);
+    map.put(&quot;kakaka&quot;,158);
+    boolean b1 = map.containsKey(&quot;zaliying&quot;);
+    System.out.println(b1);  // true
+
+    boolean sa = map.containsKey(&quot;sa&quot;);
+    System.out.println(sa); // false
+}</code></pre><h4 id="Map集合遍历键找值方式"><a href="#Map集合遍历键找值方式" class="headerlink" title="Map集合遍历键找值方式"></a>Map集合遍历键找值方式</h4><p>键找值方式：通过元素中的键，获取键所对应的值</p>
+<p>分析步骤：</p>
+<p>1.获取Map中所有的键，由于键是唯一的，所以返回一个Set集合存储所有的键</p>
+<p>2.遍历键的Set集合，得到每一个键</p>
+<p>3.根据键，获取键对应的值</p>
+<p>Map集合的第一种遍历方式：通过键找值的方式</p>
+<pre><code>Map集合中的方法：
+    Set&lt;K&gt; keySet() 返回此映射中包含的键的Set视图
+实现步骤：
+    1.使用Map集合中的方法keySet()，把Map集合所有的key取出来，存储到一个Set集合中
+    2.遍历Set集合，获取Map集合中的每一个key
+    3.通过Map集合中的方法get(key),通过key找到value</code></pre><p>具体的代码实例：</p>
+<pre><code>public static void main(String[] args) {
+    HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+    map.put(&quot;zaliying&quot;,168);
+    map.put(&quot;sdada&quot;,178);
+    map.put(&quot;kakaka&quot;,158);
+
+    Set&lt;String&gt; set = map.keySet();
+
+    Iterator&lt;String&gt; it = set.iterator();
+    while (it.hasNext()){
+        System.out.println(map.get(it.next()));
+    }
+
+    for (String s : set) {
+        System.out.println(map.get(s));
+    }
+}</code></pre><p>遍历set的方式有两种，一种是使用迭代器，另一种是使用增强for循环。</p>
+<h4 id="Entry-lt-K-V-gt-键值对对象"><a href="#Entry-lt-K-V-gt-键值对对象" class="headerlink" title="Entry&lt;K,V&gt;键值对对象"></a>Entry&lt;K,V&gt;键值对对象</h4><p>在Map接口中有一个内部接口Entry</p>
+<p>作用：当Map集合一创建，那么就会在Map集合中创建一个Entry对象，用来记录键与值(键值对对象，键与值的映射关系)</p>
+<p>Map集合的第二种遍历方式：使用Entry对象遍历</p>
+<pre><code>Map集合中的方法：
+    Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet() 返回此映射中包含的映射关系的Set视图
+实现步骤：
+    1.使用Map集合中的entrySet()，把Map集合中多个Entry对象取出来，存储到一个Set集合中
+    2.遍历Set集合，获取每一个Entry对象
+    3.使用Entry对象中的方法getKey()和getValue()获取键与值</code></pre><p>具体的代码实例：</p>
+<pre><code>public static void main(String[] args) {
+    HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+    map.put(&quot;zaliying&quot;,168);
+    map.put(&quot;sdada&quot;,178);
+    map.put(&quot;kakaka&quot;,158);
+    // Map.Entry 外部类.内部类的方式访问
+    Set&lt;Map.Entry&lt;String, Integer&gt;&gt; set = map.entrySet();
+
+    Iterator&lt;Map.Entry&lt;String, Integer&gt;&gt; it = set.iterator();
+
+    while (it.hasNext()){
+        Map.Entry&lt;String, Integer&gt; entry = it.next();
+        String key = entry.getKey();
+        Integer value = entry.getValue();
+        System.out.println(key+&quot;=&quot;+value);
+    }
+
+    for (Map.Entry&lt;String, Integer&gt; entry : set) {
+        String key = entry.getKey();
+        Integer value = entry.getValue();
+        System.out.println(key+&quot;=&quot;+value);
+    }
+}</code></pre><h4 id="Hashtable"><a href="#Hashtable" class="headerlink" title="Hashtable"></a>Hashtable</h4><p>此类实现了一个哈希表，该哈希表将键映射到相应的值。任何非null对象都可以用作键或者值。</p>
+<p>同步的，单线程。</p>
+<pre><code>java.util.Hashtable&lt;K,V&gt; implements Map&lt;K,V&gt;
+Hashtable：底层也是一个哈希表，是一个线程安全的集合，是单线程集合，速度慢
+HashMap：底层是一个哈希表，是一个线程不安全的集合，是多线程的集合，速度快
+
+HashMap集合（之前需的所有的集合）：可以存储null值，null键
+Hashtable集合，不能存储null值，null键
+
+1.2版本之后，被更先进的集合取代了
+Hashtable的子类Properties依然活跃在历史舞台
+Properties集合是一个唯一和IO流相结合的集合</code></pre><p>如果往Hashtable集合中的键或者值存入null，会发生空指针异常：<code>NullPointerException</code></p>
+
+      <div>  
+      
+        
+      
+      </div>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
+                </span>
+
+                <span class="label">WeChat</span>
+              </a>
+            </div>
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/03/IteratorClass/" rel="prev" title="Iterator">
+      <i class="fa fa-chevron-left"></i> Iterator
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/04/objectClass/" rel="next" title="Object类">
+      Object类 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Map常用集合之HashMap-lt-K-V-gt"><span class="nav-number">1.</span> <span class="nav-text">Map常用集合之HashMap&lt;K,V&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap常用集合之LinkedHashMap"><span class="nav-number">2.</span> <span class="nav-text">HashMap常用集合之LinkedHashMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map集合常用方法"><span class="nav-number">3.</span> <span class="nav-text">Map集合常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map集合遍历键找值方式"><span class="nav-number">4.</span> <span class="nav-text">Map集合遍历键找值方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Entry-lt-K-V-gt-键值对对象"><span class="nav-number">5.</span> <span class="nav-text">Entry&lt;K,V&gt;键值对对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hashtable"><span class="nav-number">6.</span> <span class="nav-text">Hashtable</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="疯渔民"
+      src="/images/cl.jpeg">
+  <p class="site-author-name" itemprop="name">疯渔民</p>
+  <div class="site-description" itemprop="description">专注、安静、前进</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fym1996" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fym1996" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yxym@163.com" title="E-Mail → mailto:yxym@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/5699352078/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;5699352078&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yu-jian-neng-17" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yu-jian-neng-17" rel="noopener" target="_blank"><i class="fa fa-fw fa-snapchat"></i>ZhiHu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">疯渔民</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
