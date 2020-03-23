@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目： 翻转二叉树 示例： 输入：        4      &#x2F;   \   2     7  &#x2F; \   &#x2F; \ 1   3 6   9">
+  <meta name="description" content="进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。进程中的多个线程共享进程的资源。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode刷提笔记之第226题">
-<meta property="og:url" content="http://yxym.run/2020/02/29/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC226%E9%A2%98/index.html">
+<meta property="og:title" content="线程">
+<meta property="og:url" content="http://yxym.run/2020/03/23/Thread/index.html">
 <meta property="og:site_name" content="有心有梦">
-<meta property="og:description" content="题目： 翻转二叉树 示例： 输入：        4      &#x2F;   \   2     7  &#x2F; \   &#x2F; \ 1   3 6   9">
+<meta property="og:description" content="进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。进程中的多个线程共享进程的资源。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-10T14:00:35.389Z">
+<meta property="article:published_time" content="2020-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-23T14:51:55.972Z">
 <meta property="article:author" content="疯渔民">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yxym.run/2020/02/29/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC226%E9%A2%98/">
+<link rel="canonical" href="http://yxym.run/2020/03/23/Thread/">
 
 
 <script id="page-configurations">
@@ -44,7 +44,7 @@
   };
 </script>
 
-  <title>LeetCode刷提笔记之第226题 | 有心有梦</title>
+  <title>线程 | 有心有梦</title>
   
 
 
@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/02/29/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC226%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/23/Thread/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -209,7 +209,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LeetCode刷提笔记之第226题
+          线程
         </h1>
 
         <div class="post-meta">
@@ -218,23 +218,17 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-02-29 00:00:00" itemprop="dateCreated datePublished" datetime="2020-02-29T00:00:00+08:00">2020-02-29</time>
+              <time title="创建时间：2020-03-23 00:00:00 / 修改时间：22:51:55" itemprop="dateCreated datePublished" datetime="2020-03-23T00:00:00+08:00">2020-03-23</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-10 22:00:35" itemprop="dateModified" datetime="2020-03-10T22:00:35+08:00">2020-03-10</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
                 </span>
             </span>
 
@@ -249,84 +243,155 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>题目：</strong></p>
-<p>翻转二叉树</p>
-<p>示例：</p>
-<p>输入：</p>
-<pre><code>       4
-     /   \
-  2     7
- / \   / \
-1   3 6   9</code></pre><a id="more"></a>
-<p>输出：</p>
-<pre><code>      4
-    /   \
-  7     2
- / \   / \
-9   6 3   1</code></pre><p>据说有个很牛逼的大佬曾经去谷歌应聘，结果倒在了这道算法题上，所以看着简单，但还是需要对数据结构这些基础知识拥有足够的重视。</p>
-<p>这个题目看起来是让翻转二叉树，实质上是对二叉树进行遍历，只要能够遍历到结点，就能够实现对该结点的左右子树进行交换，然后要么递归从下往上做要么从上往下依次迭代实现。本文正是借用二叉树的几种遍历算法作为模板进行翻转的。</p>
-<p><strong>解法一：递归翻转</strong></p>
-<pre><code> // 使用递归的方式对二叉树进行翻转
-public TreeNode invertTree(TreeNode root) {
-    if (root == null)
-        return null;
-    TreeNode lchild = root.left;
-    TreeNode rchild = root.right;
-    root.left = invertTree(rchild);
-    root.right = invertTree(lchild);
+        <p>进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。<br>进程中的多个线程共享进程的资源。</p>
+<a id="more"></a>
+<p>操作系统在分配资源时是把资源分配给进程的，但CPU资源比较特殊，是分配到线程的，因为真正占用CPU运行的是线程，所以说线程是CPU分配的基本单位。</p>
+<p>关于线程需要知道：</p>
+<ul>
+<li>线程是独立的执行路径</li>
+<li>程序运行时，即使自己没有创建线程，后台也会有多个线程</li>
+<li>main()称之为主线程，是系统的入口</li>
+<li>进程中，如果开辟了多个线程，线程的运行由调度器安排调度，调度器与操作系统密切相关，先后顺序无法人为ie干预</li>
+<li>对同一资源操作时，会发生资源抢夺问题，应加入并发控制</li>
+<li>线程会带来额外开销，如CPU调度时间</li>
+<li>每个线程在自己的工作内存进行交换，内存控制不当会造成数据不一致。</li>
+</ul>
+<p>在Java语言中，创建线程的方式一共有三种，分别是继承Thread类、实现Runnable接口，实现Callable接口。下面分别阐述。</p>
+<h4 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h4><p>通过继承Thread类，创建线程的方式有以下几个步骤：</p>
+<ul>
+<li>自定义线程类继承Thread类</li>
+<li>重写run方法，编写线程执行体</li>
+<li>创建线程对象，调用start方法启动线程</li>
+</ul>
+<p>子类继承Thread类具备多线程能力</p>
+<p>启动线程，子类对象.start()</p>
+<p>不建议使用：避免OOP单继承局限性</p>
+<p>测试代码：</p>
+<pre><code>// 线程创建的第一个方式：
+    继承Thread类;
+    重写run方法，编写线程执行体;
+    创建线程对象，调用start方法启动线程
+// 总结：注意，线程开启不一定立即执行，由CPU调度执行
+public class TestThread extends Thread{
 
-    return root;
-}</code></pre><p><strong>解法二：使用层次遍历进行翻转，借用了队列</strong></p>
-<pre><code>// 使用队列对二叉树进行层次遍历的方式进行翻转二叉树
-public TreeNode invertTree2(TreeNode root) {
-    if (root == null)
-        return null;
-    Queue&lt;TreeNode&gt; queue = new LinkedList&lt;TreeNode&gt;();
-    queue.add(root);
-    while(!queue.isEmpty()){
-        TreeNode cur = queue.poll();
-        if ((cur.left==null)&amp;&amp;(cur.right==null))
-            continue;
-        TreeNode temp = cur.left;
-        cur.left = cur.right;
-        cur.right = temp;
-        if (cur.left!=null)
-            queue.add(cur.left);
-        if (cur.right!=null)
-            queue.add(cur.right);
-    }
-    return root;
-}</code></pre><p><strong>解法三：使用后序遍历进行翻转，借用了栈</strong></p>
-<pre><code> // 使用栈对二叉树进行后序遍历来翻转二叉树
-public TreeNode invertTree3(TreeNode root) {
-    if (root == null)
-        return null;
-    Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();
-    TreeNode node = root;
-    TreeNode lastVisit = null;
-    while (node != null || !stack.isEmpty()){
-        while (node != null){
-            stack.push(node);
-            node = node.left;
-        }
-        if (!stack.isEmpty()){
-            node = stack.peek();
-
-            if (node.right == null || node.right == lastVisit){
-                stack.pop();
-                TreeNode temp = node.left;
-                node.left = node.right;
-                node.right = temp;
-                lastVisit = node;
-                node = null;
-            }else {
-                node = node.right;
-            }
+    @Override
+    public void run() {
+        // run方法线程体
+        for (int i = 0; i &lt; 20; i++) {
+            System.out.println(&quot;我在看代码--&quot;+i);
         }
     }
-    return root;
-}</code></pre><p>  其他的二叉树遍历方法也可以实现对二叉树的翻转，只用对二叉树便利模板程序中访问结点处的程序进行改动即可。</p>
 
+    public static void main(String[] args) {
+        // main thread
+
+        // 创建一个线程对象
+        TestThread th = new TestThread();
+
+        // 调用start方法开启线程，主线程和子线程会交替执行，所以打印的结果是交替打印出来的
+        th.start();
+
+        for (int i = 0; i &lt; 20; i++) {
+            System.out.println(&quot;我在学习多线程--&quot;+i);
+        }
+    }
+}</code></pre><h4 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h4><p>通过实现Runnable接口，创建线程的方式过程如下：</p>
+<ul>
+<li>定义MyRunnable类实现Runnable接口</li>
+<li>实现run方法，编写线程执行体</li>
+<li>创建线程对象，调用start方法启动线程</li>
+</ul>
+<p>实现接口Runnable具有多线程能力</p>
+<p>启动线程：传入目标对象+Thread对象.start()</p>
+<p>推荐使用：避免单继承局限性，灵活方便，方便同一个对象被多个线程使用。</p>
+<p>比如：</p>
+<pre><code>// 一份资源
+TestThread2 testThread = new TestThread2(&quot;&quot;,&quot;&quot;);
+
+// 多个代理
+new Thread(testThread,&quot;Tom&quot;).start();
+new Thread(testThread,&quot;Job&quot;).start();
+new Thread(testThread,&quot;Bob&quot;).start();    </code></pre><p>通过实现Runnable接口创建线程的小demo：</p>
+<pre><code>// 创建线程方式2：
+    实现runnable接口;
+    重写run方法;
+    执行线程需要丢入runnable接口实现类，调用start方法
+
+// 推荐使用runnable接口
+public class RunnableTest implements Runnable{
+    @Override
+    public void run() {
+        // run方法线程体
+        for (int i = 0; i &lt; 20; i++) {
+            System.out.println(&quot;我在看代码--&quot;+i);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        // 创建runnable接口的实现类对象
+        RunnableTest runnableTest = new RunnableTest();
+
+        // 创建线程对象，通过线程对象来开启我们的线程，代理
+        Thread thread = new Thread(runnableTest);
+        thread.start();
+        /*
+            new Thread(runnableTest).start();
+         */
+
+
+        for (int i = 0; i &lt; 20; i++) {
+            System.out.println(&quot;我在学习多线程--&quot;+i);
+        }
+    }
+}</code></pre><h4 id="Callable接口"><a href="#Callable接口" class="headerlink" title="Callable接口"></a>Callable接口</h4><p>线程创建方式三：实现Callable接口</p>
+<p>Callable的好处：</p>
+<pre><code>1.可以定义返回值
+
+2.可以抛出异常</code></pre><p>测试代码：</p>
+<pre><code>import java.util.concurrent.*;
+
+public class TestCallable implements Callable&lt;Boolean&gt; {
+    private String url; // 网络图片地址
+    private String name; // 保存的文件名
+
+    // 下载图片线程的执行体
+    @Override
+    public Boolean call() {
+        WebDownloader webDownloader = new WebDownloader();
+        webDownloader.downloader(url,name);
+        System.out.println(&quot;下载了文件名为：&quot;+name);
+        return true;
+    }
+
+    public TestCallable(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        TestCallable testThread1 = new TestCallable(&quot;&quot;,&quot;&quot;);
+        TestCallable testThread2 = new TestCallable(&quot;&quot;,&quot;&quot;);
+        TestCallable testThread3 = new TestCallable(&quot;&quot;,&quot;&quot;);
+
+        // 创建执行服务,此处new了一个池子，现在在池子中放入三个线程
+        ExecutorService ser = Executors.newFixedThreadPool(3);
+
+        // 提交执行
+        Future&lt;Boolean&gt; result1 = ser.submit(testThread1);
+        Future&lt;Boolean&gt; result2 = ser.submit(testThread2);
+        Future&lt;Boolean&gt; result3 = ser.submit(testThread3);
+
+        // 获取结果
+        Boolean rs1 = result1.get();
+        Boolean rs2 = result2.get();
+        Boolean rs3 = result3.get();
+
+        // 关闭服务
+        ser.shutdownNow();
+    }
+
+}</code></pre>
       <div>  
       
         
@@ -375,12 +440,12 @@ public TreeNode invertTree3(TreeNode root) {
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/28/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC219%E9%A2%98/" rel="prev" title="LeetCode刷题笔记之第219题">
-      <i class="fa fa-chevron-left"></i> LeetCode刷题笔记之第219题
+    <a href="/2020/03/19/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC38%E9%A2%98/" rel="prev" title="LeetCode刷提笔记之第38题">
+      <i class="fa fa-chevron-left"></i> LeetCode刷提笔记之第38题
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/02/29/LeetCode%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF%E4%B9%8B%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/" rel="next" title="LeetCode算法模板二叉树的遍历">
-      LeetCode算法模板二叉树的遍历 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/03/23/lamda/" rel="next" title="Lamda表达式">
+      Lamda表达式 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -441,6 +506,7 @@ public TreeNode invertTree3(TreeNode root) {
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Thread"><span class="nav-number">1.</span> <span class="nav-text">Thread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Runnable"><span class="nav-number">2.</span> <span class="nav-text">Runnable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Callable接口"><span class="nav-number">3.</span> <span class="nav-text">Callable接口</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

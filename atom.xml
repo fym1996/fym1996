@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yxym.run/"/>
-  <updated>2020-03-19T15:52:16.498Z</updated>
+  <updated>2020-03-23T14:55:18.392Z</updated>
   <id>http://yxym.run/</id>
   
   <author>
@@ -15,6 +15,78 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>线程状态</title>
+    <link href="http://yxym.run/2020/03/23/ThreadState/"/>
+    <id>http://yxym.run/2020/03/23/ThreadState/</id>
+    <published>2020-03-22T16:00:00.000Z</published>
+    <updated>2020-03-23T14:55:18.392Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="1-停止线程"><a href="#1-停止线程" class="headerlink" title="1.停止线程"></a>1.停止线程</h4><ul><li><p>不推荐使用JDK提供的stop、destroy方法，这些方法已经被废弃了</p></li><li><p>推荐线程自己停止下来</p></li><li><p>建议使用一个标志位进行终止变量，当flag=false，则终止线程运行。</p><a id="more"></a><p>代码示例：</p><p>  /*</p><pre><code>测试stop    1.建议线程正常停止---&gt;利用次数，不建议死循环    2.建议使用标志位---&gt;设置一个标志位    3.不要使用stop或者destroy等过时或者JDK不建议使用的方法</code></pre><p>   */<br>  public class TestStop implements Runnable{</p><pre><code>boolean flag = true;@Overridepublic void run() {    int i = 0;    while (flag){        System.out.println(&quot;run....Thread&quot;+(i++));    }}// 设置一个公开的方法停止线程，转换标志位public void stop(){    this.flag = false;}public static void main(String[] args) {    TestStop testStop = new TestStop();    new Thread(testStop).start();    for (int i = 0; i &lt; 1000; i++) {        System.out.println(&quot;main thread &quot;+i);        if (i == 900){            testStop.stop();            System.out.println(&quot;线程该停止了&quot;);        }    }}</code></pre><p>  }</p></li></ul><h4 id="2-线程休眠"><a href="#2-线程休眠" class="headerlink" title="2.线程休眠"></a>2.线程休眠</h4><ul><li>sleep(时间) 指定当前线程阻塞的毫秒数</li><li>sleep存在异常InterruptedException</li><li>sleep时间达到后线程进入就绪状态</li><li>sleep可以模拟网络延时，倒计时等。</li><li>每一个对象都有一个锁，sleep不会释放锁</li></ul><p>1.模拟网络延时，可以放大问题的发生性</p><pre><code>public class TestSleep implements Runnable{    // 票数    private int ticketnum = 10;    @Override    public void run() {        while (true){            if (ticketnum &lt;= 0){                break;            }            // 模拟延时            try {                Thread.sleep(20);            }catch (InterruptedException e){                e.printStackTrace();            }            // currentThread()方法是获取当前正在执行的线程            System.out.println(Thread.currentThread().getName()+&quot;--&gt;拿到了第&quot;+ticketnum--+&quot;票&quot;);        }    }    public static void main(String[] args) {        TestSleep ticket = new TestSleep();        // 三个进程共享一个对象        new Thread(ticket,&quot;小明&quot;).start();        new Thread(ticket,&quot;老师&quot;).start();        new Thread(ticket,&quot;小花&quot;).start();    }}</code></pre><p>上面这个程序中，三个线程共享一个资源对象，这三个线程可能会发生线程不安全的问题，比如某个线程抢到第-1张票，通过线程休眠，可以将这些问题反映出来。</p><p>2.模拟倒计时</p><pre><code>// 模拟倒计时public class TestSleep2 {    public static void main(String[] args){        // 打印当前系统时间        Date startTime = new Date(System.currentTimeMillis()); // 获取系统当前时间        while (true){            try {                Thread.sleep(1000);                System.out.println(new SimpleDateFormat(&quot;HH:mm:ss&quot;).format(startTime));                startTime = new Date(System.currentTimeMillis()); // 更新当前时间            } catch (InterruptedException e) {                e.printStackTrace();            }        }    }    public static void tenDown() throws InterruptedException {        int num = 10;        while (true){            Thread.sleep(1000);            System.out.println(num--);            if (num&lt;=0)                break;        }    }}</code></pre><h4 id="3-线程礼让"><a href="#3-线程礼让" class="headerlink" title="3.线程礼让"></a>3.线程礼让</h4><ul><li>礼让线程，让当前正在执行的线程暂停，但不阻塞</li><li>将线程从运行状态转为就绪状态</li><li>礼让是让当前正在执行的线程变为就绪状态，与其他线程重新竞争CPU资源，让CPU重新调度，礼让不一定成功，看CPU心情</li></ul><p>礼让示例：</p><pre><code>// 测试礼让，礼让不一定成功public class TestYield {    public static void main(String[] args) {        MyYield myYield = new MyYield();        new Thread(myYield,&quot;a&quot;).start();        new Thread(myYield,&quot;b&quot;).start();    }}class MyYield implements Runnable{    @Override    public void run() {        System.out.println(Thread.currentThread().getName()+&quot;线程开始执行&quot;);        Thread.yield(); // 礼让        System.out.println(Thread.currentThread().getName()+&quot;线程停止执行&quot;);    }}</code></pre><p>当输出如下结果时，说明没有礼让成功：</p><pre><code>a线程开始执行a线程停止执行b线程开始执行b线程停止执行</code></pre><p>当输出下面的结果时，说明礼让成功了</p><pre><code>a线程开始执行b线程开始执行a线程停止执行b线程停止执行</code></pre><h4 id="4-Join"><a href="#4-Join" class="headerlink" title="4.Join"></a>4.Join</h4><ul><li>Join合并线程，待此线程执行完成后，再执行其他线程，其他线程阻塞</li><li>可以想象成插队</li></ul><p>测试Join方法，想象为插队</p><pre><code>public class TestJoin implements Runnable{    @Override    public void run() {        for (int i = 0; i &lt; 1000; i++) {            System.out.println(&quot;线程vip来了&quot;+i);        }    }    public static void main(String[] args) throws InterruptedException {        // 启动我们的线程        TestJoin testJoin = new TestJoin();        Thread thread = new Thread(testJoin);        // 开启子线程        thread.start();        // 主线程        for (int i = 0; i &lt; 500; i++) {            if (i == 200){                thread.join(); // 插队，子线程插主线程的队            }            System.out.println(&quot;main&quot; + i);        }    }}</code></pre><h4 id="线程状态观测"><a href="#线程状态观测" class="headerlink" title="线程状态观测"></a>线程状态观测</h4><p>线程可以处于以下状态之一：</p><ul><li><p>NEW</p><pre><code>尚未启动的线程处于此状态</code></pre></li><li><p>RUNNABLE</p><pre><code>在Java虚拟机中执行的线程处于此状态</code></pre></li><li><p>BLOCKED</p><pre><code>被阻塞等待监视器锁定的线程处于此状态</code></pre></li><li><p>WAITING</p><pre><code>正在等待另一个线程执行特定动作的线程处于此状态</code></pre></li><li><p>TIMED_WAITING</p><pre><code>正在等待另一个线程执行动作达到指定等待时间的线程处于此状态</code></pre></li><li><p>TERMINATED</p><pre><code>已退出的线程处于此状态</code></pre><p>一个线程可以在给定时间点处于一个状态。这些状态是不反映任何操作系统线程状态的虚拟机状态。</p></li></ul><p>测试代码：</p><pre><code>// 观察测试线程状态public class TestState {    public static void main(String[] args) throws InterruptedException {        Thread thread = new Thread(()-&gt;{            for (int i = 0; i &lt; 5; i++) {                try {                    Thread.sleep(1000);                } catch (InterruptedException e) {                    e.printStackTrace();                }            }            System.out.println(&quot;////////&quot;);        });        // 观察状态        Thread.State state = thread.getState();        System.out.println(state); // 此时状态为NEW        // 观察启动后        thread.start(); // 启动线程        state = thread.getState();        System.out.println(state); // 此时线程状态为RUNNABLE        while (state != Thread.State.TERMINATED){ // 只要线程不终止，就一直输出状态            Thread.sleep(100);            state = thread.getState(); // 更新state变量的存储的线程状态            System.out.println(state); // 输出状态，TIMED_WAITING        }    }}  </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;1-停止线程&quot;&gt;&lt;a href=&quot;#1-停止线程&quot; class=&quot;headerlink&quot; title=&quot;1.停止线程&quot;&gt;&lt;/a&gt;1.停止线程&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;不推荐使用JDK提供的stop、destroy方法，这些方法已经被废弃了&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;推荐线程自己停止下来&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;建议使用一个标志位进行终止变量，当flag=false，则终止线程运行。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Java Se学习笔记" scheme="http://yxym.run/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Lamda表达式</title>
+    <link href="http://yxym.run/2020/03/23/lamda/"/>
+    <id>http://yxym.run/2020/03/23/lamda/</id>
+    <published>2020-03-22T16:00:00.000Z</published>
+    <updated>2020-03-23T14:53:40.693Z</updated>
+    
+    <content type="html"><![CDATA[<p>为什么要使用lambda表达式：</p><ul><li>避免匿名内部类定义过多</li><li>可以让代码看起来更简洁</li><li>去掉一堆没有意义的代码，只留下核心的逻辑<a id="more"></a>函数式接口(Functional Interface)</li></ul><p>定义：任何接口，如果只包含<strong>唯一一个</strong>抽象方法，那么它就是一个函数式接口。</p><p>例如：</p><pre><code>public interface Runnable{    public abstract void run();}</code></pre><p>对于函数式接口，我们可以通过lambda表达式来创建该接口的对象。</p><p>lamda表达式的实质属于函数式编程的概念</p><pre><code>(params) -&gt; expression [表达式](params) -&gt; statement [语句](params) -&gt; {statements}</code></pre><p>下面通过一个例子来展示一下，如何使用lambda表达式来简化代码：</p><p>首先定义一个函数式接口，注意函数式接口中，只能有唯一一个抽象方法：</p><pre><code>interface ILove{    void love(int a);}</code></pre><p>然后，我们实现这个接口的方式有以下几种：</p><pre><code>// 第一种，通过外部实现类class Love1 implements ILove{    @Override    public void love(int a) {        System.out.println(&quot;外部类 &quot;+a);    }}public class Testlamda2 {    static class Love2 implements ILove{        @Override        public void love(int a) {            System.out.println(&quot;静态内部类 &quot;+a);        }    }    public static void main(String[] args) {        //外部类        ILove iLove = new Love1();        iLove.love(1);        //静态内部类        iLove = new Love2();        iLove.love(2);        //局部内部类        class Love3 implements ILove{            @Override            public void love(int a) {                System.out.println(&quot;局部内部类 &quot;+a);            }        }        iLove = new Love3();        iLove.love(3);        //匿名内部类        iLove = new ILove() {            @Override            public void love(int a) {                System.out.println(&quot;匿名内部类&quot;+a);            }        };        iLove.love(4);        //lambda表达式        iLove = (int a) -&gt; {            System.out.println(&quot;lambda表达式&quot;+a);        };        iLove.love(5);    }}</code></pre><p>还可以对上面的lambda表达式进行简化：</p><pre><code>//简化1.去掉参数类型iLove = (a)-&gt;{    System.out.println(&quot;简化lambda表达式&quot;+a);};iLove.love(6);//简化2.简化括号iLove = a-&gt;{    System.out.println(&quot;简化lambda表达式&quot;+a);};iLove.love(7);//简化3.去掉花括号iLove = a -&gt; System.out.println(&quot;简化lambda表达式&quot;+a);iLove.love(8);</code></pre><p>总结：</p><ul><li>lambda表达式只能有一行代码的情况下才能简化成为一行，如果有多行，那么就用代码块包裹</li><li>前提是接口为函数式接口</li><li>多个参数也可以去掉参数类型，要去掉就都去掉，必须加上括号</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;为什么要使用lambda表达式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;避免匿名内部类定义过多&lt;/li&gt;
+&lt;li&gt;可以让代码看起来更简洁&lt;/li&gt;
+&lt;li&gt;去掉一堆没有意义的代码，只留下核心的逻辑
+    
+    </summary>
+    
+    
+      <category term="Java Se学习笔记" scheme="http://yxym.run/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>线程</title>
+    <link href="http://yxym.run/2020/03/23/Thread/"/>
+    <id>http://yxym.run/2020/03/23/Thread/</id>
+    <published>2020-03-22T16:00:00.000Z</published>
+    <updated>2020-03-23T14:51:55.972Z</updated>
+    
+    <content type="html"><![CDATA[<p>进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。<br>进程中的多个线程共享进程的资源。</p><a id="more"></a><p>操作系统在分配资源时是把资源分配给进程的，但CPU资源比较特殊，是分配到线程的，因为真正占用CPU运行的是线程，所以说线程是CPU分配的基本单位。</p><p>关于线程需要知道：</p><ul><li>线程是独立的执行路径</li><li>程序运行时，即使自己没有创建线程，后台也会有多个线程</li><li>main()称之为主线程，是系统的入口</li><li>进程中，如果开辟了多个线程，线程的运行由调度器安排调度，调度器与操作系统密切相关，先后顺序无法人为ie干预</li><li>对同一资源操作时，会发生资源抢夺问题，应加入并发控制</li><li>线程会带来额外开销，如CPU调度时间</li><li>每个线程在自己的工作内存进行交换，内存控制不当会造成数据不一致。</li></ul><p>在Java语言中，创建线程的方式一共有三种，分别是继承Thread类、实现Runnable接口，实现Callable接口。下面分别阐述。</p><h4 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h4><p>通过继承Thread类，创建线程的方式有以下几个步骤：</p><ul><li>自定义线程类继承Thread类</li><li>重写run方法，编写线程执行体</li><li>创建线程对象，调用start方法启动线程</li></ul><p>子类继承Thread类具备多线程能力</p><p>启动线程，子类对象.start()</p><p>不建议使用：避免OOP单继承局限性</p><p>测试代码：</p><pre><code>// 线程创建的第一个方式：    继承Thread类;    重写run方法，编写线程执行体;    创建线程对象，调用start方法启动线程// 总结：注意，线程开启不一定立即执行，由CPU调度执行public class TestThread extends Thread{    @Override    public void run() {        // run方法线程体        for (int i = 0; i &lt; 20; i++) {            System.out.println(&quot;我在看代码--&quot;+i);        }    }    public static void main(String[] args) {        // main thread        // 创建一个线程对象        TestThread th = new TestThread();        // 调用start方法开启线程，主线程和子线程会交替执行，所以打印的结果是交替打印出来的        th.start();        for (int i = 0; i &lt; 20; i++) {            System.out.println(&quot;我在学习多线程--&quot;+i);        }    }}</code></pre><h4 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h4><p>通过实现Runnable接口，创建线程的方式过程如下：</p><ul><li>定义MyRunnable类实现Runnable接口</li><li>实现run方法，编写线程执行体</li><li>创建线程对象，调用start方法启动线程</li></ul><p>实现接口Runnable具有多线程能力</p><p>启动线程：传入目标对象+Thread对象.start()</p><p>推荐使用：避免单继承局限性，灵活方便，方便同一个对象被多个线程使用。</p><p>比如：</p><pre><code>// 一份资源TestThread2 testThread = new TestThread2(&quot;&quot;,&quot;&quot;);// 多个代理new Thread(testThread,&quot;Tom&quot;).start();new Thread(testThread,&quot;Job&quot;).start();new Thread(testThread,&quot;Bob&quot;).start();    </code></pre><p>通过实现Runnable接口创建线程的小demo：</p><pre><code>// 创建线程方式2：    实现runnable接口;    重写run方法;    执行线程需要丢入runnable接口实现类，调用start方法// 推荐使用runnable接口public class RunnableTest implements Runnable{    @Override    public void run() {        // run方法线程体        for (int i = 0; i &lt; 20; i++) {            System.out.println(&quot;我在看代码--&quot;+i);        }    }    public static void main(String[] args) {        // 创建runnable接口的实现类对象        RunnableTest runnableTest = new RunnableTest();        // 创建线程对象，通过线程对象来开启我们的线程，代理        Thread thread = new Thread(runnableTest);        thread.start();        /*            new Thread(runnableTest).start();         */        for (int i = 0; i &lt; 20; i++) {            System.out.println(&quot;我在学习多线程--&quot;+i);        }    }}</code></pre><h4 id="Callable接口"><a href="#Callable接口" class="headerlink" title="Callable接口"></a>Callable接口</h4><p>线程创建方式三：实现Callable接口</p><p>Callable的好处：</p><pre><code>1.可以定义返回值2.可以抛出异常</code></pre><p>测试代码：</p><pre><code>import java.util.concurrent.*;public class TestCallable implements Callable&lt;Boolean&gt; {    private String url; // 网络图片地址    private String name; // 保存的文件名    // 下载图片线程的执行体    @Override    public Boolean call() {        WebDownloader webDownloader = new WebDownloader();        webDownloader.downloader(url,name);        System.out.println(&quot;下载了文件名为：&quot;+name);        return true;    }    public TestCallable(String name, String url) {        this.name = name;        this.url = url;    }    public static void main(String[] args) throws ExecutionException, InterruptedException {        TestCallable testThread1 = new TestCallable(&quot;&quot;,&quot;&quot;);        TestCallable testThread2 = new TestCallable(&quot;&quot;,&quot;&quot;);        TestCallable testThread3 = new TestCallable(&quot;&quot;,&quot;&quot;);        // 创建执行服务,此处new了一个池子，现在在池子中放入三个线程        ExecutorService ser = Executors.newFixedThreadPool(3);        // 提交执行        Future&lt;Boolean&gt; result1 = ser.submit(testThread1);        Future&lt;Boolean&gt; result2 = ser.submit(testThread2);        Future&lt;Boolean&gt; result3 = ser.submit(testThread3);        // 获取结果        Boolean rs1 = result1.get();        Boolean rs2 = result2.get();        Boolean rs3 = result3.get();        // 关闭服务        ser.shutdownNow();    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。&lt;br&gt;进程中的多个线程共享进程的资源。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Java Se学习笔记" scheme="http://yxym.run/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>LeetCode刷提笔记之第38题</title>
@@ -95,6 +167,28 @@
   </entry>
   
   <entry>
+    <title>异常</title>
+    <link href="http://yxym.run/2020/03/08/throwable/"/>
+    <id>http://yxym.run/2020/03/08/throwable/</id>
+    <published>2020-03-07T16:00:00.000Z</published>
+    <updated>2020-03-19T11:59:28.645Z</updated>
+    
+    <content type="html"><![CDATA[<p>异常指的是程序在执行过程中，出现的非正常的情况，最终会导致JVM的非正常停止。</p><p>在Java语言中，异常本身是一个类，产生异常就是创建异常对象并抛出了一个异常。Java处理异常的方式是中断处理。</p><a id="more"></a><p>异常的根类是<code>java.lang.Throwable</code>，其下有两个子类，<code>java.lang.Error</code>与<code>java.lang.Exception</code></p><p>Throwable体系:</p><ul><li><p>Error:严重错误，无法通过处理的错误只能事先避免。必须修改源代码，程序才能继续执行。</p></li><li><p>Exception:表示异常，异常产生后可以通过代码的方式纠正，使得程序继续运行，是必须要处理的。</p><pre><code>Exception异常主要分为：  编译期异常，进行编译（写代码）java程序出现的异常。RuntimeException：运行期异常，java程序运行过程中出现的问题。</code></pre></li></ul><h4 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h4><p>Java异常处理的五个关键字：<code>try、catch、finally、throw、throws</code></p><p><strong>1、抛出异常throw</strong></p><p>该关键字用于抛出一个指定的异常对象，抛出一个异常具体的操作如下：</p><pre><code>1、创建一个异常对象，封装一些提示信息（信息可以自己编写）2、需要将这个异常对象告知调用者，通过throw关键字即可将这个异常对象传递到调用者处。</code></pre><p>throw用在方法内，用来抛出一个异常对象，将这个异常对象传递到调用者处，并结束当前方法的执行。</p><p>使用格式：</p><pre><code>throw new 异常类名(参数);例如：    throw new NullPointerException(&quot;需要访问的arr数组不存在&quot;);</code></pre><p>注意：</p><pre><code>1.throw关键字必须写在方法的内部2.throw关键字后边new的对象必须是Exception或者Exception的子类对象3.throw关键字抛出指定的异常对象，那就必须处理这个异常对象        throw关键字后边创建的是RuntimeException或者RuntimeException的子类对象，可以不处理，默认交给JVM（打印异常对象，中断程序）        throw关键字后边创建的是编译异常（写代码的时候报错），必须处理这个异常，要么throws，要么try...catch    </code></pre><h4 id="Objects非空判断"><a href="#Objects非空判断" class="headerlink" title="Objects非空判断"></a>Objects非空判断</h4><p>对传递过来的参数进行合法性判断，判断是否为null，可以使用Objects中的静态方法：</p><pre><code>public static &lt;T&gt; T requireNonNull(T obj):查看指定引用对象是不是null源码：    public static &lt;T&gt; T requireNonNull(T obj){        if (obj == null)            throw new NullPointerException();        return obj;    }</code></pre><p>使用示例：</p><pre><code>public static void main(String[] args) {    int[] arr = null;    getElement(arr,5);}private static int getElement(int[] arr,int index) {    //if (arr == null)    //      throw new NullPointerException(&quot;传递的数组值是null&quot;);    Objects.requireNonNull(arr,&quot;传递的数组值是null&quot;);    if (index &lt; 0||index&gt;=arr.length)        throw new ArrayIndexOutOfBoundsException(&quot;传递的索引超出了数组的使用范围&quot;);    int ele = arr[index];    return ele;}</code></pre><p><strong>2、声明异常throws</strong><br>将问题标识出来，报告给调用者。如果方法内通过throw抛出了编译时异常，而没有捕获处理，那么必须通过throws进行声明，让调用者去处理。</p><p>关键字throws运用于方法声明之上，用于表示当前方法不处理异常，而是提醒该方法的调用者来处理异常。</p><p>声明异常的格式：</p><pre><code>修饰符 返回值类型 方法名(参数) throws 异常类名1,异常类名2...{ }</code></pre><p>throws关键字：异常处理的第一种方式，交给别人处理</p><p>作用：</p><ul><li>当方法内部抛出异常对象的时候，那么我们就必须处理这个异常对象</li><li>可以使用throws关键字处理异常对象，会把异常对象声明抛出给方法的调用者处理，最终交给JVM处理</li></ul><pre><code>使用格式：在方法声明时使用    修饰符 返回值类型 方法名(参数) throws AAAException,BBBException...{        throw new AAAException(&quot;产生原因&quot;);        throw new BBBException(&quot;产生原因&quot;);     }</code></pre><p>注意：</p><ul><li><p>throws关键字必须写在方法声明处</p></li><li><p>throws关键字后边声明的异常必须是Exception或者是Exception的子类</p></li><li><p>方法内部如果抛出了多个异常对象，那么throws后边必须也声明多个异常</p><pre><code>如果抛出的多个异常对象有子父类关系，那么直接声明父类异常即可</code></pre></li><li><p>调用了一个声明抛出异常的方法，就必须处理得处理声明的异常</p><pre><code>要么继续使用throws声明抛出，交给方法的调用者处理，最终交给JVM要么使用try...catch自己处理异常</code></pre></li></ul><p>示例代码：</p><pre><code>public static void main(String[] args) throws IOException {    readFile(&quot;&quot;);}/*    FileNotFoundException 是编译异常 */public static void readFile(String fileName) throws IOException {    if (!fileName.equals(&quot;c:\\a.text&quot;)){        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);    }    System.out.println(&quot;路径没有问题&quot;);}</code></pre><h4 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h4><p>使用格式：</p><pre><code> try{        可能产生异常的代码    }catch(定义一个异常变量，用来接收try中抛出的异常对象){        异常的处理逻辑，异常对象之后，怎么处理异常对象        一般在工作中，会把异常的信息记录到一个日志中    }    ...    catch(异常类名 变量名){}</code></pre><p>注意：</p><ul><li>try中可能会抛出多个异常对象，那么就可以使用多个catch来处理这些异常对象</li><li>如果try中产生了异常，那么就会执行catch中异常处理逻辑，执行完毕catch中的处理逻辑，继续执行try…catch之后的代码</li><li>如果try中没有产生异常，那么就不会执行catch中异常的处理逻辑，执行完try中的代码，继续执行try…catch之后的代码</li></ul><p>示例代码：</p><pre><code>public static void main(String[] args) {    try {        readFile(&quot;d:\\a.tx&quot;);    } catch (IOException e) {        System.out.println(&quot;文件的后缀不是.txt&quot;);    }    System.out.println(&quot;后续代码&quot;);}public static void readFile(String fileName) throws IOException {    if (!fileName.endsWith(&quot;.txt&quot;)){        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);    }    System.out.println(&quot;路径没有问题&quot;);}</code></pre><h4 id="Throwable的三个异常处理的方法"><a href="#Throwable的三个异常处理的方法" class="headerlink" title="Throwable的三个异常处理的方法"></a>Throwable的三个异常处理的方法</h4><p>1.<code>String getMessage()</code>:返回此throwable的简短描述</p><p>2.String toString() : 返回此throwable的详细消息字符串</p><p>3.printStackTrace()</p><pre><code>public static void main(String[] args) {    try {        readFile(&quot;d:\\a.tx&quot;);    } catch (IOException e) {        System.out.println(e.getMessage());        /*            传递的文件路径不是c:\a.text         */        //System.out.println(e.toString()); //重写了Object类的toString方法        //System.out.println(e);        /*            java.io.FileNotFoundException: 传递的文件路径不是c:\a.text         */        //e.printStackTrace();        /*        java.io.FileNotFoundException: 传递的文件路径不是c:\a.text            at Throwable.Demo03TryCatch.readFile(Demo03TryCatch.java:40)            at Throwable.Demo03TryCatch.main(Demo03TryCatch.java:26)         */    }    System.out.println(&quot;后续代码&quot;);}public static void readFile(String fileName) throws IOException {    if (!fileName.endsWith(&quot;.txt&quot;)){        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);    }    System.out.println(&quot;路径没有问题&quot;);}</code></pre><h4 id="finally代码块"><a href="#finally代码块" class="headerlink" title="finally代码块"></a>finally代码块</h4><p>有些特定的代码无论异常是否发生，都需要执行。另外，因为异常会引发程序跳转，导致有些语句执行不到。而finally就是解决这个问题的，在finally代码块中存放的代码都是一定会被执行的。</p><pre><code>try...catch...finally</code></pre><p>注意：</p><p>1.finally不能单独使用;</p><p>2.finally一般用于资源释放，无论程序是否出现异常，最后都要资源释放。</p><h4 id="异常注意事项"><a href="#异常注意事项" class="headerlink" title="异常注意事项"></a>异常注意事项</h4><ul><li>多个异常使用捕获该如何处理呢？</li></ul><p>1.多个异常分别处理</p><pre><code>try{    ...}catch{    ...}try{    ...}catch{    ...}try{    ...}catch{    ...}</code></pre><p>2.多个异常一次捕获、多次处理</p><pre><code>try{    ...}catch(){    ...}catch(){    ...}...</code></pre><p>一个try多个catch注意事项：</p><pre><code>try中如果出现了异常对象，会把异常对象抛出给catch处理，抛出的异常对象，会从上到下依次赋值给catch中定义的异常变量。catch里边定义的异常变量，如果有子父类关系，那么子类的异常变量必须写在上边，否则就会报错</code></pre><p>3.多个异常一次捕获一次处理</p><pre><code>try{    ...}catch(){    ...}try中含有多个异常，在catch可以一次性捕获try中的多个异常，在catch中的异常对象变量要能同时接收多个异常对象</code></pre><ul><li>运行时异常被抛出可以不处理，即不捕获也不声明抛出。默认会给虚拟机处理，终止程序，什么时候不抛出运行时异常了，再来继续执行程序。</li><li>如果finally中有return语句，永远返回finally中的结果，避免该情况。</li><li>如果父类抛出了多个异常，子类重写父类方法时，抛出和父类相同的异常或者是父类异常的子类或者不抛出异常。</li><li>父类方法没有抛出异常，子类重写父类方法时也不可以抛出异常。此时子类产生该异常，只能捕获处理，不能声明抛出。</li><li>在try/catch后可以追加finally代码块，其中的代码一定会被执行，通常用于资源回收。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;异常指的是程序在执行过程中，出现的非正常的情况，最终会导致JVM的非正常停止。&lt;/p&gt;
+&lt;p&gt;在Java语言中，异常本身是一个类，产生异常就是创建异常对象并抛出了一个异常。Java处理异常的方式是中断处理。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Java Se学习笔记" scheme="http://yxym.run/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>自定义异常</title>
     <link href="http://yxym.run/2020/03/08/ownDefineException/"/>
     <id>http://yxym.run/2020/03/08/ownDefineException/</id>
@@ -111,28 +205,6 @@
 &lt;li&gt;&lt;p&gt;自定义一个编译期异常：自定义类并继承于&lt;code&gt;java.lang.Exception&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;自定义一个运行期异常：自定义类并继承于&lt;code&gt;java.lang.RuntimeException&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Java Se学习笔记" scheme="http://yxym.run/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>异常</title>
-    <link href="http://yxym.run/2020/03/08/throwable/"/>
-    <id>http://yxym.run/2020/03/08/throwable/</id>
-    <published>2020-03-07T16:00:00.000Z</published>
-    <updated>2020-03-19T11:59:28.645Z</updated>
-    
-    <content type="html"><![CDATA[<p>异常指的是程序在执行过程中，出现的非正常的情况，最终会导致JVM的非正常停止。</p><p>在Java语言中，异常本身是一个类，产生异常就是创建异常对象并抛出了一个异常。Java处理异常的方式是中断处理。</p><a id="more"></a><p>异常的根类是<code>java.lang.Throwable</code>，其下有两个子类，<code>java.lang.Error</code>与<code>java.lang.Exception</code></p><p>Throwable体系:</p><ul><li><p>Error:严重错误，无法通过处理的错误只能事先避免。必须修改源代码，程序才能继续执行。</p></li><li><p>Exception:表示异常，异常产生后可以通过代码的方式纠正，使得程序继续运行，是必须要处理的。</p><pre><code>Exception异常主要分为：  编译期异常，进行编译（写代码）java程序出现的异常。RuntimeException：运行期异常，java程序运行过程中出现的问题。</code></pre></li></ul><h4 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h4><p>Java异常处理的五个关键字：<code>try、catch、finally、throw、throws</code></p><p><strong>1、抛出异常throw</strong></p><p>该关键字用于抛出一个指定的异常对象，抛出一个异常具体的操作如下：</p><pre><code>1、创建一个异常对象，封装一些提示信息（信息可以自己编写）2、需要将这个异常对象告知调用者，通过throw关键字即可将这个异常对象传递到调用者处。</code></pre><p>throw用在方法内，用来抛出一个异常对象，将这个异常对象传递到调用者处，并结束当前方法的执行。</p><p>使用格式：</p><pre><code>throw new 异常类名(参数);例如：    throw new NullPointerException(&quot;需要访问的arr数组不存在&quot;);</code></pre><p>注意：</p><pre><code>1.throw关键字必须写在方法的内部2.throw关键字后边new的对象必须是Exception或者Exception的子类对象3.throw关键字抛出指定的异常对象，那就必须处理这个异常对象        throw关键字后边创建的是RuntimeException或者RuntimeException的子类对象，可以不处理，默认交给JVM（打印异常对象，中断程序）        throw关键字后边创建的是编译异常（写代码的时候报错），必须处理这个异常，要么throws，要么try...catch    </code></pre><h4 id="Objects非空判断"><a href="#Objects非空判断" class="headerlink" title="Objects非空判断"></a>Objects非空判断</h4><p>对传递过来的参数进行合法性判断，判断是否为null，可以使用Objects中的静态方法：</p><pre><code>public static &lt;T&gt; T requireNonNull(T obj):查看指定引用对象是不是null源码：    public static &lt;T&gt; T requireNonNull(T obj){        if (obj == null)            throw new NullPointerException();        return obj;    }</code></pre><p>使用示例：</p><pre><code>public static void main(String[] args) {    int[] arr = null;    getElement(arr,5);}private static int getElement(int[] arr,int index) {    //if (arr == null)    //      throw new NullPointerException(&quot;传递的数组值是null&quot;);    Objects.requireNonNull(arr,&quot;传递的数组值是null&quot;);    if (index &lt; 0||index&gt;=arr.length)        throw new ArrayIndexOutOfBoundsException(&quot;传递的索引超出了数组的使用范围&quot;);    int ele = arr[index];    return ele;}</code></pre><p><strong>2、声明异常throws</strong><br>将问题标识出来，报告给调用者。如果方法内通过throw抛出了编译时异常，而没有捕获处理，那么必须通过throws进行声明，让调用者去处理。</p><p>关键字throws运用于方法声明之上，用于表示当前方法不处理异常，而是提醒该方法的调用者来处理异常。</p><p>声明异常的格式：</p><pre><code>修饰符 返回值类型 方法名(参数) throws 异常类名1,异常类名2...{ }</code></pre><p>throws关键字：异常处理的第一种方式，交给别人处理</p><p>作用：</p><ul><li>当方法内部抛出异常对象的时候，那么我们就必须处理这个异常对象</li><li>可以使用throws关键字处理异常对象，会把异常对象声明抛出给方法的调用者处理，最终交给JVM处理</li></ul><pre><code>使用格式：在方法声明时使用    修饰符 返回值类型 方法名(参数) throws AAAException,BBBException...{        throw new AAAException(&quot;产生原因&quot;);        throw new BBBException(&quot;产生原因&quot;);     }</code></pre><p>注意：</p><ul><li><p>throws关键字必须写在方法声明处</p></li><li><p>throws关键字后边声明的异常必须是Exception或者是Exception的子类</p></li><li><p>方法内部如果抛出了多个异常对象，那么throws后边必须也声明多个异常</p><pre><code>如果抛出的多个异常对象有子父类关系，那么直接声明父类异常即可</code></pre></li><li><p>调用了一个声明抛出异常的方法，就必须处理得处理声明的异常</p><pre><code>要么继续使用throws声明抛出，交给方法的调用者处理，最终交给JVM要么使用try...catch自己处理异常</code></pre></li></ul><p>示例代码：</p><pre><code>public static void main(String[] args) throws IOException {    readFile(&quot;&quot;);}/*    FileNotFoundException 是编译异常 */public static void readFile(String fileName) throws IOException {    if (!fileName.equals(&quot;c:\\a.text&quot;)){        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);    }    System.out.println(&quot;路径没有问题&quot;);}</code></pre><h4 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h4><p>使用格式：</p><pre><code> try{        可能产生异常的代码    }catch(定义一个异常变量，用来接收try中抛出的异常对象){        异常的处理逻辑，异常对象之后，怎么处理异常对象        一般在工作中，会把异常的信息记录到一个日志中    }    ...    catch(异常类名 变量名){}</code></pre><p>注意：</p><ul><li>try中可能会抛出多个异常对象，那么就可以使用多个catch来处理这些异常对象</li><li>如果try中产生了异常，那么就会执行catch中异常处理逻辑，执行完毕catch中的处理逻辑，继续执行try…catch之后的代码</li><li>如果try中没有产生异常，那么就不会执行catch中异常的处理逻辑，执行完try中的代码，继续执行try…catch之后的代码</li></ul><p>示例代码：</p><pre><code>public static void main(String[] args) {    try {        readFile(&quot;d:\\a.tx&quot;);    } catch (IOException e) {        System.out.println(&quot;文件的后缀不是.txt&quot;);    }    System.out.println(&quot;后续代码&quot;);}public static void readFile(String fileName) throws IOException {    if (!fileName.endsWith(&quot;.txt&quot;)){        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);    }    System.out.println(&quot;路径没有问题&quot;);}</code></pre><h4 id="Throwable的三个异常处理的方法"><a href="#Throwable的三个异常处理的方法" class="headerlink" title="Throwable的三个异常处理的方法"></a>Throwable的三个异常处理的方法</h4><p>1.<code>String getMessage()</code>:返回此throwable的简短描述</p><p>2.String toString() : 返回此throwable的详细消息字符串</p><p>3.printStackTrace()</p><pre><code>public static void main(String[] args) {    try {        readFile(&quot;d:\\a.tx&quot;);    } catch (IOException e) {        System.out.println(e.getMessage());        /*            传递的文件路径不是c:\a.text         */        //System.out.println(e.toString()); //重写了Object类的toString方法        //System.out.println(e);        /*            java.io.FileNotFoundException: 传递的文件路径不是c:\a.text         */        //e.printStackTrace();        /*        java.io.FileNotFoundException: 传递的文件路径不是c:\a.text            at Throwable.Demo03TryCatch.readFile(Demo03TryCatch.java:40)            at Throwable.Demo03TryCatch.main(Demo03TryCatch.java:26)         */    }    System.out.println(&quot;后续代码&quot;);}public static void readFile(String fileName) throws IOException {    if (!fileName.endsWith(&quot;.txt&quot;)){        throw new FileNotFoundException(&quot;传递的文件路径不是c:\\a.text&quot;);    }    System.out.println(&quot;路径没有问题&quot;);}</code></pre><h4 id="finally代码块"><a href="#finally代码块" class="headerlink" title="finally代码块"></a>finally代码块</h4><p>有些特定的代码无论异常是否发生，都需要执行。另外，因为异常会引发程序跳转，导致有些语句执行不到。而finally就是解决这个问题的，在finally代码块中存放的代码都是一定会被执行的。</p><pre><code>try...catch...finally</code></pre><p>注意：</p><p>1.finally不能单独使用;</p><p>2.finally一般用于资源释放，无论程序是否出现异常，最后都要资源释放。</p><h4 id="异常注意事项"><a href="#异常注意事项" class="headerlink" title="异常注意事项"></a>异常注意事项</h4><ul><li>多个异常使用捕获该如何处理呢？</li></ul><p>1.多个异常分别处理</p><pre><code>try{    ...}catch{    ...}try{    ...}catch{    ...}try{    ...}catch{    ...}</code></pre><p>2.多个异常一次捕获、多次处理</p><pre><code>try{    ...}catch(){    ...}catch(){    ...}...</code></pre><p>一个try多个catch注意事项：</p><pre><code>try中如果出现了异常对象，会把异常对象抛出给catch处理，抛出的异常对象，会从上到下依次赋值给catch中定义的异常变量。catch里边定义的异常变量，如果有子父类关系，那么子类的异常变量必须写在上边，否则就会报错</code></pre><p>3.多个异常一次捕获一次处理</p><pre><code>try{    ...}catch(){    ...}try中含有多个异常，在catch可以一次性捕获try中的多个异常，在catch中的异常对象变量要能同时接收多个异常对象</code></pre><ul><li>运行时异常被抛出可以不处理，即不捕获也不声明抛出。默认会给虚拟机处理，终止程序，什么时候不抛出运行时异常了，再来继续执行程序。</li><li>如果finally中有return语句，永远返回finally中的结果，避免该情况。</li><li>如果父类抛出了多个异常，子类重写父类方法时，抛出和父类相同的异常或者是父类异常的子类或者不抛出异常。</li><li>父类方法没有抛出异常，子类重写父类方法时也不可以抛出异常。此时子类产生该异常，只能捕获处理，不能声明抛出。</li><li>在try/catch后可以追加finally代码块，其中的代码一定会被执行，通常用于资源回收。</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;异常指的是程序在执行过程中，出现的非正常的情况，最终会导致JVM的非正常停止。&lt;/p&gt;
-&lt;p&gt;在Java语言中，异常本身是一个类，产生异常就是创建异常对象并抛出了一个异常。Java处理异常的方式是中断处理。&lt;/p&gt;
     
     </summary>
     
@@ -258,28 +330,6 @@
   </entry>
   
   <entry>
-    <title>Object类</title>
-    <link href="http://yxym.run/2020/03/04/objectClass/"/>
-    <id>http://yxym.run/2020/03/04/objectClass/</id>
-    <published>2020-03-03T16:00:00.000Z</published>
-    <updated>2020-03-19T12:04:07.519Z</updated>
-    
-    <content type="html"><![CDATA[<p><code>java.lang.Object</code>,所有类的父类，它中描述的所有方法子类都可以使用。</p><p>java.lang包中的类可以直接引用，无需导包</p><a id="more"></a><h4 id="Object类的toString方法"><a href="#Object类的toString方法" class="headerlink" title="Object类的toString方法"></a>Object类的toString方法</h4><p>看一个类是否重写了<code>toString</code>，直接打印这个类的对象即可，如果没有重写<code>toString</code>方法，那么打印的是对象的在堆内存中的地址值</p><pre><code>Random a = new Random(); System.out.println(a); //java.util.Random@1540e19dArrayList array = new ArrayList();array.add(1);array.add(2);System.out.println(array); //[1, 2]</code></pre><p>可见Random类并没有重写ToString方法，但是ArrayList类重写了该方法。</p><h4 id="Object类的equals方法"><a href="#Object类的equals方法" class="headerlink" title="Object类的equals方法"></a>Object类的equals方法</h4><p>源码:</p><pre><code>public boolean equals(Object obj) {    return (this == obj);}</code></pre><p>参数：</p><ul><li><p>Object obj：可以传递任意的对象</p></li><li><p>== 比较运算符，返回的是一个布尔值：true，false</p></li><li><p>对于：</p><p>  基本数据类型：比较的是值</p><p>  引用数据类型：比较的是两个对象的地址值</p></li></ul><p>this是谁？</p><p>哪个对象调用的方法，方法中的this就是指的那个对象。</p><p>obj是谁？</p><p>传递过来的参数对象。</p><p>Object类的equals方法，默认比较的是两个对象的地址值，这是没有意义的，所以我们要重写equals方法，<br>比较两个对象的属性。</p><p>但是也会存在一些问题：即隐含着一个多态，多态存在弊端，即无法使用子类特有的内容（属性和方法）</p><p>解决的方案就是：可以使用强制类型转换，将父类引用向下转型成子类引用</p><p>重写某个自定义类的equals方法：</p><pre><code>public boolean equals(Object obj) {    // 增加一个判断，如果传递的参数是本身，则直接返回true，可以提高程序的效率    if (obj == this)        return true;    // 增加一个判断，传递的参数obj如果是null，直接返回false，提高程序的效率    if (obj == null)        return false;    // 增加一个判断，防止出现类型转换异常    if (obj instanceof Person){        //使用向下转型，将obj转换为Person类型        Person p = (Person)obj;        return p.name.equals(this.name) &amp;&amp; this.age==p.age;    }    return false;}</code></pre><p>IDEA重写的自定义类的equals方法：</p><pre><code>public boolean equals(Object o) {    if (this == o) return true;    // getClass() != o.getClass() 使用反射技术，判断o是否是Person类型，等价于obj instanceof Person    if (o == null || getClass() != o.getClass()) return false;    Person person = (Person) o;    return age == person.age &amp;&amp;            Objects.equals(name, person.name);}</code></pre><h4 id="Objects类"><a href="#Objects类" class="headerlink" title="Objects类"></a>Objects类</h4><p>使用IDEA自动重写的equals代码中，使用到了java.util.Objects类，这个类是JDK7新增加的一个Objects工具类，<br>它提供了一些方法来操作对象，它由一些静态的实用方法组成，这些方法是null-save（空指针安全的）或null-tolerant（容忍空指针的），<br>用于计算对象的hashcode，返回对象的字符串表示形式，比较两个对象。</p><p>在比较两个对象的时候，Object容易抛出空指针异常，但是Objects类中的equals方法优化了这个问题，其源代码如下：</p><pre><code>public static boolean equals(Object a, Object b) {    return (a == b) || (a != null &amp;&amp; a.equals(b));}</code></pre><p>null是不能调用方法的，否则就会抛出空指针异常。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;code&gt;java.lang.Object&lt;/code&gt;,所有类的父类，它中描述的所有方法子类都可以使用。&lt;/p&gt;
-&lt;p&gt;java.lang包中的类可以直接引用，无需导包&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Java Se学习笔记" scheme="http://yxym.run/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Map集合</title>
     <link href="http://yxym.run/2020/03/04/map/"/>
     <id>http://yxym.run/2020/03/04/map/</id>
@@ -304,17 +354,18 @@
   </entry>
   
   <entry>
-    <title>Iterator</title>
-    <link href="http://yxym.run/2020/03/03/IteratorClass/"/>
-    <id>http://yxym.run/2020/03/03/IteratorClass/</id>
-    <published>2020-03-02T16:00:00.000Z</published>
-    <updated>2020-03-19T12:01:10.273Z</updated>
+    <title>Object类</title>
+    <link href="http://yxym.run/2020/03/04/objectClass/"/>
+    <id>http://yxym.run/2020/03/04/objectClass/</id>
+    <published>2020-03-03T16:00:00.000Z</published>
+    <updated>2020-03-19T12:04:07.519Z</updated>
     
-    <content type="html"><![CDATA[<p>迭代：即Collection集合元素的通用获取方式。在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续再判断;<br>如果还有就再取出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。</p><a id="more"></a><p>Iterator接口的常用方法：</p><pre><code>boolean hasNext() 如果仍有元素可以迭代，则返回 true    判断集合中还有没有下一个元素，有就fanhuitrue没有就返回falseE next() 返回迭代的下一个元素    取出集合中的下一个元素</code></pre><p>Iterator迭代器，是一个接口，无法直接使用，需要使用Iterator接口的实现类对象，获取实现类的方式比较特殊<br>Collention接口中有一个方法，叫iterator(),这个方法返回的就是迭代器的实现类对象。</p><pre><code>Iterator&lt;E&gt; iterator() 返回在此collection的元素上进行迭代的迭代器</code></pre><p><strong>迭代器的使用步骤：</strong></p><p>1、使用集合中的方法iterator()获取迭代器的实现类对象，使用Iterator接口接收（多态）</p><p>2、使用Iterator接口中的方法hasNext判断还有没有下一个元素</p><p>3、使用Iterator接口中的方法next取出集合中的下一个元素</p><p>实现代码：</p><pre><code>public static void main(String[] args) {    Collection&lt;String&gt; coll = new ArrayList&lt;&gt;();    coll.add(&quot;asd&quot;);    coll.add(&quot;qwe&quot;);    coll.add(&quot;csc&quot;);    /*        1、使用集合中的方法iterator()获取迭代器的实现类对象，使用Iterator接口接收（多态）        注意：Iterator&lt;E&gt;接口也是有泛型的，迭代器的泛型跟着集合走，集合是什么泛型，迭代器就是什么泛型     */    // coll.iterator() 获取迭代器的实现类对象，并且会把指针（索引）指向集合的-1索引    Iterator&lt;String&gt; it = coll.iterator();    // hasNext() 判断集合中还有没有下一个元素    while (it.hasNext()){        // next()方法做了两件事情，第一件是取出下一个元素，第二件是把指针向后移动一位        System.out.println(it.next());    }}</code></pre><h4 id="增强for循环"><a href="#增强for循环" class="headerlink" title="增强for循环"></a>增强for循环</h4><p>增强for循环（for-each循环）是JDK1.5以后出来的一个高级for循环，专门用来遍历数组和集合。它的内部原理其实是一个Iterator迭代器，所以在遍历的过程中，<br>不能对集合中的元素进行增删操作。</p><pre><code>public interface Iterable&lt;T&gt;</code></pre><p>实现这个接口允许对象成为“foreach”语句的目标。</p><pre><code>Collection&lt;E&gt; extends Iterable&lt;E&gt;</code></pre><p>所有的单列集合都可以使用增强for</p><p>增强for循环：用来遍历集合和数组</p><p>格式：</p><pre><code>for(集合/数组的数据类型 变量名 ： 集合名/数组名){    sout(变量名);}</code></pre><p>增强for循环必须有被遍历的目标，目标只能是Collection或者是数组。新式for仅仅作为遍历操作出现。</p>]]></content>
+    <content type="html"><![CDATA[<p><code>java.lang.Object</code>,所有类的父类，它中描述的所有方法子类都可以使用。</p><p>java.lang包中的类可以直接引用，无需导包</p><a id="more"></a><h4 id="Object类的toString方法"><a href="#Object类的toString方法" class="headerlink" title="Object类的toString方法"></a>Object类的toString方法</h4><p>看一个类是否重写了<code>toString</code>，直接打印这个类的对象即可，如果没有重写<code>toString</code>方法，那么打印的是对象的在堆内存中的地址值</p><pre><code>Random a = new Random(); System.out.println(a); //java.util.Random@1540e19dArrayList array = new ArrayList();array.add(1);array.add(2);System.out.println(array); //[1, 2]</code></pre><p>可见Random类并没有重写ToString方法，但是ArrayList类重写了该方法。</p><h4 id="Object类的equals方法"><a href="#Object类的equals方法" class="headerlink" title="Object类的equals方法"></a>Object类的equals方法</h4><p>源码:</p><pre><code>public boolean equals(Object obj) {    return (this == obj);}</code></pre><p>参数：</p><ul><li><p>Object obj：可以传递任意的对象</p></li><li><p>== 比较运算符，返回的是一个布尔值：true，false</p></li><li><p>对于：</p><p>  基本数据类型：比较的是值</p><p>  引用数据类型：比较的是两个对象的地址值</p></li></ul><p>this是谁？</p><p>哪个对象调用的方法，方法中的this就是指的那个对象。</p><p>obj是谁？</p><p>传递过来的参数对象。</p><p>Object类的equals方法，默认比较的是两个对象的地址值，这是没有意义的，所以我们要重写equals方法，<br>比较两个对象的属性。</p><p>但是也会存在一些问题：即隐含着一个多态，多态存在弊端，即无法使用子类特有的内容（属性和方法）</p><p>解决的方案就是：可以使用强制类型转换，将父类引用向下转型成子类引用</p><p>重写某个自定义类的equals方法：</p><pre><code>public boolean equals(Object obj) {    // 增加一个判断，如果传递的参数是本身，则直接返回true，可以提高程序的效率    if (obj == this)        return true;    // 增加一个判断，传递的参数obj如果是null，直接返回false，提高程序的效率    if (obj == null)        return false;    // 增加一个判断，防止出现类型转换异常    if (obj instanceof Person){        //使用向下转型，将obj转换为Person类型        Person p = (Person)obj;        return p.name.equals(this.name) &amp;&amp; this.age==p.age;    }    return false;}</code></pre><p>IDEA重写的自定义类的equals方法：</p><pre><code>public boolean equals(Object o) {    if (this == o) return true;    // getClass() != o.getClass() 使用反射技术，判断o是否是Person类型，等价于obj instanceof Person    if (o == null || getClass() != o.getClass()) return false;    Person person = (Person) o;    return age == person.age &amp;&amp;            Objects.equals(name, person.name);}</code></pre><h4 id="Objects类"><a href="#Objects类" class="headerlink" title="Objects类"></a>Objects类</h4><p>使用IDEA自动重写的equals代码中，使用到了java.util.Objects类，这个类是JDK7新增加的一个Objects工具类，<br>它提供了一些方法来操作对象，它由一些静态的实用方法组成，这些方法是null-save（空指针安全的）或null-tolerant（容忍空指针的），<br>用于计算对象的hashcode，返回对象的字符串表示形式，比较两个对象。</p><p>在比较两个对象的时候，Object容易抛出空指针异常，但是Objects类中的equals方法优化了这个问题，其源代码如下：</p><pre><code>public static boolean equals(Object a, Object b) {    return (a == b) || (a != null &amp;&amp; a.equals(b));}</code></pre><p>null是不能调用方法的，否则就会抛出空指针异常。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;迭代：即Collection集合元素的通用获取方式。在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续再判断;&lt;br&gt;如果还有就再取出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。&lt;/p&gt;
+      &lt;p&gt;&lt;code&gt;java.lang.Object&lt;/code&gt;,所有类的父类，它中描述的所有方法子类都可以使用。&lt;/p&gt;
+&lt;p&gt;java.lang包中的类可以直接引用，无需导包&lt;/p&gt;
     
     </summary>
     
@@ -352,6 +403,27 @@
         ArrayIndexOutOfBoundException　数组索引越界异常
         StringIndexOutOfBoundException　字符串索引越界异常
  */&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+    
+      <category term="Java Se学习笔记" scheme="http://yxym.run/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Iterator</title>
+    <link href="http://yxym.run/2020/03/03/IteratorClass/"/>
+    <id>http://yxym.run/2020/03/03/IteratorClass/</id>
+    <published>2020-03-02T16:00:00.000Z</published>
+    <updated>2020-03-19T12:01:10.273Z</updated>
+    
+    <content type="html"><![CDATA[<p>迭代：即Collection集合元素的通用获取方式。在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续再判断;<br>如果还有就再取出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。</p><a id="more"></a><p>Iterator接口的常用方法：</p><pre><code>boolean hasNext() 如果仍有元素可以迭代，则返回 true    判断集合中还有没有下一个元素，有就fanhuitrue没有就返回falseE next() 返回迭代的下一个元素    取出集合中的下一个元素</code></pre><p>Iterator迭代器，是一个接口，无法直接使用，需要使用Iterator接口的实现类对象，获取实现类的方式比较特殊<br>Collention接口中有一个方法，叫iterator(),这个方法返回的就是迭代器的实现类对象。</p><pre><code>Iterator&lt;E&gt; iterator() 返回在此collection的元素上进行迭代的迭代器</code></pre><p><strong>迭代器的使用步骤：</strong></p><p>1、使用集合中的方法iterator()获取迭代器的实现类对象，使用Iterator接口接收（多态）</p><p>2、使用Iterator接口中的方法hasNext判断还有没有下一个元素</p><p>3、使用Iterator接口中的方法next取出集合中的下一个元素</p><p>实现代码：</p><pre><code>public static void main(String[] args) {    Collection&lt;String&gt; coll = new ArrayList&lt;&gt;();    coll.add(&quot;asd&quot;);    coll.add(&quot;qwe&quot;);    coll.add(&quot;csc&quot;);    /*        1、使用集合中的方法iterator()获取迭代器的实现类对象，使用Iterator接口接收（多态）        注意：Iterator&lt;E&gt;接口也是有泛型的，迭代器的泛型跟着集合走，集合是什么泛型，迭代器就是什么泛型     */    // coll.iterator() 获取迭代器的实现类对象，并且会把指针（索引）指向集合的-1索引    Iterator&lt;String&gt; it = coll.iterator();    // hasNext() 判断集合中还有没有下一个元素    while (it.hasNext()){        // next()方法做了两件事情，第一件是取出下一个元素，第二件是把指针向后移动一位        System.out.println(it.next());    }}</code></pre><h4 id="增强for循环"><a href="#增强for循环" class="headerlink" title="增强for循环"></a>增强for循环</h4><p>增强for循环（for-each循环）是JDK1.5以后出来的一个高级for循环，专门用来遍历数组和集合。它的内部原理其实是一个Iterator迭代器，所以在遍历的过程中，<br>不能对集合中的元素进行增删操作。</p><pre><code>public interface Iterable&lt;T&gt;</code></pre><p>实现这个接口允许对象成为“foreach”语句的目标。</p><pre><code>Collection&lt;E&gt; extends Iterable&lt;E&gt;</code></pre><p>所有的单列集合都可以使用增强for</p><p>增强for循环：用来遍历集合和数组</p><p>格式：</p><pre><code>for(集合/数组的数据类型 变量名 ： 集合名/数组名){    sout(变量名);}</code></pre><p>增强for循环必须有被遍历的目标，目标只能是Collection或者是数组。新式for仅仅作为遍历操作出现。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;迭代：即Collection集合元素的通用获取方式。在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续再判断;&lt;br&gt;如果还有就再取出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。&lt;/p&gt;
     
     </summary>
     
