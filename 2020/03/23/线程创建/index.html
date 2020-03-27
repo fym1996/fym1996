@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。进程中的多个线程共享进程的资源。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程基本概念与创建">
+<meta property="og:url" content="http://yxym.run/2020/03/23/%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA/index.html">
+<meta property="og:site_name" content="有心有梦">
+<meta property="og:description" content="进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。进程中的多个线程共享进程的资源。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T03:34:26.589Z">
+<meta property="article:author" content="疯渔民">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yxym.run/2020/03/23/%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>线程基本概念与创建 | 有心有梦</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="有心有梦" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">有心有梦</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">YXYM</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/23/%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          线程基本概念与创建
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-23T00:00:00+08:00">2020-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-27 11:34:26" itemprop="dateModified" datetime="2020-03-27T11:34:26+08:00">2020-03-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">Java 多线程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。<br>进程中的多个线程共享进程的资源。</p>
+<a id="more"></a>
+<p>操作系统在分配资源时是把资源分配给进程的，但CPU资源比较特殊，是分配到线程的，因为真正占用CPU运行的是线程，所以说线程是CPU分配的基本单位。</p>
+<p>关于线程需要知道：</p>
+<ul>
+<li>线程是独立的执行路径</li>
+<li>程序运行时，即使自己没有创建线程，后台也会有多个线程</li>
+<li>main()称之为主线程，是系统的入口</li>
+<li>进程中，如果开辟了多个线程，线程的运行由调度器安排调度，调度器与操作系统密切相关，先后顺序无法人为ie干预</li>
+<li>对同一资源操作时，会发生资源抢夺问题，应加入并发控制</li>
+<li>线程会带来额外开销，如CPU调度时间</li>
+<li>每个线程在自己的工作内存进行交换，内存控制不当会造成数据不一致。</li>
+</ul>
+<p>在Java语言中，创建线程的方式一共有三种，分别是继承Thread类、实现Runnable接口，实现Callable接口。下面分别阐述。</p>
+<h4 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h4><p>通过继承Thread类，创建线程的方式有以下几个步骤：</p>
+<ul>
+<li>自定义线程类继承Thread类</li>
+<li>重写run方法，编写线程执行体</li>
+<li>创建线程对象，调用start方法启动线程</li>
+</ul>
+<p>子类继承Thread类具备多线程能力</p>
+<p>启动线程，子类对象.start()</p>
+<p>不建议使用：避免OOP单继承局限性</p>
+<p>测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 线程创建的第一个方式：</span></span><br><span class="line">    继承Thread类;</span><br><span class="line">    重写run方法，编写线程执行体;</span><br><span class="line">    创建线程对象，调用start方法启动线程</span><br><span class="line"><span class="comment">// 总结：注意，线程开启不一定立即执行，由CPU调度执行</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// run方法线程体</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"我在看代码--"</span>+i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// main thread</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一个线程对象</span></span><br><span class="line">        TestThread th = <span class="keyword">new</span> TestThread();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用start方法开启线程，主线程和子线程会交替执行，所以打印的结果是交替打印出来的</span></span><br><span class="line">        th.start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"我在学习多线程--"</span>+i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h4><p>通过实现Runnable接口，创建线程的方式过程如下：</p>
+<ul>
+<li>定义MyRunnable类实现Runnable接口</li>
+<li>实现run方法，编写线程执行体</li>
+<li>创建线程对象，调用start方法启动线程</li>
+</ul>
+<p>实现接口Runnable具有多线程能力</p>
+<p>启动线程：传入目标对象+Thread对象.start()</p>
+<p>推荐使用：避免单继承局限性，灵活方便，方便同一个对象被多个线程使用。</p>
+<p>比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一份资源</span></span><br><span class="line">TestThread2 testThread = <span class="keyword">new</span> TestThread2(<span class="string">""</span>,<span class="string">""</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多个代理</span></span><br><span class="line"><span class="keyword">new</span> Thread(testThread,<span class="string">"Tom"</span>).start();</span><br><span class="line"><span class="keyword">new</span> Thread(testThread,<span class="string">"Job"</span>).start();</span><br><span class="line"><span class="keyword">new</span> Thread(testThread,<span class="string">"Bob"</span>).start();</span><br></pre></td></tr></table></figure>
+
+<p>通过实现Runnable接口创建线程的小demo：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建线程方式2：</span></span><br><span class="line">    实现runnable接口;</span><br><span class="line">    重写run方法;</span><br><span class="line">    执行线程需要丢入runnable接口实现类，调用start方法</span><br><span class="line">    </span><br><span class="line"><span class="comment">// 推荐使用runnable接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RunnableTest</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// run方法线程体</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"我在看代码--"</span>+i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建runnable接口的实现类对象</span></span><br><span class="line">        RunnableTest runnableTest = <span class="keyword">new</span> RunnableTest();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建线程对象，通过线程对象来开启我们的线程，代理</span></span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(runnableTest);</span><br><span class="line">        thread.start();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            new Thread(runnableTest).start();</span></span><br><span class="line"><span class="comment">         */</span></span><br></pre></td></tr></table></figure>
+
+
+<p>​<br>​            for (int i = 0; i &lt; 20; i++) {<br>​                System.out.println(“我在学习多线程–”+i);<br>​            }<br>​        }<br>​    }</p>
+<h4 id="Callable接口"><a href="#Callable接口" class="headerlink" title="Callable接口"></a>Callable接口</h4><p>线程创建方式三：实现Callable接口</p>
+<p>Callable的好处：</p>
+<pre><code>1.可以定义返回值
+
+2.可以抛出异常</code></pre><p>测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCallable</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Boolean</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String url; <span class="comment">// 网络图片地址</span></span><br><span class="line">    <span class="keyword">private</span> String name; <span class="comment">// 保存的文件名</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下载图片线程的执行体</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Boolean <span class="title">call</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        WebDownloader webDownloader = <span class="keyword">new</span> WebDownloader();</span><br><span class="line">        webDownloader.downloader(url,name);</span><br><span class="line">        System.out.println(<span class="string">"下载了文件名为："</span>+name);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TestCallable</span><span class="params">(String name, String url)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.url = url;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ExecutionException, InterruptedException </span>&#123;</span><br><span class="line">        TestCallable testThread1 = <span class="keyword">new</span> TestCallable(<span class="string">""</span>,<span class="string">""</span>);</span><br><span class="line">        TestCallable testThread2 = <span class="keyword">new</span> TestCallable(<span class="string">""</span>,<span class="string">""</span>);</span><br><span class="line">        TestCallable testThread3 = <span class="keyword">new</span> TestCallable(<span class="string">""</span>,<span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建执行服务,此处new了一个池子，现在在池子中放入三个线程</span></span><br><span class="line">        ExecutorService ser = Executors.newFixedThreadPool(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 提交执行</span></span><br><span class="line">        Future&lt;Boolean&gt; result1 = ser.submit(testThread1);</span><br><span class="line">        Future&lt;Boolean&gt; result2 = ser.submit(testThread2);</span><br><span class="line">        Future&lt;Boolean&gt; result3 = ser.submit(testThread3);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取结果</span></span><br><span class="line">        Boolean rs1 = result1.get();</span><br><span class="line">        Boolean rs2 = result2.get();</span><br><span class="line">        Boolean rs3 = result3.get();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 关闭服务</span></span><br><span class="line">        ser.shutdownNow();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      <div>  
+      
+        
+      
+      </div>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
+                </span>
+
+                <span class="label">WeChat</span>
+              </a>
+            </div>
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/23/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" rel="prev" title="线程状态">
+      <i class="fa fa-chevron-left"></i> 线程状态
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="next" title="线程池">
+      线程池 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Thread"><span class="nav-number">1.</span> <span class="nav-text">Thread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Runnable"><span class="nav-number">2.</span> <span class="nav-text">Runnable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Callable接口"><span class="nav-number">3.</span> <span class="nav-text">Callable接口</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="疯渔民"
+      src="/images/cl.jpeg">
+  <p class="site-author-name" itemprop="name">疯渔民</p>
+  <div class="site-description" itemprop="description">专注、安静、前进</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fym1996" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fym1996" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yxym@163.com" title="E-Mail → mailto:yxym@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/5699352078/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;5699352078&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yu-jian-neng-17" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yu-jian-neng-17" rel="noopener" target="_blank"><i class="fa fa-fw fa-snapchat"></i>ZhiHu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">疯渔民</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1.停止线程 不推荐使用JDK提供的stop、destroy方法，这些方法已经被废弃了  推荐线程自己停止下来  建议使用一个标志位进行终止变量，当flag&#x3D;false，则终止线程运行。">
+  <meta name="description" content="线程分为用户线程和守护线程 虚拟机必须确保用户线程执行完毕 虚拟机不用等待守护线程执行完毕 如，后台记录操作日志，监控内存，垃圾回收等待…">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线程状态">
-<meta property="og:url" content="http://yxym.run/2020/03/23/ThreadState/index.html">
+<meta property="og:title" content="守护线程">
+<meta property="og:url" content="http://yxym.run/2020/03/27/%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="有心有梦">
-<meta property="og:description" content="1.停止线程 不推荐使用JDK提供的stop、destroy方法，这些方法已经被废弃了  推荐线程自己停止下来  建议使用一个标志位进行终止变量，当flag&#x3D;false，则终止线程运行。">
+<meta property="og:description" content="线程分为用户线程和守护线程 虚拟机必须确保用户线程执行完毕 虚拟机不用等待守护线程执行完毕 如，后台记录操作日志，监控内存，垃圾回收等待…">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-23T14:55:18.392Z">
+<meta property="article:published_time" content="2020-03-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T03:26:40.546Z">
 <meta property="article:author" content="疯渔民">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yxym.run/2020/03/23/ThreadState/">
+<link rel="canonical" href="http://yxym.run/2020/03/27/%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/">
 
 
 <script id="page-configurations">
@@ -44,7 +44,7 @@
   };
 </script>
 
-  <title>线程状态 | 有心有梦</title>
+  <title>守护线程 | 有心有梦</title>
   
 
 
@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/23/ThreadState/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/27/%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -209,7 +209,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          线程状态
+          守护线程
         </h1>
 
         <div class="post-meta">
@@ -220,7 +220,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-23 00:00:00 / 修改时间：22:55:18" itemprop="dateCreated datePublished" datetime="2020-03-23T00:00:00+08:00">2020-03-23</time>
+              <time title="创建时间：2020-03-27 00:00:00 / 修改时间：11:26:40" itemprop="dateCreated datePublished" datetime="2020-03-27T00:00:00+08:00">2020-03-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,7 +228,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
+                  <a href="/categories/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">Java 多线程</span></a>
                 </span>
             </span>
 
@@ -243,222 +243,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="1-停止线程"><a href="#1-停止线程" class="headerlink" title="1.停止线程"></a>1.停止线程</h4><ul>
-<li><p>不推荐使用JDK提供的stop、destroy方法，这些方法已经被废弃了</p>
-</li>
-<li><p>推荐线程自己停止下来</p>
-</li>
-<li><p>建议使用一个标志位进行终止变量，当flag=false，则终止线程运行。</p>
+        <ul>
+<li>线程分为<strong>用户线程</strong>和<strong>守护线程</strong></li>
+<li>虚拟机必须确保用户线程执行完毕</li>
+<li>虚拟机不用等待守护线程执行完毕</li>
+<li>如，后台记录操作日志，监控内存，垃圾回收等待…</li>
+</ul>
 <a id="more"></a>
-<p>代码示例：</p>
-<p>  /*</p>
-<pre><code>测试stop
-    1.建议线程正常停止---&gt;利用次数，不建议死循环
-    2.建议使用标志位---&gt;设置一个标志位
-    3.不要使用stop或者destroy等过时或者JDK不建议使用的方法</code></pre><p>   */<br>  public class TestStop implements Runnable{</p>
-<pre><code>boolean flag = true;
 
-@Override
-public void run() {
-    int i = 0;
-    while (flag){
-        System.out.println(&quot;run....Thread&quot;+(i++));
-    }
-}
-// 设置一个公开的方法停止线程，转换标志位
-public void stop(){
-    this.flag = false;
-}
-public static void main(String[] args) {
-    TestStop testStop = new TestStop();
-    new Thread(testStop).start();
-
-    for (int i = 0; i &lt; 1000; i++) {
-        System.out.println(&quot;main thread &quot;+i);
-        if (i == 900){
-            testStop.stop();
-            System.out.println(&quot;线程该停止了&quot;);
-        }
-    }
-}</code></pre><p>  }</p>
-</li>
-</ul>
-<h4 id="2-线程休眠"><a href="#2-线程休眠" class="headerlink" title="2.线程休眠"></a>2.线程休眠</h4><ul>
-<li>sleep(时间) 指定当前线程阻塞的毫秒数</li>
-<li>sleep存在异常InterruptedException</li>
-<li>sleep时间达到后线程进入就绪状态</li>
-<li>sleep可以模拟网络延时，倒计时等。</li>
-<li>每一个对象都有一个锁，sleep不会释放锁</li>
-</ul>
-<p>1.模拟网络延时，可以放大问题的发生性</p>
-<pre><code>public class TestSleep implements Runnable{
-    // 票数
-    private int ticketnum = 10;
-
-    @Override
-    public void run() {
-
-        while (true){
-
-            if (ticketnum &lt;= 0){
-                break;
-            }
-
-            // 模拟延时
-            try {
-                Thread.sleep(20);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
-            // currentThread()方法是获取当前正在执行的线程
-            System.out.println(Thread.currentThread().getName()+&quot;--&gt;拿到了第&quot;+ticketnum--+&quot;票&quot;);
-        }
-
-    }
-
-    public static void main(String[] args) {
-        TestSleep ticket = new TestSleep();
-        // 三个进程共享一个对象
-        new Thread(ticket,&quot;小明&quot;).start();
-        new Thread(ticket,&quot;老师&quot;).start();
-        new Thread(ticket,&quot;小花&quot;).start();
-
-    }
-}</code></pre><p>上面这个程序中，三个线程共享一个资源对象，这三个线程可能会发生线程不安全的问题，比如某个线程抢到第-1张票，通过线程休眠，可以将这些问题反映出来。</p>
-<p>2.模拟倒计时</p>
-<pre><code>// 模拟倒计时
-public class TestSleep2 {
-    public static void main(String[] args){
-        // 打印当前系统时间
-        Date startTime = new Date(System.currentTimeMillis()); // 获取系统当前时间
-        while (true){
-            try {
-                Thread.sleep(1000);
-                System.out.println(new SimpleDateFormat(&quot;HH:mm:ss&quot;).format(startTime));
-                startTime = new Date(System.currentTimeMillis()); // 更新当前时间
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void tenDown() throws InterruptedException {
-        int num = 10;
-        while (true){
-            Thread.sleep(1000);
-            System.out.println(num--);
-            if (num&lt;=0)
-                break;
-        }
-    }
-}</code></pre><h4 id="3-线程礼让"><a href="#3-线程礼让" class="headerlink" title="3.线程礼让"></a>3.线程礼让</h4><ul>
-<li>礼让线程，让当前正在执行的线程暂停，但不阻塞</li>
-<li>将线程从运行状态转为就绪状态</li>
-<li>礼让是让当前正在执行的线程变为就绪状态，与其他线程重新竞争CPU资源，让CPU重新调度，礼让不一定成功，看CPU心情</li>
-</ul>
-<p>礼让示例：</p>
-<pre><code>// 测试礼让，礼让不一定成功
-public class TestYield {
-    public static void main(String[] args) {
-        MyYield myYield = new MyYield();
-        new Thread(myYield,&quot;a&quot;).start();
-        new Thread(myYield,&quot;b&quot;).start();
-    }
-
-}
-
-class MyYield implements Runnable{
-    @Override
-    public void run() {
-        System.out.println(Thread.currentThread().getName()+&quot;线程开始执行&quot;);
-        Thread.yield(); // 礼让
-        System.out.println(Thread.currentThread().getName()+&quot;线程停止执行&quot;);
-    }
-}</code></pre><p>当输出如下结果时，说明没有礼让成功：</p>
-<pre><code>a线程开始执行
-a线程停止执行
-b线程开始执行
-b线程停止执行</code></pre><p>当输出下面的结果时，说明礼让成功了</p>
-<pre><code>a线程开始执行
-b线程开始执行
-a线程停止执行
-b线程停止执行</code></pre><h4 id="4-Join"><a href="#4-Join" class="headerlink" title="4.Join"></a>4.Join</h4><ul>
-<li>Join合并线程，待此线程执行完成后，再执行其他线程，其他线程阻塞</li>
-<li>可以想象成插队</li>
-</ul>
-<p>测试Join方法，想象为插队</p>
-<pre><code>public class TestJoin implements Runnable{
-    @Override
-    public void run() {
-        for (int i = 0; i &lt; 1000; i++) {
-            System.out.println(&quot;线程vip来了&quot;+i);
-        }
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        // 启动我们的线程
-        TestJoin testJoin = new TestJoin();
-        Thread thread = new Thread(testJoin);
-        // 开启子线程
-        thread.start();
-
-        // 主线程
-        for (int i = 0; i &lt; 500; i++) {
-            if (i == 200){
-                thread.join(); // 插队，子线程插主线程的队
-            }
-            System.out.println(&quot;main&quot; + i);
-        }
-    }
-}</code></pre><h4 id="线程状态观测"><a href="#线程状态观测" class="headerlink" title="线程状态观测"></a>线程状态观测</h4><p>线程可以处于以下状态之一：</p>
-<ul>
-<li><p>NEW</p>
-<pre><code>尚未启动的线程处于此状态</code></pre></li>
-<li><p>RUNNABLE</p>
-<pre><code>在Java虚拟机中执行的线程处于此状态</code></pre></li>
-<li><p>BLOCKED</p>
-<pre><code>被阻塞等待监视器锁定的线程处于此状态</code></pre></li>
-<li><p>WAITING</p>
-<pre><code>正在等待另一个线程执行特定动作的线程处于此状态</code></pre></li>
-<li><p>TIMED_WAITING</p>
-<pre><code>正在等待另一个线程执行动作达到指定等待时间的线程处于此状态</code></pre></li>
-<li><p>TERMINATED</p>
-<pre><code>已退出的线程处于此状态</code></pre><p>一个线程可以在给定时间点处于一个状态。这些状态是不反映任何操作系统线程状态的虚拟机状态。</p>
-</li>
-</ul>
 <p>测试代码：</p>
-<pre><code>// 观察测试线程状态
-public class TestState {
-    public static void main(String[] args) throws InterruptedException {
-        Thread thread = new Thread(()-&gt;{
-            for (int i = 0; i &lt; 5; i++) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            System.out.println(&quot;////////&quot;);
-        });
+<pre><code>// 测试守护线程
+public class TestDaemon {
+    public static void main(String[] args) {
+        God god = new God();
+        You you = new You();
 
+        Thread thread = new Thread(god);
+        thread.setDaemon(true); // 默认是false表示是用户线程，正常的线程都是用户线程...
 
-        // 观察状态
-        Thread.State state = thread.getState();
-        System.out.println(state); // 此时状态为NEW
+        thread.start(); // 守护线程启动
 
-        // 观察启动后
-        thread.start(); // 启动线程
-        state = thread.getState();
-        System.out.println(state); // 此时线程状态为RUNNABLE
-
-        while (state != Thread.State.TERMINATED){ // 只要线程不终止，就一直输出状态
-
-            Thread.sleep(100);
-            state = thread.getState(); // 更新state变量的存储的线程状态
-            System.out.println(state); // 输出状态，TIMED_WAITING
-        }
+        new Thread(you).start(); // 用户线程启动
+        /*
+            只要用户线程执行完毕即可，虚拟机不用等待守护线程执行完毕
+         */
     }
-}  </code></pre>
+}
+class God implements Runnable{
+    @Override
+    public void run() {
+        while (true){
+            System.out.println(&quot;上帝保佑你！&quot;);
+        }
+
+    }
+}
+class You implements Runnable{
+    @Override
+    public void run() {
+
+        for (int i = 0; i &lt; 36500; i++) {
+            System.out.println(&quot;你一生都开心的活着&quot;);
+        }
+        System.out.println(&quot;-======goodbye! world!========&quot;);
+    }
+}</code></pre>
       <div>  
       
         
@@ -507,12 +336,12 @@ public class TestState {
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/23/Thread/" rel="prev" title="线程">
-      <i class="fa fa-chevron-left"></i> 线程
+    <a href="/2020/03/27/%E7%BA%BF%E7%A8%8BLock%E9%94%81/" rel="prev" title="线程的Lock锁">
+      <i class="fa fa-chevron-left"></i> 线程的Lock锁
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/03/23/lamda/" rel="next" title="Lamda表达式">
-      Lamda表达式 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/03/27/%E6%AD%BB%E9%94%81/" rel="next" title="死锁">
+      死锁 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -573,7 +402,6 @@ public class TestState {
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-停止线程"><span class="nav-number">1.</span> <span class="nav-text">1.停止线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-线程休眠"><span class="nav-number">2.</span> <span class="nav-text">2.线程休眠</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-线程礼让"><span class="nav-number">3.</span> <span class="nav-text">3.线程礼让</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Join"><span class="nav-number">4.</span> <span class="nav-text">4.Join</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程状态观测"><span class="nav-number">5.</span> <span class="nav-text">线程状态观测</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -589,7 +417,7 @@ public class TestState {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

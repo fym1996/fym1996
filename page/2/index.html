@@ -194,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/19/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC35%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -208,7 +208,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/19/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC35%E9%A2%98/" class="post-title-link" itemprop="url">LeetCode刷提笔记之第35题</a>
+            <a href="/2020/03/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="post-title-link" itemprop="url">线程池</a>
         </h1>
 
         <div class="post-meta">
@@ -219,7 +219,354 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-19 00:00:00 / 修改时间：23:52:28" itemprop="dateCreated datePublished" datetime="2020-03-19T00:00:00+08:00">2020-03-19</time>
+              <time title="创建时间：2020-03-27 00:00:00 / 修改时间：11:25:59" itemprop="dateCreated datePublished" datetime="2020-03-27T00:00:00+08:00">2020-03-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">Java 多线程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li>背景：经常创建和销毁、使用量特别大的资源，比如并发情况下的线程，对性能影响很大。</li>
+<li>思路：提前创建好多个线程，放入线程池中，使用时直接获取，使用完放回池子中。可以避免频繁创建销毁、实现重复利用。类似生活中的公共交通工具。</li>
+<li>好处：<ul>
+<li>提高响应速度（减少了创建新线程的时间）</li>
+<li>降低资源消耗（重复利用线程池中的线程，不需要每次都创建）</li>
+<li>便于线程管理<ul>
+<li>corePoolSize：核心池的大小</li>
+<li>maximumPoolSize：最大线程数</li>
+<li>keepAliveTIme：线程没有任务时最多保持多长时间后会终止</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+      <div>  
+      
+      </div>
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/23/%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/23/%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA/" class="post-title-link" itemprop="url">线程基本概念与创建</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-23T00:00:00+08:00">2020-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-27 11:34:26" itemprop="dateModified" datetime="2020-03-27T11:34:26+08:00">2020-03-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">Java 多线程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>进程是代码在数据集合上的一次活动，是系统进行资源分配和调度的基本单位。而线程则是进程的一个执行路径，一个进程至少有一个线程。<br>进程中的多个线程共享进程的资源。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/23/%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+      <div>  
+      
+      </div>
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/23/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/23/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" class="post-title-link" itemprop="url">线程状态</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-23T00:00:00+08:00">2020-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-27 11:33:26" itemprop="dateModified" datetime="2020-03-27T11:33:26+08:00">2020-03-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">Java 多线程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="1-停止线程"><a href="#1-停止线程" class="headerlink" title="1.停止线程"></a>1.停止线程</h4><ul>
+<li><p>不推荐使用JDK提供的stop、destroy方法，这些方法已经被废弃了</p>
+</li>
+<li><p>推荐线程自己停止下来</p>
+</li>
+<li><p>建议使用一个标志位进行终止变量，当flag=false，则终止线程运行。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/23/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+      <div>  
+      
+      </div>
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/23/lamda/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/23/lamda/" class="post-title-link" itemprop="url">Lamda表达式</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-23 00:00:00 / 修改时间：22:53:40" itemprop="dateCreated datePublished" datetime="2020-03-23T00:00:00+08:00">2020-03-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>为什么要使用lambda表达式：</p>
+<ul>
+<li>避免匿名内部类定义过多</li>
+<li>可以让代码看起来更简洁</li>
+<li>去掉一堆没有意义的代码，只留下核心的逻辑
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/23/lamda/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+      <div>  
+      
+      </div>
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/19/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC38%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/19/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC38%E9%A2%98/" class="post-title-link" itemprop="url">LeetCode刷提笔记之第38题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-19 00:00:00 / 修改时间：23:52:16" itemprop="dateCreated datePublished" datetime="2020-03-19T00:00:00+08:00">2020-03-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,357 +589,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
-<p>你可以假设数组中无重复元素。</p>
+          <p>题目描述：</p>
+<p>「外观数列」是一个整数序列，从数字 1 开始，序列中的每一项都是对前一项的描述。</p>
+<pre><code>　　1.     1
+　　2.     11
+　　3.     21
+　　4.     1211
+　　5.     111221</code></pre><p>1 被读作 “一个一”, 即 11。<br>11 被读作 “两个一”, 即 21。<br>21 被读作”一个二” ,  “一个一”, 即 1211</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/19/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC35%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-      <div>  
-      
-      </div>
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/09/varargs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cl.jpeg">
-      <meta itemprop="name" content="疯渔民">
-      <meta itemprop="description" content="专注、安静、前进">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="有心有梦">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/09/varargs/" class="post-title-link" itemprop="url">可变参数</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-09T00:00:00+08:00">2020-03-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 19:55:34" itemprop="dateModified" datetime="2020-03-19T19:55:34+08:00">2020-03-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>可变参数：是jdk1.5之后出现的新特性</p>
-<ul>
-<li><p>使用前提：当方法的参数列表数据类型已经确定，但是参数的个数不确定，就可以使用可变参数</p>
-</li>
-<li><p>使用格式：</p>
-<pre><code>修饰符 返回值类型  方法名(数据类型... 变量名)</code></pre></li>
-<li><p>可变参数的原理：</p>
-<pre><code>可变参数底层就是一个数组，根据传递参数个数不同，会创建不同长度的数组，来存储这些参数
-传递的参数个数，可以是0个（不传递），1,2,...多个</code></pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/09/varargs/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-      <div>  
-      
-      </div>
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/08/throwable/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cl.jpeg">
-      <meta itemprop="name" content="疯渔民">
-      <meta itemprop="description" content="专注、安静、前进">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="有心有梦">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/08/throwable/" class="post-title-link" itemprop="url">异常</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-08T00:00:00+08:00">2020-03-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 19:59:28" itemprop="dateModified" datetime="2020-03-19T19:59:28+08:00">2020-03-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>异常指的是程序在执行过程中，出现的非正常的情况，最终会导致JVM的非正常停止。</p>
-<p>在Java语言中，异常本身是一个类，产生异常就是创建异常对象并抛出了一个异常。Java处理异常的方式是中断处理。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/08/throwable/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-      <div>  
-      
-      </div>
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/08/ownDefineException/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cl.jpeg">
-      <meta itemprop="name" content="疯渔民">
-      <meta itemprop="description" content="专注、安静、前进">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="有心有梦">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/08/ownDefineException/" class="post-title-link" itemprop="url">自定义异常</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-08T00:00:00+08:00">2020-03-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 19:54:37" itemprop="dateModified" datetime="2020-03-19T19:54:37+08:00">2020-03-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在开发中，根据自己业务的异常情况来定义异常类。</p>
-<p>异常类如何定义：</p>
-<ul>
-<li><p>自定义一个编译期异常：自定义类并继承于<code>java.lang.Exception</code></p>
-</li>
-<li><p>自定义一个运行期异常：自定义类并继承于<code>java.lang.RuntimeException</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/08/ownDefineException/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-      <div>  
-      
-      </div>
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cl.jpeg">
-      <meta itemprop="name" content="疯渔民">
-      <meta itemprop="description" content="专注、安静、前进">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="有心有梦">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/" class="post-title-link" itemprop="url">Python的with关键字</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-03-07 00:00:00 / 修改时间：14:48:18" itemprop="dateCreated datePublished" datetime="2020-03-07T00:00:00+08:00">2020-03-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Python基础知识笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1、上下文管理器的概念"><a href="#1、上下文管理器的概念" class="headerlink" title="1、上下文管理器的概念"></a>1、上下文管理器的概念</h4><p><strong>上下文管理协议（Context Management Protocol）：</strong></p>
-<pre><code>包含方法 __enter__() 和 __exit__()，支持该协议的对象要实现这两个方法。 </code></pre><p><strong>上下文管理器（Context Manager）</strong>：</p>
-<pre><code>支持上下文管理协议的对象，这种对象实现了__enter__() 和 __exit__() 方法。上下文管理器定义执行 with 语句时要建立的运行时上下文，负责执行 with 语句块上下文中的进入与退出操作。通常使用 with 语句调用上下文管理器，也可以通过直接调用其方法来使用。 </code></pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/#more" rel="contents">
+              <a class="btn" href="/2020/03/19/LeetCode%E5%88%B7%E6%8F%90%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC38%E9%A2%98/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -619,7 +625,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -687,7 +693,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
