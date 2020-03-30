@@ -194,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/04/objectClass/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/08/ownDefineException/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -208,7 +208,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/04/objectClass/" class="post-title-link" itemprop="url">Object类</a>
+            <a href="/2020/03/08/ownDefineException/" class="post-title-link" itemprop="url">自定义异常</a>
         </h1>
 
         <div class="post-meta">
@@ -218,14 +218,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-03-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-04T00:00:00+08:00">2020-03-04</time>
+              <time title="创建时间：2020-03-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-08T00:00:00+08:00">2020-03-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 20:04:07" itemprop="dateModified" datetime="2020-03-19T20:04:07+08:00">2020-03-19</time>
+                <time title="修改时间：2020-03-19 19:54:37" itemprop="dateModified" datetime="2020-03-19T19:54:37+08:00">2020-03-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -248,11 +248,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><code>java.lang.Object</code>,所有类的父类，它中描述的所有方法子类都可以使用。</p>
-<p>java.lang包中的类可以直接引用，无需导包</p>
+          <p>在开发中，根据自己业务的异常情况来定义异常类。</p>
+<p>异常类如何定义：</p>
+<ul>
+<li><p>自定义一个编译期异常：自定义类并继承于<code>java.lang.Exception</code></p>
+</li>
+<li><p>自定义一个运行期异常：自定义类并继承于<code>java.lang.RuntimeException</code></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/04/objectClass/#more" rel="contents">
+              <a class="btn" href="/2020/03/08/ownDefineException/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -279,7 +283,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/03/List/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -293,7 +297,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/03/List/" class="post-title-link" itemprop="url">List集合</a>
+            <a href="/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/" class="post-title-link" itemprop="url">Python的with关键字</a>
         </h1>
 
         <div class="post-meta">
@@ -302,23 +306,17 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-03-03 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-03T00:00:00+08:00">2020-03-03</time>
+              <time title="创建时间：2020-03-07 00:00:00 / 修改时间：14:48:18" itemprop="dateCreated datePublished" datetime="2020-03-07T00:00:00+08:00">2020-03-07</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 20:01:24" itemprop="dateModified" datetime="2020-03-19T20:01:24+08:00">2020-03-19</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
+                  <a href="/categories/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Python基础知识笔记</span></a>
                 </span>
             </span>
 
@@ -333,26 +331,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <pre><code>/*
-    java.util.List接口 extends　Collection接口
-    List接口的特点：
-        1.有序的集合，存储元素和取出元素的顺序是一致的
-        2.有索引，包含了一些带索引的方法
-        3.允许存储重复的元素
-    List接口中带索引的方法（特有）：
-        public void add(int index,E element):将指定的元素，添加到该集合中的指定位置上
-        public E get(int index)：返回集合中指定位置的元素
-        public E remove(int index)：移除列表中指定位置的元素，返回的是被移除的元素
-        public E set(int index,E element)：用指定元素替换集合中指定位置的元素，返回值的更新前的元素
-    注意：
-        操作索引时，一定要防止索引越界异常
-        IndexOutOfBoundException 　索引越界异常，集合会报
-        ArrayIndexOutOfBoundException　数组索引越界异常
-        StringIndexOutOfBoundException　字符串索引越界异常
- */</code></pre>
+          <h4 id="1、上下文管理器的概念"><a href="#1、上下文管理器的概念" class="headerlink" title="1、上下文管理器的概念"></a>1、上下文管理器的概念</h4><p><strong>上下文管理协议（Context Management Protocol）：</strong></p>
+<pre><code>包含方法 __enter__() 和 __exit__()，支持该协议的对象要实现这两个方法。 </code></pre><p><strong>上下文管理器（Context Manager）</strong>：</p>
+<pre><code>支持上下文管理协议的对象，这种对象实现了__enter__() 和 __exit__() 方法。上下文管理器定义执行 with 语句时要建立的运行时上下文，负责执行 with 语句块上下文中的进入与退出操作。通常使用 with 语句调用上下文管理器，也可以通过直接调用其方法来使用。 </code></pre>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/03/List/#more" rel="contents">
+              <a class="btn" href="/2020/03/07/Python%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -379,7 +363,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/03/IteratorClass/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/07/systemClass/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -393,7 +377,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/03/IteratorClass/" class="post-title-link" itemprop="url">Iterator</a>
+            <a href="/2020/03/07/systemClass/" class="post-title-link" itemprop="url">System类</a>
         </h1>
 
         <div class="post-meta">
@@ -403,14 +387,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-03-03 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-03T00:00:00+08:00">2020-03-03</time>
+              <time title="创建时间：2020-03-07 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-07T00:00:00+08:00">2020-03-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 20:01:10" itemprop="dateModified" datetime="2020-03-19T20:01:10+08:00">2020-03-19</time>
+                <time title="修改时间：2020-03-19 19:53:35" itemprop="dateModified" datetime="2020-03-19T19:53:35+08:00">2020-03-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -433,10 +417,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>迭代：即Collection集合元素的通用获取方式。在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续再判断;<br>如果还有就再取出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。</p>
+          <p>该类位于java.lang包中，可以直接使用，不用导包。</p>
+<p>System类中提供了大量的静态方法，可以获取与系统相关的信息或系统操作级操作，在System类的<br>API文档中，常用的方法：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/03/IteratorClass/#more" rel="contents">
+              <a class="btn" href="/2020/03/07/systemClass/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -463,7 +448,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/02/collections/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/07/Idea%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8run%E7%9A%84%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -477,7 +462,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/02/collections/" class="post-title-link" itemprop="url">Collections工具类</a>
+            <a href="/2020/03/07/Idea%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8run%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">Idea导入Java se程序无法正常run</a>
         </h1>
 
         <div class="post-meta">
@@ -486,23 +471,17 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-03-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">2020-03-02</time>
+              <time title="创建时间：2020-03-07 00:00:00 / 修改时间：14:48:31" itemprop="dateCreated datePublished" datetime="2020-03-07T00:00:00+08:00">2020-03-07</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 19:48:12" itemprop="dateModified" datetime="2020-03-19T19:48:12+08:00">2020-03-19</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">编程实践问题总结</span></a>
                 </span>
             </span>
 
@@ -517,17 +496,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>java.util.Collections 是集合工具类，用来对集合进行操作。</p>
-<p><strong>常用方法：</strong></p>
-<p>1.<code>public static &lt;T&gt; boolean addAll(Collection&lt;T&gt; c,T... elements)</code></p>
-<p>作用：一次性往集合中添加多个元素</p>
-<pre><code>ArrayList&lt;Object&gt; list = new ArrayList&lt;&gt;();
-// 一次性往集合中添加多个元素
-Collections.addAll(list,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;);
-System.out.println(list); // [a, b, c, d, e]</code></pre><p>2.<code>public static void shuffle(List&lt;?&gt; list)</code></p>
+          <p>之前一直在windows下刷Leetcode，代码都保存在了一个project里面，后来开始经常使用Ubuntu系统，索性把以前的刷题代码拷贝过来，继续写在之前的项目里面。但是当我导入项目之后，Idea并没有不能立即执行程序，需要对项目进行一些配置。</p>
+<p>程序出现的情况时，正常情况下，一个java文件图标显示为是一个蓝色的“c”，但是现在显示的是一个橙色的小时钟的标志，原因是Idea并不能自动识别程序的源代码，我们需要做一些配置。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/02/collections/#more" rel="contents">
+              <a class="btn" href="/2020/03/07/Idea%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8run%E7%9A%84%E9%97%AE%E9%A2%98/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -554,7 +527,7 @@ System.out.println(list); // [a, b, c, d, e]</code></pre><p>2.<code>public stati
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/02/HashMap/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/06/stringBuilderClass/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -568,7 +541,7 @@ System.out.println(list); // [a, b, c, d, e]</code></pre><p>2.<code>public stati
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/02/HashMap/" class="post-title-link" itemprop="url">HashMap存储自定义类型键值</a>
+            <a href="/2020/03/06/stringBuilderClass/" class="post-title-link" itemprop="url">StringBuilder类</a>
         </h1>
 
         <div class="post-meta">
@@ -578,14 +551,14 @@ System.out.println(list); // [a, b, c, d, e]</code></pre><p>2.<code>public stati
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-03-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">2020-03-02</time>
+              <time title="创建时间：2020-03-06 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-06T00:00:00+08:00">2020-03-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 20:00:56" itemprop="dateModified" datetime="2020-03-19T20:00:56+08:00">2020-03-19</time>
+                <time title="修改时间：2020-03-19 19:52:58" itemprop="dateModified" datetime="2020-03-19T19:52:58+08:00">2020-03-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -608,11 +581,16 @@ System.out.println(list); // [a, b, c, d, e]</code></pre><p>2.<code>public stati
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Map集合保证key是唯一的：</p>
-<pre><code>如果自定义类型作为key，必须重写hashCode方法和equals方法，以保证key唯一</code></pre>
+          <p>又称为字符串缓冲区</p>
+<p>对于String类：</p>
+<ul>
+<li>字符串是常量，它们的值在创建之后不能更改。</li>
+<li>字符串底层是一个被final关键字修饰的数组，不能改变，是一个常量。</li>
+</ul>
+<pre><code>private final byte[] value;  </code></pre>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/02/HashMap/#more" rel="contents">
+              <a class="btn" href="/2020/03/06/stringBuilderClass/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -639,7 +617,7 @@ System.out.println(list); // [a, b, c, d, e]</code></pre><p>2.<code>public stati
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -707,14 +685,14 @@ System.out.println(list); // [a, b, c, d, e]</code></pre><p>2.<code>public stati
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>

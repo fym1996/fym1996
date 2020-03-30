@@ -194,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/02/28/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC219%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/02/collections/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -208,7 +208,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/28/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC219%E9%A2%98/" class="post-title-link" itemprop="url">LeetCode刷题笔记之第219题</a>
+            <a href="/2020/03/02/collections/" class="post-title-link" itemprop="url">Collections工具类</a>
         </h1>
 
         <div class="post-meta">
@@ -218,14 +218,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-02-28 00:00:00" itemprop="dateCreated datePublished" datetime="2020-02-28T00:00:00+08:00">2020-02-28</time>
+              <time title="创建时间：2020-03-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">2020-03-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-09 22:47:33" itemprop="dateModified" datetime="2020-03-09T22:47:33+08:00">2020-03-09</time>
+                <time title="修改时间：2020-03-19 19:48:12" itemprop="dateModified" datetime="2020-03-19T19:48:12+08:00">2020-03-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,7 +233,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
                 </span>
             </span>
 
@@ -248,12 +248,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>题目</strong><br>给定一个整数数组和一个整数 k，判断数组中是否存在两个不同的索引 i 和 j，使得 nums [i] = nums [j]，并且 i 和 j 的差的绝对值最大为 k。</p>
-<p><strong>示例 1:</strong></p>
-<p>输入: nums = [1,0,1,1], k = 1<br>输出: true</p>
+          <p>java.util.Collections 是集合工具类，用来对集合进行操作。</p>
+<p><strong>常用方法：</strong></p>
+<p>1.<code>public static &lt;T&gt; boolean addAll(Collection&lt;T&gt; c,T... elements)</code></p>
+<p>作用：一次性往集合中添加多个元素</p>
+<pre><code>ArrayList&lt;Object&gt; list = new ArrayList&lt;&gt;();
+// 一次性往集合中添加多个元素
+Collections.addAll(list,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;);
+System.out.println(list); // [a, b, c, d, e]</code></pre><p>2.<code>public static void shuffle(List&lt;?&gt; list)</code></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/28/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC219%E9%A2%98/#more" rel="contents">
+              <a class="btn" href="/2020/03/02/collections/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -280,7 +285,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/02/27/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC190%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/02/HashMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -294,7 +299,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/27/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC190%E9%A2%98/" class="post-title-link" itemprop="url">LeetCode刷题笔记之第190题</a>
+            <a href="/2020/03/02/HashMap/" class="post-title-link" itemprop="url">HashMap存储自定义类型键值</a>
         </h1>
 
         <div class="post-meta">
@@ -304,14 +309,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-02-27 00:00:00" itemprop="dateCreated datePublished" datetime="2020-02-27T00:00:00+08:00">2020-02-27</time>
+              <time title="创建时间：2020-03-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">2020-03-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-07 22:27:08" itemprop="dateModified" datetime="2020-03-07T22:27:08+08:00">2020-03-07</time>
+                <time title="修改时间：2020-03-19 20:00:56" itemprop="dateModified" datetime="2020-03-19T20:00:56+08:00">2020-03-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -319,7 +324,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
                 </span>
             </span>
 
@@ -334,14 +339,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>题目：</strong><br>颠倒给定的 32 位无符号整数的二进制位。</p>
-<p>示例：</p>
-<pre><code>输入：11111111111111111111111111111101
-输出：10111111111111111111111111111111
-解释：输入的二进制串 11111111111111111111111111111101 表示无符号整数 4294967293，因此返回 3221225471 其二进制表示形式为 10101111110010110010011101101001。</code></pre>
+          <p>Map集合保证key是唯一的：</p>
+<pre><code>如果自定义类型作为key，必须重写hashCode方法和equals方法，以保证key唯一</code></pre>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/27/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%AC190%E9%A2%98/#more" rel="contents">
+              <a class="btn" href="/2020/03/02/HashMap/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -368,7 +370,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/02/Generics/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -382,7 +384,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/" class="post-title-link" itemprop="url">GO语言学习之函数</a>
+            <a href="/2020/03/02/Generics/" class="post-title-link" itemprop="url">泛型</a>
         </h1>
 
         <div class="post-meta">
@@ -391,17 +393,23 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-26 22:41:00 / 修改时间：22:43:50" itemprop="dateCreated datePublished" datetime="2020-02-26T22:41:00+08:00">2020-02-26</time>
+              <time title="创建时间：2020-03-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">2020-03-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 20:00:40" itemprop="dateModified" datetime="2020-03-19T20:00:40+08:00">2020-03-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Go语言学习笔记</span></a>
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
                 </span>
             </span>
 
@@ -416,11 +424,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在go语言中,函数存在以下几个与其他编程语言显著不同的地方:<br>1、函数可以有多个返回值<br>2、所有的参数传递都是值传递的方式<br>3、函数可以作为变量的值<br>4、函数可以作为参数和返回值</p>
-<p>本文主要针对第四点来进行笔记记录</p>
+          <p>我们知道集合是可以存放任意对象的，只要把对象存储集合后，那么这时他们都会被提升成Object类型。<br>当我们在取出每一个对象，并且进行相应的操作，这时必须采用类型转换。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/26/Go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E4%B8%80/#more" rel="contents">
+              <a class="btn" href="/2020/03/02/Generics/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -447,7 +454,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/01/CollectionClass/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -461,7 +468,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/" class="post-title-link" itemprop="url">大学回忆一</a>
+            <a href="/2020/03/01/CollectionClass/" class="post-title-link" itemprop="url">Collection集合</a>
         </h1>
 
         <div class="post-meta">
@@ -470,17 +477,23 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-26 00:00:00 / 修改时间：23:18:24" itemprop="dateCreated datePublished" datetime="2020-02-26T00:00:00+08:00">2020-02-26</time>
+              <time title="创建时间：2020-03-01 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-01T00:00:00+08:00">2020-03-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 20:00:10" itemprop="dateModified" datetime="2020-03-19T20:00:10+08:00">2020-03-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B4%BB%E6%9C%89%E6%89%80%E6%80%9D/" itemprop="url" rel="index"><span itemprop="name">活有所思</span></a>
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
                 </span>
             </span>
 
@@ -495,10 +508,99 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>时间如白驹过隙，稍纵即逝，脑海里我还是一个特别热爱写作的青少年，可现在想写一篇大学生活的回忆却突然久久无法下笔了，或许是太久没有安静地的去思考了，或许是在手机的世界里习惯了浮躁与喧闹失去了自己的思考与心声。
+          <p>集合:集合是java中提供的一种<strong>容器</strong>,可以用来存储多个数据</p>
+<p>集合与数组的区别:</p>
+<ul>
+<li>数组的长度是固定的,集合的长度是可变的</li>
+<li>数组中存储的是同一类型的元素,可以存储基本数据类型值也可以存储对象.集合存储的都是对象,而且对象的类型可以不一致.
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/26/%E5%A4%A7%E5%AD%A6%E5%9B%9E%E5%BF%86%E4%B8%80/#more" rel="contents">
+              <a class="btn" href="/2020/03/01/CollectionClass/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+      <div>  
+      
+      </div>
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/01/baoZhuangClass/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/01/baoZhuangClass/" class="post-title-link" itemprop="url">包装类</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-01 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-01T00:00:00+08:00">2020-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 19:43:27" itemprop="dateModified" datetime="2020-03-19T19:43:27+08:00">2020-03-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>基本数据类型使用起来非常方便，但是没有对应的方法来操作这些基本数据类型的数据。<br>可以使用一个类，把基本数据类型装起来，在类中定义一些方法，这个类叫做包装类。<br>我们可以使用类中的方法来操作这些基本类型的数据。</p>
+<p>Java中一共有8种基本数据类型，所以对应的也有8种包装类。包装类位于java.lang包，<br>可以直接使用，无需导包。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/01/baoZhuangClass/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -525,7 +627,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -593,14 +695,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>

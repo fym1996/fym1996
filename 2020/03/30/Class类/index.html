@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基本概念在Object类中定义了以下的方法，此方法将被所有子类继承 ​        public final Class getClass() 这个方法的返回值类型是一个Class类，此类是Java反射的源头，是实际上所谓反射从程序的运行结果来看也很好理解，即：可以通过对象反射求出类的名称。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Class类">
+<meta property="og:url" content="http://yxym.run/2020/03/30/Class%E7%B1%BB/index.html">
+<meta property="og:site_name" content="有心有梦">
+<meta property="og:description" content="基本概念在Object类中定义了以下的方法，此方法将被所有子类继承 ​        public final Class getClass() 这个方法的返回值类型是一个Class类，此类是Java反射的源头，是实际上所谓反射从程序的运行结果来看也很好理解，即：可以通过对象反射求出类的名称。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-30T14:19:14.807Z">
+<meta property="article:author" content="疯渔民">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yxym.run/2020/03/30/Class%E7%B1%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Class类 | 有心有梦</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="有心有梦" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">有心有梦</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">YXYM</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/30/Class%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Class类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-30 00:00:00 / 修改时间：22:19:14" itemprop="dateCreated datePublished" datetime="2020-03-30T00:00:00+08:00">2020-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Se/" itemprop="url" rel="index"><span itemprop="name">Java Se</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>在Object类中定义了以下的方法，此方法将被所有子类继承</p>
+<p>​        <code>public final Class getClass()</code></p>
+<p>这个方法的返回值类型是一个Class类，此类是Java反射的源头，是实际上所谓反射从程序的运行结果来看也很好理解，即：可以通过对象反射求出类的名称。</p>
+<a id="more"></a>
+
+<p>对象照镜子后可以得到的信息：某个类的属性、方法和构造器、某个类到底实现了哪些接口。对于每个类而言，JRE都为其保留一个不变的Class类型的对象。一个Class对象包含了特定某个结构（class、interface、enum、annotation、primitive type、void）的有关信息。</p>
+<ul>
+<li>Class本身也是一个类</li>
+<li>Class对象只能由系统建立对象</li>
+<li>一个加载的类在JVM中只会有一个Class实例</li>
+<li>一个Class对象对应的是一个加载到JVM中的一个.class文件</li>
+<li><strong>每个类的实例都会记得自己是由哪个Class实例所生成</strong></li>
+<li>通过Class可以完整地得到一个类中的所有被加载结构</li>
+<li>Class类是Reflection的根源，针对任何你想动态加载、运行的类，唯有先获得相应的Class对象。</li>
+</ul>
+<h4 id="Java中拥有Class对象的类型"><a href="#Java中拥有Class对象的类型" class="headerlink" title="Java中拥有Class对象的类型"></a>Java中拥有Class对象的类型</h4><p>在Java语言中，一切皆是对象。而对象主要分为两种，一种是普通类创建的实例对象，一种是Class类对象。每个类运行时的类型信息就是通过Class对象表示的，这个对象包含了与类有关的信息。其实<strong>Java中的实例对象就是通过Class对象来创建的</strong>，Java使用Class对象执行其RTTI（运行时类型识别，Run-Time Type Identification），多态是基于RTTI实现的。</p>
+<p>那么在Java中哪些类型可以有Class对象呢？</p>
+<ul>
+<li>class：外部类、成员（成员内部类、静态内部类）、局部内部类、匿名内部类</li>
+<li>interface：接口</li>
+<li>[]：数组</li>
+<li>enum：枚举</li>
+<li>annotation：注解@interface</li>
+<li>primitive type：基本数据类型</li>
+<li>void</li>
+</ul>
+<p>我们用代码演示一下，这些类型的Class对象都是什么？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">Class c1 = Object<span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 类</span></span><br><span class="line">Class c2 = Comparable<span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 接口</span></span><br><span class="line">Class c3 = String[]<span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 一维数组</span></span><br><span class="line">Class c4 = <span class="keyword">int</span>[][]<span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 二维数组</span></span><br><span class="line">Class c5 = Override<span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 注解</span></span><br><span class="line">Class c6 = ElementType<span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 枚举</span></span><br><span class="line">Class c7 = Integer<span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 基本数据类型（包装类）</span></span><br><span class="line">Class c10 = <span class="keyword">int</span><span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 基本数据类型</span></span><br><span class="line">Class c8 = <span class="keyword">void</span><span class="class">.<span class="keyword">class</span></span>; <span class="comment">// 空类型</span></span><br><span class="line">Class c9 = Class<span class="class">.<span class="keyword">class</span></span>; <span class="comment">// Class</span></span><br><span class="line"></span><br><span class="line">System.out.println(c1); <span class="comment">// class java.lang.Object</span></span><br><span class="line">System.out.println(c2); <span class="comment">// interface java.lang.Comparable</span></span><br><span class="line">System.out.println(c3); <span class="comment">// class [Ljava.lang.String;</span></span><br><span class="line">System.out.println(c4); <span class="comment">// class [[I</span></span><br><span class="line">System.out.println(c5); <span class="comment">// interface java.lang.Override</span></span><br><span class="line">System.out.println(c6); <span class="comment">// class java.lang.annotation.ElementType</span></span><br><span class="line">System.out.println(c7); <span class="comment">// class java.lang.Integer</span></span><br><span class="line">System.out.println(c10);<span class="comment">// int</span></span><br><span class="line">System.out.println(c8); <span class="comment">// void</span></span><br><span class="line">System.out.println(c9); <span class="comment">// class java.lang.Class</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span>[] a = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line"><span class="keyword">int</span>[] b = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">100</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    对于数组，只要元素类型与维度一样，就是同一个Class对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">System.out.println(a.getClass()); <span class="comment">//class [I</span></span><br><span class="line">System.out.println(b.getClass()); <span class="comment">//class [I</span></span><br><span class="line"></span><br><span class="line">System.out.println(b.getClass().hashCode()); <span class="comment">//1735600054</span></span><br><span class="line">System.out.println(a.getClass().hashCode()); <span class="comment">//1735600054</span></span><br></pre></td></tr></table></figure>
+
+<p>​    <strong>每一个类都有一个Class对象，每当编译一个新类就产生一个Class对象</strong>，更准确的来说，是被保存在一个<strong>同名的.class文件</strong>中。当程序中需要使用到这个类的时候(包括需要这个类的对象或引用这个类的静态变量)就通过类加载器将类加到内存中来。</p>
+<p>​    Class类没有公共的构造方法，Class对象是在类加载的时候由<strong>Java虚拟机</strong>以及通过调用<strong>类加载器中的 defineClass 方法</strong>自动构造的，因此不能显式地声明一个Class对象。</p>
+<h4 id="获取Class对象的方式有以下三种"><a href="#获取Class对象的方式有以下三种" class="headerlink" title="获取Class对象的方式有以下三种"></a>获取Class对象的方式有以下三种</h4><ol>
+<li><code>Class.forName(“类的全限定名”)</code></li>
+<li><code>实例对象.getClass()</code></li>
+<li><code>类名.class （类字面常量）</code></li>
+</ol>
+<h5 id="Class-forName-和-实例对象-getClass"><a href="#Class-forName-和-实例对象-getClass" class="headerlink" title="Class.forName 和 实例对象.getClass()"></a>Class.forName 和 实例对象.getClass()</h5><p><code>Class.forName</code>方法是<code>Class</code>类的一个静态成员。<code>forName</code>在执行的过程中发现如果传入的参数类还没有被加载，那么JVM就会调用类加载器去加载这个参数类，并返回加载后的Class对象。<code>Class</code>对象和其他对象一样，我们可以获取并操作它的引用。在类加载的过程中，这个参数类的静态语句块会被执行。如果<code>Class .forName</code>找不到你要加载的类，它会抛出ClassNotFoundException异常。</p>
+<p>静态语句块（static）在类第一次被加载的时候被执行，Class对象仅在需要的时候才会被加载。</p>
+<p><code>Class.forName</code>的好处就在于，不需要为了获得<code>Class</code>引用而持有该类型的对象，只要通过全限定名就可以返回该类型的一个<code>Class</code>引用。如果你已经有了该类型的对象，那么我们就可以通过调用<code>getClass()</code>方法来获取<code>Class</code>引用了，这个方法属于根类<code>Object</code>的一部分，它返回的是表示该对象的实际类型的<code>Class</code>引用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</span><br><span class="line">        Class.forName(<span class="string">"反射.A"</span>);</span><br><span class="line">        B b = <span class="keyword">new</span> B();</span><br><span class="line"></span><br><span class="line">        Class b2 = b.getClass();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"My name is A"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"My name is B"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">运行结果：</span></span><br><span class="line"><span class="comment">	My name is A</span></span><br><span class="line"><span class="comment">	My name is B</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，A和B这两个类都有一个静态语句块，所以当使用Class.forName和new关键字在执行以后，A和B分别会加载到内存中，当这两个类加载到内存以后，其内部的静态语句块便会被执行。与此同时，当用new关键字创建对象后，对应的实际创建这个对象的类已经装载到内存中了，所以执行getClass()方法的时候，就不会再去执行类加载的操作了，而是直接从java堆中返回该类型的Class引用。</p>
+<h5 id="类字面常量"><a href="#类字面常量" class="headerlink" title="类字面常量"></a>类字面常量</h5><p>​    Java还提供了另一种方法来生成对Class对象的引用。即使用类字面常量，就像这样：Cat.class，这样做不仅更简单，而且更安全，因为它在编译时就会受到检查(因此不需要置于try语句块中)。并且根除了对forName()方法的调用，所有也更高效。类字面量不仅可以应用于普通的类，也可以应用于接口、数组及基本数据类型。</p>
+<p>​    <strong>用.class来创建对Class对象的引用时，不会自动地初始化该Class对象</strong>（这点和Class.forName方法不同）。类对象的初始化阶段被延迟到了对静态方法或者<strong>非常数静态域</strong>首次引用时才执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            首先，调用class字面常量获取Class对象</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        Class b = B<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line">        Class a = A<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line">        <span class="comment">// 此时发现并没有输出A和B这两个类的静态语句块的内容</span></span><br><span class="line">        <span class="comment">// 说明此时并不会自动初始化该Class对象</span></span><br><span class="line"></span><br><span class="line">        System.out.println(A.a);</span><br><span class="line">        System.out.println(B.s);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">       	   My name is A</span></span><br><span class="line"><span class="comment">			0</span></span><br><span class="line"><span class="comment">			My name is B</span></span><br><span class="line"><span class="comment">			lalala</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span>  <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"My name is A"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> String s = <span class="string">"lalala"</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"My name is B"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    发现当我们调用A和B的静态成员的时候，这两个类对象被初始化了，并且是先输出了静态语句块的内容，然后才在主程序中输出了两个静态成员变量的值。接下来我们将A类中的a变量改为常量<code>static final int a = 0;</code>，在主程序再次调用时发现A中的静态语句块并没被打印，说明引用常数静态成员并不会使类对象初始化。</p>
+<p>​    也可以看出，如果仅使用.class语法来获得对类的Class引用是不会引发初始化的。但是如果使用Class.forName来产生引用，就会立即进行了初始化。</p>
+<p>​    <strong>如果一个字段被static final修饰，我们称为”编译时常量“，就像A类的a字段那样，那么在调用这个字段的时候是不会对A类进行初始化的。</strong>因为被static和final修饰的字段，在编译期就把结果放入了常量池中了。但是，如果只是将一个域设置为static 或final的，还不足以确保这种行为，就如调用B的s字段后，会强制B进行类的初始化，因为s字段不是一个编译时常量。</p>
+<p>​    一旦类被加载了到了内存中，那么不论通过哪种方式获得该类的Class对象，它们返回的都是<strong>指向同一个Java堆地址上的Class引用</strong>。JVM不会创建两个相同类型的Class对象。<strong>其实对于任意一个Class对象，都需要由它的类加载器和这个类本身一同确定其在就Java虚拟机中的唯一性，也就是说，即使两个Class对象来源于同一个Class文件，只要加载它们的类加载器不同，那这两个Class对象就必定不相等。</strong>这里的“相等”包括了代表类的Class对象的<code>equals（）、isAssignableFrom（）、isInstance（）</code>等方法的返回结果，也包括了使用<code>instanceof</code>关键字对对象所属关系的判定结果。所以在Java虚拟机中使用<strong>双亲委派模型</strong>来组织类加载器之间的关系，来保证Class对象的唯一性。</p>
+<p>参考博客地址：</p>
+<p><a href="https://blog.csdn.net/dufufd/article/details/80537638" target="_blank" rel="noopener">https://blog.csdn.net/dufufd/article/details/80537638</a></p>
+<p><a href="https://blog.csdn.net/BraveLoser/article/details/82500474" target="_blank" rel="noopener">https://blog.csdn.net/BraveLoser/article/details/82500474</a></p>
+
+      <div>  
+      
+        
+      
+      </div>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
+                </span>
+
+                <span class="label">WeChat</span>
+              </a>
+            </div>
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/30/Java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/" rel="prev" title="Java内存分析">
+      <i class="fa fa-chevron-left"></i> Java内存分析
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java中拥有Class对象的类型"><span class="nav-number">2.</span> <span class="nav-text">Java中拥有Class对象的类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取Class对象的方式有以下三种"><span class="nav-number">3.</span> <span class="nav-text">获取Class对象的方式有以下三种</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Class-forName-和-实例对象-getClass"><span class="nav-number">3.1.</span> <span class="nav-text">Class.forName 和 实例对象.getClass()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类字面常量"><span class="nav-number">3.2.</span> <span class="nav-text">类字面常量</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="疯渔民"
+      src="/images/cl.jpeg">
+  <p class="site-author-name" itemprop="name">疯渔民</p>
+  <div class="site-description" itemprop="description">专注、安静、前进</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fym1996" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fym1996" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cnblogs.com/yxym2016/" title="CnBlogs → https:&#x2F;&#x2F;www.cnblogs.com&#x2F;yxym2016&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-edit"></i>CnBlogs</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/5699352078/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;5699352078&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yu-jian-neng-17" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yu-jian-neng-17" rel="noopener" target="_blank"><i class="fa fa-fw fa-snapchat"></i>ZhiHu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">疯渔民</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

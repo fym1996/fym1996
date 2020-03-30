@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="获取运行时类的完整结构通过反射获取运行时类的完整结构，Field、Method、Constructor、Superclass、Interface、Annotation，获取的操作都在java.lang.reflect包下。  实现的全部接口 所继承的父类 全部的构造器 全部的方法 全部的Field 注解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="创建运行时类的对象">
+<meta property="og:url" content="http://yxym.run/2020/03/30/%E5%88%9B%E5%BB%BA%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1/index.html">
+<meta property="og:site_name" content="有心有梦">
+<meta property="og:description" content="获取运行时类的完整结构通过反射获取运行时类的完整结构，Field、Method、Constructor、Superclass、Interface、Annotation，获取的操作都在java.lang.reflect包下。  实现的全部接口 所继承的父类 全部的构造器 全部的方法 全部的Field 注解">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-30T14:24:14.046Z">
+<meta property="article:author" content="疯渔民">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yxym.run/2020/03/30/%E5%88%9B%E5%BB%BA%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>创建运行时类的对象 | 有心有梦</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="有心有梦" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">有心有梦</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">YXYM</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/30/%E5%88%9B%E5%BB%BA%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cl.jpeg">
+      <meta itemprop="name" content="疯渔民">
+      <meta itemprop="description" content="专注、安静、前进">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有心有梦">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          创建运行时类的对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-30 00:00:00 / 修改时间：22:24:14" itemprop="dateCreated datePublished" datetime="2020-03-30T00:00:00+08:00">2020-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Se/" itemprop="url" rel="index"><span itemprop="name">Java Se</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="获取运行时类的完整结构"><a href="#获取运行时类的完整结构" class="headerlink" title="获取运行时类的完整结构"></a>获取运行时类的完整结构</h4><p>通过反射获取运行时类的完整结构，Field、Method、Constructor、Superclass、Interface、Annotation，获取的操作都在java.lang.reflect包下。</p>
+<ul>
+<li>实现的全部接口</li>
+<li>所继承的父类</li>
+<li>全部的构造器</li>
+<li>全部的方法</li>
+<li>全部的Field</li>
+<li>注解</li>
+</ul>
+<a id="more"></a>
+
+<p>先定义一个自定义的User类，然后获取这个类的全部信息：</p>
+<p>User类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, <span class="keyword">int</span> id, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"User&#123;"</span> +</span><br><span class="line">                <span class="string">"name='"</span> + name + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", id="</span> + id +</span><br><span class="line">                <span class="string">", age="</span> + age +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过代码获取User类的全部信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取类的信息</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test08</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, NoSuchFieldException, NoSuchMethodException </span>&#123;</span><br><span class="line">        Class c1 = Class.forName(<span class="string">"反射.User"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获得类的名字</span></span><br><span class="line">        System.out.println(c1.getName()); <span class="comment">// 获得包名+类名</span></span><br><span class="line">        System.out.println(c1.getSimpleName()); <span class="comment">// 获得类名</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            反射.User</span></span><br><span class="line"><span class="comment">            User</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获得类的属性</span></span><br><span class="line">        System.out.println(<span class="string">"=========================="</span>);</span><br><span class="line">        Field[] fields;</span><br><span class="line">        fields = c1.getFields(); <span class="comment">// 只能找到public属性</span></span><br><span class="line">        fields = c1.getDeclaredFields(); <span class="comment">// 可以找到全部属性</span></span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            System.out.println(field);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            private java.lang.String 反射.User.name</span></span><br><span class="line"><span class="comment">            private int 反射.User.id</span></span><br><span class="line"><span class="comment">            private int 反射.User.age</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">// 获得指定属性的值</span></span><br><span class="line">        Field name = c1.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">        System.out.println(name);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            private java.lang.String 反射.User.name</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 获得类的方法</span></span><br><span class="line">        System.out.println(<span class="string">"========================"</span>);</span><br><span class="line">        <span class="comment">// 获得本类及其父类的全部public方法</span></span><br><span class="line">        Method[] methods = c1.getMethods();</span><br><span class="line">        <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">            System.out.println(<span class="string">"正常的："</span>+method);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            正常的：public void 反射.User.setId(int)</span></span><br><span class="line"><span class="comment">            正常的：public int 反射.User.getAge()</span></span><br><span class="line"><span class="comment">            正常的：public void 反射.User.setAge(int)</span></span><br><span class="line"><span class="comment">            正常的：public java.lang.String 反射.User.toString()</span></span><br><span class="line"><span class="comment">            正常的：public java.lang.String 反射.User.getName()</span></span><br><span class="line"><span class="comment">            正常的：public void 反射.User.setName(java.lang.String)</span></span><br><span class="line"><span class="comment">            正常的：public int 反射.User.getId()</span></span><br><span class="line"><span class="comment">            正常的：public final void java.lang.Object.wait(long,int) throws java.lang.InterruptedException</span></span><br><span class="line"><span class="comment">            正常的：public final native void java.lang.Object.wait(long) throws java.lang.InterruptedException</span></span><br><span class="line"><span class="comment">            正常的：public final void java.lang.Object.wait() throws java.lang.InterruptedException</span></span><br><span class="line"><span class="comment">            正常的：public boolean java.lang.Object.equals(java.lang.Object)</span></span><br><span class="line"><span class="comment">            正常的：public native int java.lang.Object.hashCode()</span></span><br><span class="line"><span class="comment">            正常的：public final native java.lang.Class java.lang.Object.getClass()</span></span><br><span class="line"><span class="comment">            正常的：public final native void java.lang.Object.notify()</span></span><br><span class="line"><span class="comment">            正常的：public final native void java.lang.Object.notifyAll()</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">// 获得本类的所有方法，包括私有的方法</span></span><br><span class="line">        methods = c1.getDeclaredMethods();</span><br><span class="line">        <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">            System.out.println(<span class="string">"getDeclaredMethods:"</span>+method);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            getDeclaredMethods:public void 反射.User.setId(int)</span></span><br><span class="line"><span class="comment">            getDeclaredMethods:public int 反射.User.getAge()</span></span><br><span class="line"><span class="comment">            getDeclaredMethods:public void 反射.User.setAge(int)</span></span><br><span class="line"><span class="comment">            getDeclaredMethods:public java.lang.String 反射.User.toString()</span></span><br><span class="line"><span class="comment">            getDeclaredMethods:public java.lang.String 反射.User.getName()</span></span><br><span class="line"><span class="comment">            getDeclaredMethods:public void 反射.User.setName(java.lang.String)</span></span><br><span class="line"><span class="comment">            getDeclaredMethods:public int 反射.User.getId()</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获得指定的方法</span></span><br><span class="line">        Method getName = c1.getMethod(<span class="string">"getName"</span>, <span class="keyword">null</span>);</span><br><span class="line">        Method setName = c1.getMethod(<span class="string">"setName"</span>, String<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">        System.out.println(getName);</span><br><span class="line">        System.out.println(setName);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            public java.lang.String 反射.User.getName()</span></span><br><span class="line"><span class="comment">            public void 反射.User.setName(java.lang.String)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 获得指定的构造器</span></span><br><span class="line">        System.out.println(<span class="string">"======================="</span>);</span><br><span class="line">        Constructor[] constructor = c1.getConstructors();</span><br><span class="line">        <span class="keyword">for</span> (Constructor constructor1 : constructor) &#123;</span><br><span class="line">            System.out.println(constructor1);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            public 反射.User(java.lang.String,int,int)</span></span><br><span class="line"><span class="comment">            public 反射.User()</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        constructor = c1.getDeclaredConstructors();</span><br><span class="line">        <span class="keyword">for</span> (Constructor constructor1 : constructor) &#123;</span><br><span class="line">            System.out.println(constructor1);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            public 反射.User(java.lang.String,int,int)</span></span><br><span class="line"><span class="comment">            public 反射.User()</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 获得指定的构造器</span></span><br><span class="line">        Constructor declaredConstructor = c1.getDeclaredConstructor(String<span class="class">.<span class="keyword">class</span>, <span class="title">int</span>.<span class="title">class</span>, <span class="title">int</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        System.out.println(<span class="string">"指定的："</span>+declaredConstructor);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            指定的：public 反射.User(java.lang.String,int,int)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="动态创建对象执行方法"><a href="#动态创建对象执行方法" class="headerlink" title="动态创建对象执行方法"></a>动态创建对象执行方法</h4><p>有了Class对象，能做什么？</p>
+<ul>
+<li>创建类的对象：调用Class对象的newlnstance()方法<ul>
+<li>1）类必须有一个无参数的构造器</li>
+<li>2）类的构造器的访问权限需要足够</li>
+</ul>
+</li>
+</ul>
+<p>测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取User类对应的Class对象</span></span><br><span class="line">Class c1 = Class.forName(<span class="string">"反射.User"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 利用反射构造一个User对象</span></span><br><span class="line">User user = (User)c1.newInstance(); <span class="comment">// 本质是调用了类的无参构造器</span></span><br><span class="line">System.out.println(user);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    User&#123;name='null', id=0, age=0&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">// 如果将User中的无参构造器删掉，那么就会抛出异常</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>思考：</strong>难道没有无参的构造器就不能创建对象了么？只要在操作的时候明确的调用类中的构造器，并将参数传递进去之后，才可以实例化操作。</p>
+<p>步骤如下：</p>
+<p>1）通过Class对象的getDeclaredConstructor(Class … parameterTypes)取得本类的指定形参类型的构造器；</p>
+<p>2）向构造器的形参中传递一个对象数组进去，里面包含了构造器中所需的各个参数；</p>
+<p>3）通过Constructor实例化对象；</p>
+<p>测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过构造器创建一个对象，此时即使User类中没有无参构造器，我们也可以创建User对象</span></span><br><span class="line">Constructor declaredConstructor = c1.getDeclaredConstructor(String<span class="class">.<span class="keyword">class</span>, <span class="title">int</span>.<span class="title">class</span>, <span class="title">int</span>.<span class="title">class</span>)</span>;</span><br><span class="line">User user = (User)declaredConstructor.newInstance(<span class="string">""</span>, <span class="number">001</span>, <span class="number">18</span>);</span><br><span class="line">System.out.println(user);</span><br><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment">        输出结果：</span></span><br><span class="line"><span class="comment">       	 	User&#123;name='', id=1, age=18&#125;</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>通过反射调用普通的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 首先通过反射获取一个方法</span></span><br><span class="line">Method setName = c1.getDeclaredMethod(<span class="string">"setName"</span>, String<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"><span class="comment">// invoke : 激活的意思，参数（对象，"方法的值"）</span></span><br><span class="line">setName.invoke(user,<span class="string">"lalala"</span>);</span><br><span class="line">System.out.println(user.getName());</span><br></pre></td></tr></table></figure>
+
+<p>总结一下，通过反射得到的对象调用指定的方法的过程，通过Method完成：</p>
+<ul>
+<li>通过Class对象的getDeclaredMethod(String name,Class … parameterTypes)方法取得一个Method对象，并设置此方法操作时所需要的参数类型；</li>
+<li>之后使用Object invoke(Object obj,Object[] args)进行调用，并向方法中传递要设置的obj对象的参数信息；</li>
+</ul>
+<p><strong><em>Object invoke(Object obj,Object … args)</em></strong></p>
+<ul>
+<li>Object对应原方法的返回值，若原方法无返回值，此时返回null；</li>
+<li>若原方法为静态方法，此时形参Object obj可为null；</li>
+<li>若原方法形参列表为空，则Object[] args 为null；</li>
+<li>若原方法声明为private，则需要在调用此invoke方法之前，显式调用方法对象的setAccessible(true)方法，将可访问private方法。</li>
+</ul>
+<p>通过反射调用指定的属性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过反射操作属性</span></span><br><span class="line">User user2 = (User)c1.newInstance();</span><br><span class="line"></span><br><span class="line">Field name = c1.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line"></span><br><span class="line">name.setAccessible(<span class="keyword">true</span>); <span class="comment">// 因为name属性是私有属性，直接操作会报异常，所以现在关掉安全检测</span></span><br><span class="line">name.set(user2,<span class="string">"fym"</span>);</span><br><span class="line">System.out.println(user2.getName());</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    不能直接操作私有属性，我们需要关闭程序的安全检测；</span></span><br><span class="line"><span class="comment">    属性或者方法的setAccessible(true)</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><em>setAccessible</em></strong></p>
+<ul>
+<li>Method和Field、Constructor对象都有setAccessible方法；</li>
+<li>setAccessible作用是启动和禁用访问安全检查的开关；</li>
+<li>参数值为true则指示反射的对象在使用时应该取消Java语言访问检查<ul>
+<li>提高反射的效率。如果代码中必须使用反射，而该句代码需要频繁的被调用，那么请设置为true；</li>
+<li>使得原本无法访问的私有成员也可以访问；</li>
+</ul>
+</li>
+<li>参数值为false则指示反射的对象应该实施Java语言访问检查；</li>
+</ul>
+<p>我们来分析一下普通方式调用、反射方式调用、以及在关闭安全检测的情况下的反射调用这三种情况的性能，代码测试如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分析性能问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test10</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 普通方式调用</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span></span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> starttime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000000</span>; i++) &#123;</span><br><span class="line">            user.getName();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> endtime = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"普通方式执行1亿次: "</span>+(endtime-starttime)+<span class="string">"ms"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 反射方式调用</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> <span class="keyword">throws</span> NoSuchMethodException, InvocationTargetException, IllegalAccessException </span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        Class c1 = user.getClass();</span><br><span class="line">        Method getName = c1.getDeclaredMethod(<span class="string">"getName"</span>, <span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">long</span> starttime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000000</span>; i++) &#123;</span><br><span class="line">            getName.invoke(user,<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> endtime = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"反射方式执行1亿次"</span>+(endtime-starttime)+<span class="string">"ms"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//反射方式调用，关闭检测</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test03</span><span class="params">()</span> <span class="keyword">throws</span> NoSuchMethodException, InvocationTargetException, IllegalAccessException </span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        Class c1 = user.getClass();</span><br><span class="line">        Method getName = c1.getDeclaredMethod(<span class="string">"getName"</span>, <span class="keyword">null</span>);</span><br><span class="line">        getName.setAccessible(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> starttime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000000</span>; i++) &#123;</span><br><span class="line">            getName.invoke(user,<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> endtime = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"关闭检测方式执行1亿次"</span>+(endtime-starttime)+<span class="string">"ms"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchMethodException, IllegalAccessException, InvocationTargetException </span>&#123;</span><br><span class="line">        test01();</span><br><span class="line">        test02();</span><br><span class="line">        test03();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">输出结果为：</span><br><span class="line">    	普通方式执行<span class="number">1</span>亿次: <span class="number">7</span>ms</span><br><span class="line">		反射方式执行<span class="number">1</span>亿次<span class="number">4254</span>ms</span><br><span class="line">		关闭检测方式执行<span class="number">1</span>亿次<span class="number">1863</span>ms</span><br></pre></td></tr></table></figure>
+
+<p>从上面的输出结果可以看出，反射调用的方式对程序的运行效率影响很大，关闭安全检测后，可以提高的程序的运行效率，但这都和不使用反射方式的普通调用方式没法比的。</p>
+<p>留下一个疑问：</p>
+<p>Java反射机制既然可以直接Class对象，然后调用Class对象的newInstance方法或者通过构造器的newInstance方法创建一个实例对象，那么为什么不可以先强制类型转换然后再调用对象的方法，而非要通过getMethod方法和invoke方法进行对实例对象的方法的调用呢？</p>
+
+      <div>  
+      
+        
+      
+      </div>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
+                </span>
+
+                <span class="label">WeChat</span>
+              </a>
+            </div>
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/27/%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/" rel="prev" title="守护线程">
+      <i class="fa fa-chevron-left"></i> 守护线程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/30/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" rel="next" title="反射机制">
+      反射机制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取运行时类的完整结构"><span class="nav-number">1.</span> <span class="nav-text">获取运行时类的完整结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态创建对象执行方法"><span class="nav-number">2.</span> <span class="nav-text">动态创建对象执行方法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="疯渔民"
+      src="/images/cl.jpeg">
+  <p class="site-author-name" itemprop="name">疯渔民</p>
+  <div class="site-description" itemprop="description">专注、安静、前进</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fym1996" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fym1996" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cnblogs.com/yxym2016/" title="CnBlogs → https:&#x2F;&#x2F;www.cnblogs.com&#x2F;yxym2016&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-edit"></i>CnBlogs</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/5699352078/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;5699352078&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yu-jian-neng-17" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yu-jian-neng-17" rel="noopener" target="_blank"><i class="fa fa-fw fa-snapchat"></i>ZhiHu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">疯渔民</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
