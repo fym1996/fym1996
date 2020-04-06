@@ -280,7 +280,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/30/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/30/%E6%B3%A8%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -294,7 +294,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/30/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">反射机制</a>
+            <a href="/2020/03/30/%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">注解</a>
         </h1>
 
         <div class="post-meta">
@@ -305,7 +305,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-30 00:00:00 / 修改时间：22:27:54" itemprop="dateCreated datePublished" datetime="2020-03-30T00:00:00+08:00">2020-03-30</time>
+              <time title="创建时间：2020-03-30 00:00:00 / 修改时间：22:28:04" itemprop="dateCreated datePublished" datetime="2020-03-30T00:00:00+08:00">2020-03-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -328,14 +328,29 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>要了解反射机制，首先得了解一下什么是静态语言？什么是动态语言？</p>
-<h4 id="动态语言"><a href="#动态语言" class="headerlink" title="动态语言"></a>动态语言</h4><ul>
-<li>是一类在运行时可以改变其结构的语言：例如新的函数、对象、甚至代码可以被引进，已有的函数可以被删除或是其他结构上的变化。通俗点说就是在运行时代码可以根据某些条件改变自身结构。</li>
-<li>主要动态语言：Object-C、C#、JavaScript、Python等</li>
+          <h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
+<li><p>Annotation是从JDK5.0开始引入的新技术</p>
+</li>
+<li><p>Annotation的作用：</p>
+<ul>
+<li>不是程序本身，可以对程序作出解释。（这一点和注释(comments)没什么区别）</li>
+<li>可以被其他程序（比如：编译器）读取。</li>
+</ul>
+</li>
+<li><p>Annotation的格式：</p>
+<ul>
+<li>注解是以”@注释名”在代码中存在的，还可以添加一些参数值。例如：@SuppressWarnings(value=”unchecked”)</li>
+</ul>
+</li>
+<li><p>Annotation在哪里使用？</p>
+<ul>
+<li>可以附加在package、class、method、field等上面，相当于给他们添加了额外的辅助信息，我们可以通过反射机制编程实现对这些元数据的访问。</li>
+</ul>
+</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/30/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/#more" rel="contents">
+              <a class="btn" href="/2020/03/30/%E6%B3%A8%E8%A7%A3/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -362,7 +377,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/30/Class%E7%B1%BB/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/30/Java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -376,7 +391,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/30/Class%E7%B1%BB/" class="post-title-link" itemprop="url">Class类</a>
+            <a href="/2020/03/30/Java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">Java内存分析</a>
         </h1>
 
         <div class="post-meta">
@@ -387,7 +402,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-30 00:00:00 / 修改时间：22:27:30" itemprop="dateCreated datePublished" datetime="2020-03-30T00:00:00+08:00">2020-03-30</time>
+              <time title="创建时间：2020-03-30 00:00:00 / 修改时间：22:28:17" itemprop="dateCreated datePublished" datetime="2020-03-30T00:00:00+08:00">2020-03-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -410,12 +425,27 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>在Object类中定义了以下的方法，此方法将被所有子类继承</p>
-<p>​        <code>public final Class getClass()</code></p>
-<p>这个方法的返回值类型是一个Class类，此类是Java反射的源头，是实际上所谓反射从程序的运行结果来看也很好理解，即：可以通过对象反射求出类的名称。</p>
+          <p>Java内存主要分为三个部分：</p>
+<ul>
+<li>堆<ul>
+<li>存放new的对象和数组</li>
+<li>可以被所有的线程共享，不会存放别的对象引用</li>
+</ul>
+</li>
+<li>栈<ul>
+<li>存放基本变量类型（会包含这个基本类型的具体数值）</li>
+<li>引用对象的变量（会存放这个引用在在堆里面的具体地址）</li>
+</ul>
+</li>
+<li>方法区<ul>
+<li>可以被所有的线程共享</li>
+<li>包含了所有的class和static变量</li>
+</ul>
+</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/30/Class%E7%B1%BB/#more" rel="contents">
+              <a class="btn" href="/2020/03/30/Java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -442,7 +472,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/27/%E6%AD%BB%E9%94%81/">
+    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cl.jpeg">
@@ -456,7 +486,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/27/%E6%AD%BB%E9%94%81/" class="post-title-link" itemprop="url">死锁</a>
+            <a href="/2020/03/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="post-title-link" itemprop="url">线程池</a>
         </h1>
 
         <div class="post-meta">
@@ -467,7 +497,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-27 00:00:00 / 修改时间：11:27:16" itemprop="dateCreated datePublished" datetime="2020-03-27T00:00:00+08:00">2020-03-27</time>
+              <time title="创建时间：2020-03-27 00:00:00 / 修改时间：11:25:59" itemprop="dateCreated datePublished" datetime="2020-03-27T00:00:00+08:00">2020-03-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -490,10 +520,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="死锁基本概念"><a href="#死锁基本概念" class="headerlink" title="死锁基本概念"></a>死锁基本概念</h4><p>多个线程各自占有一些共享资源，并且互相等待获得其他线程占有的资源才能运行，而导致两个或者多个线程都在等待对方释放资源从而都停止执行的情形，某一个同步块同时拥有“两个以上对象的锁”时，就可能会发生“死锁”的问题。</p>
+          <ul>
+<li>背景：经常创建和销毁、使用量特别大的资源，比如并发情况下的线程，对性能影响很大。</li>
+<li>思路：提前创建好多个线程，放入线程池中，使用时直接获取，使用完放回池子中。可以避免频繁创建销毁、实现重复利用。类似生活中的公共交通工具。</li>
+<li>好处：<ul>
+<li>提高响应速度（减少了创建新线程的时间）</li>
+<li>降低资源消耗（重复利用线程池中的线程，不需要每次都创建）</li>
+<li>便于线程管理<ul>
+<li>corePoolSize：核心池的大小</li>
+<li>maximumPoolSize：最大线程数</li>
+<li>keepAliveTIme：线程没有任务时最多保持多长时间后会终止</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/03/27/%E6%AD%BB%E9%94%81/#more" rel="contents">
+              <a class="btn" href="/2020/03/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
