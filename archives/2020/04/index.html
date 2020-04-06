@@ -20,19 +20,17 @@
     var CONFIG = {"hostname":"yxym.run","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="迭代：即Collection集合元素的通用获取方式。在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续再判断;如果还有就再取出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Iterator">
-<meta property="og:url" content="http://yxym.run/2020/03/03/IteratorClass/index.html">
+  <meta name="description" content="专注、安静、前进">
+<meta property="og:type" content="website">
+<meta property="og:title" content="有心有梦">
+<meta property="og:url" content="http://yxym.run/archives/2020/04/index.html">
 <meta property="og:site_name" content="有心有梦">
-<meta property="og:description" content="迭代：即Collection集合元素的通用获取方式。在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续再判断;如果还有就再取出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。">
+<meta property="og:description" content="专注、安静、前进">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-19T12:01:10.273Z">
 <meta property="article:author" content="疯渔民">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yxym.run/2020/03/03/IteratorClass/">
+<link rel="canonical" href="http://yxym.run/archives/2020/04/">
 
 
 <script id="page-configurations">
@@ -40,11 +38,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: true
+    isPost: false
   };
 </script>
 
-  <title>Iterator | 有心有梦</title>
+  <title>归档 | 有心有梦</title>
   
 
 
@@ -191,177 +189,50 @@
           <div class="content">
             
 
-  <div class="posts-expand">
-      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yxym.run/2020/03/03/IteratorClass/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cl.jpeg">
-      <meta itemprop="name" content="疯渔民">
-      <meta itemprop="description" content="专注、安静、前进">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="有心有梦">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Iterator
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-03 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-03T00:00:00+08:00">2020-03-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 20:01:10" itemprop="dateModified" datetime="2020-03-19T20:01:10+08:00">2020-03-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-Se%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Java Se学习笔记</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>迭代：即Collection集合元素的通用获取方式。在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续再判断;<br>如果还有就再取出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。</p>
-<a id="more"></a>
-<p>Iterator接口的常用方法：</p>
-<pre><code>boolean hasNext() 如果仍有元素可以迭代，则返回 true
-    判断集合中还有没有下一个元素，有就fanhuitrue没有就返回false
-
-E next() 返回迭代的下一个元素
-    取出集合中的下一个元素</code></pre><p>Iterator迭代器，是一个接口，无法直接使用，需要使用Iterator接口的实现类对象，获取实现类的方式比较特殊<br>Collention接口中有一个方法，叫iterator(),这个方法返回的就是迭代器的实现类对象。</p>
-<pre><code>Iterator&lt;E&gt; iterator() 返回在此collection的元素上进行迭代的迭代器</code></pre><p><strong>迭代器的使用步骤：</strong></p>
-<p>1、使用集合中的方法iterator()获取迭代器的实现类对象，使用Iterator接口接收（多态）</p>
-<p>2、使用Iterator接口中的方法hasNext判断还有没有下一个元素</p>
-<p>3、使用Iterator接口中的方法next取出集合中的下一个元素</p>
-<p>实现代码：</p>
-<pre><code>public static void main(String[] args) {
-    Collection&lt;String&gt; coll = new ArrayList&lt;&gt;();
-    coll.add(&quot;asd&quot;);
-    coll.add(&quot;qwe&quot;);
-    coll.add(&quot;csc&quot;);
-
-    /*
-        1、使用集合中的方法iterator()获取迭代器的实现类对象，使用Iterator接口接收（多态）
-        注意：Iterator&lt;E&gt;接口也是有泛型的，迭代器的泛型跟着集合走，集合是什么泛型，迭代器就是什么泛型
-     */
-
-    // coll.iterator() 获取迭代器的实现类对象，并且会把指针（索引）指向集合的-1索引
-    Iterator&lt;String&gt; it = coll.iterator();
-
-    // hasNext() 判断集合中还有没有下一个元素
-    while (it.hasNext()){
-        // next()方法做了两件事情，第一件是取出下一个元素，第二件是把指针向后移动一位
-        System.out.println(it.next());
-    }
-
-}</code></pre><h4 id="增强for循环"><a href="#增强for循环" class="headerlink" title="增强for循环"></a>增强for循环</h4><p>增强for循环（for-each循环）是JDK1.5以后出来的一个高级for循环，专门用来遍历数组和集合。它的内部原理其实是一个Iterator迭代器，所以在遍历的过程中，<br>不能对集合中的元素进行增删操作。</p>
-<pre><code>public interface Iterable&lt;T&gt;</code></pre><p>实现这个接口允许对象成为“foreach”语句的目标。</p>
-<pre><code>Collection&lt;E&gt; extends Iterable&lt;E&gt;</code></pre><p>所有的单列集合都可以使用增强for</p>
-<p>增强for循环：用来遍历集合和数组</p>
-<p>格式：</p>
-<pre><code>for(集合/数组的数据类型 变量名 ： 集合名/数组名){
-    sout(变量名);
-}</code></pre><p>增强for循环必须有被遍历的目标，目标只能是Collection或者是数组。新式for仅仅作为遍历操作出现。</p>
-
-      <div>  
-      
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
         
-      
+        <span class="collection-header">还行! 目前共计 42 篇日志。 继续努力。</span>
       </div>
+
+      
+    <div class="collection-year">
+      <h1 class="collection-header">2020</h1>
     </div>
 
-    
-    
-    
-        
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-  <div class="followme">
-    <p>欢迎关注我的其它发布渠道</p>
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-04-06T00:00:00+08:00"
+              content="2020-04-06">
+          04-06
+        </time>
+      </div>
 
-    <div class="social-list">
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/04/06/%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" itemprop="url">
+            <span itemprop="name">函数式接口</span>
+          </a>
+      </h2>
 
-            <div class="social-item">
-              <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
-                <span class="icon">
-                  <i class="fa fa-wechat"></i>
-                </span>
-
-                <span class="label">WeChat</span>
-              </a>
-            </div>
-
-            <div class="social-item">
-              <a target="_blank" class="social-link" href="/atom.xml">
-                <span class="icon">
-                  <i class="fa fa-rss"></i>
-                </span>
-
-                <span class="label">RSS</span>
-              </a>
-            </div>
-    </div>
-  </div>
-
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/03/02/HashMap/" rel="prev" title="HashMap存储自定义类型键值">
-      <i class="fa fa-chevron-left"></i> HashMap存储自定义类型键值
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/03/03/List/" rel="next" title="List集合">
-      List集合 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+    </header>
   </article>
+
+
+    </div>
+  </div>
   
   
   
 
-  </div>
+  
+
 
 
           </div>
@@ -412,7 +283,6 @@ E next() 返回迭代的下一个元素
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#增强for循环"><span class="nav-number">1.</span> <span class="nav-text">增强for循环</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
